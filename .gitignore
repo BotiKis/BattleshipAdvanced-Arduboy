@@ -39,10 +39,10 @@
 
 
 # PlattformIO
-.travis.yml
-.clang_complete	
-.gcc-flags.json
-.pioenvs
-.travis.yml
+*.travis.yml
+*.clang_complete
+*.gcc-flags.json
+*.pioenvs
+*.travis.yml
 platformio.ini
 lib
