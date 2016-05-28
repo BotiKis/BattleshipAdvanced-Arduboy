@@ -1,0 +1,76 @@
+#include "BAGame.h"
+#include "BAGlobal.h"
+
+BAGame::BAGame(){
+  //gamestate = GamestateMenu;
+}
+
+bool BAGame::start(){
+  // Main game Loop
+  while(true){
+    showCharSelect();
+  }
+
+  return true;
+}
+
+
+// --------------------------------------------------
+// CHAR SELECTION
+// --------------------------------------------------
+
+BACharacterData BAGame::showCharSelect(){
+
+  BACharacterData availableCharacters[4];
+  // make char data
+  // name, spriteID, #OfShots per round, small ships, medium ships, large ships, difficulty
+  availableCharacters[0] = BACharacterDataMake("Tom", 1, 1, 3, 2, 1, CharDifficultyEasy);
+  availableCharacters[1] = BACharacterDataMake("Eva", 2, 1, 5, 2, 1, CharDifficultyHard);
+  availableCharacters[2] = BACharacterDataMake("Matt", 3, 1, 2, 2, 2, CharDifficultyHard);
+  availableCharacters[3] = BACharacterDataMake("Joanne", 4, 2, 2, 2, 0, CharDifficultyHard);
+
+
+// helper
+  byte selectedCharIndex = 0;
+  bool flip = true;
+
+// Screenloop
+  while(true){
+    if (!arduboy.nextFrame()) continue;
+
+    // update input
+    globalInput.updateInput();
+
+    // check input
+    if(globalInput.pressed(RIGHT_BUTTON)){
+      selectedCharIndex = (selectedCharIndex+1)%2;
+    }
+    if(globalInput.pressed(LEFT_BUTTON)){
+      selectedCharIndex = (selectedCharIndex-1)%2;
+    }
+    if(globalInput.pressed(UP_BUTTON)){
+      selectedCharIndex = (selectedCharIndex-2)%4;
+    }
+    if(globalInput.pressed(DOWN_BUTTON)){
+      selectedCharIndex = (selectedCharIndex+2)%4;
+    }
+
+    // clear screen
+    arduboy.clear();
+
+    // draw selection
+    /*
+    if (arduboy.everyXFrames(15)) flip = !flip;
+    ABRect frame;
+    frame.origin.x = ((selectedCharIndex % 2) * 64) + flip?1:0;
+    frame.origin.y = (selectedCharIndex > 1)?32:0 + flip?1:0;
+    frame.size.width = 64 - flip?2:0;
+    frame.size.height = 32 - flip?2:0;
+
+    arduboy.drawRect(frame.origin.x, frame.origin.y, frame.size.width, frame.size.height, WHITE);*/
+
+    arduboy.display();
+  }
+
+  return availableCharacters[selectedCharIndex];
+}
