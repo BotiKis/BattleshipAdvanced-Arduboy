@@ -36,3 +36,13 @@
 .Trashes
 .VolumeIcon.icns
 .com.apple.timemachine.donotpresent
+
+
+# PlattformIO
+.travis.yml
+.clang_complete	
+.gcc-flags.json
+.pioenvs
+.travis.yml
+platformio.ini
+lib
