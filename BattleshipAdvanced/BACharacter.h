@@ -8,12 +8,19 @@ typedef enum {
   CharDifficultyHard
 }CharDifficulty;
 
+typedef enum {
+  CharacterIDMatt = 1,
+  CharacterIDMimi,
+  CharacterIDKenji,
+  CharacterIDNaru
+}CharacterID;
+
 struct BACharacterData{
     // Char name
     char name[10];
 
     // ID for artwork
-    byte spriteID;
+    CharacterID characterID;
 
     // number of shots
     byte shots;
@@ -27,11 +34,11 @@ struct BACharacterData{
     CharDifficulty difficulty;
 };
 
-inline BACharacterData BACharacterDataMake(const char *charName, byte charSpriteID, byte charShoots, byte charSShips, byte charMShips, byte charLShips, CharDifficulty charDifficulty){
+inline BACharacterData BACharacterDataMake(const char *charName, CharacterID charID, byte charShoots, byte charSShips, byte charMShips, byte charLShips, CharDifficulty charDifficulty){
   BACharacterData character;
 
   strcpy(character.name, charName);
-  character.spriteID = charSpriteID;
+  character.characterID = charID;
   character.shots = charShoots;
   character.sShips = charSShips;
   character.mShips = charMShips;

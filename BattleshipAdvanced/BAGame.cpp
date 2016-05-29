@@ -1,6 +1,16 @@
 #include "BAGame.h"
 #include "BAGlobal.h"
+#include "BACharacterSelectionHelper.h"
 
+// --------------------------------------------------
+// Helper
+// --------------------------------------------------
+void drawSelection(ABPoint offset, byte animator);
+void drawTriangles(ABPoint offset, byte animator);
+
+// --------------------------------------------------
+// GAME CLASS
+// --------------------------------------------------
 BAGame::BAGame(){
 }
 
@@ -9,7 +19,10 @@ bool BAGame::start(){
   
   while(true){
     // back to menu
-    if(showCharSelect() == BAGamesCommandBack) return true;
+    if(showCharSelect() == BAGamesCommandBack){
+      playSoundBack();
+      return true;
+    }
   }
 
   return true;
@@ -25,15 +38,16 @@ BAGamesCommand BAGame::showCharSelect(){
   BACharacterData availableCharacters[4];
   // make char data
   // name, spriteID, #OfShots per round, small ships, medium ships, large ships, difficulty
-  availableCharacters[0] = BACharacterDataMake("Tom", 1, 1, 3, 2, 1, CharDifficultyEasy);
-  availableCharacters[1] = BACharacterDataMake("Eva", 2, 1, 5, 2, 1, CharDifficultyHard);
-  availableCharacters[2] = BACharacterDataMake("Matt", 3, 1, 2, 2, 2, CharDifficultyHard);
-  availableCharacters[3] = BACharacterDataMake("Joanne", 4, 2, 2, 2, 0, CharDifficultyHard);
+  availableCharacters[0] = BACharacterDataMake("Matt", CharacterIDMatt, 1, 3, 2, 1, CharDifficultyEasy);
+  availableCharacters[1] = BACharacterDataMake("Mimi", CharacterIDMimi, 1, 5, 2, 1, CharDifficultyHard);
+  availableCharacters[2] = BACharacterDataMake("Kenji", CharacterIDKenji, 1, 2, 2, 2, CharDifficultyHard);
+  availableCharacters[3] = BACharacterDataMake("Naru", CharacterIDNaru, 2, 2, 2, 0, CharDifficultyHard);
 
 
 // helper
   byte selectedCharIndex = 0;
-  bool selectionFlip = true;
+  byte bgAnimator = 0;
+  byte selectionAnimator = 0;
 
 // Screenloop
   while(true){
@@ -59,23 +73,37 @@ BAGamesCommand BAGame::showCharSelect(){
       return BAGamesCommandBack;
     }
 
+    if (arduboy.everyXFrames(3)){
+      bgAnimator++;
+      bgAnimator = bgAnimator%3;
+    }
+    if (arduboy.everyXFrames(15)){
+      selectionAnimator++;
+      selectionAnimator = selectionAnimator%2;
+    }
+    
+    ABPoint offset;
+    offset.x = ( ((selectedCharIndex%2) == 0)?0:64);
+    offset.y = ( (selectedCharIndex > 1)?32:0);
+    
     // clear screen
     arduboy.clear();
 
-    // draw selection
+    // draw stuff
+    drawSelection(offset, selectionAnimator);
+    drawTriangles(offset, bgAnimator);
+
+    // draw chars
+    for(size_t i = 0; i < 4; i++){
+      ABPoint charOffset;
+      charOffset.x = 64 * (i%2);
+      charOffset.y = ((i>1)?32:0);
+      drawCharacterSelectionAsset(availableCharacters[i], charOffset);
+    }
     
-    if (arduboy.everyXFrames(15)) selectionFlip = !selectionFlip;
-    const int padding = 1;
-    ABRect frame;
-    frame.origin.x = ((selectedCharIndex % 2) * 64) + ((selectionFlip) ? padding : 0);
-    frame.origin.y = ((selectedCharIndex > 1)?32:0) + ((selectionFlip) ? padding : 0);
-    frame.size.width = 64 - ((selectionFlip) ? (padding*2) : 0);
-    frame.size.height = 32 - ((selectionFlip) ? (padding*2) : 0);
-
-    arduboy.drawRect(frame.origin.x, frame.origin.y, frame.size.width, frame.size.height, WHITE);
-
     arduboy.display();
   }
 
   return BAGamesCommandErr;
 }
+

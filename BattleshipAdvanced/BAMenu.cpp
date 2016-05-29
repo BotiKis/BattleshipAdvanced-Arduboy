@@ -2,14 +2,15 @@
 
 #include <Arduboy.h>
 #include "BAGlobal.h"
+#include "BAMenuAssets.h"
 
 #define MENUPOS_X 10
 #define MENUPOS_Y 12
-#define MENUMARGIN_TOP 32
+#define MENUMARGIN_TOP 38
 
 // ---------------------
 // Funcs
-void drawMenu();
+void drawMenu(byte animator);
 void updateSelection();
 
 // ---------------------
@@ -28,6 +29,7 @@ byte selectedItem = 0;
 void showMenu(){
 
   // Setup Input class
+  byte bgAnimator = 0;
 
   while(true){
     if (!arduboy.nextFrame()) continue;
@@ -57,14 +59,25 @@ void showMenu(){
       }
     }
 
-    drawMenu();
+    // animat BG
+    if (arduboy.everyXFrames(20)){
+      bgAnimator++;
+      bgAnimator = bgAnimator%2;
+    }
+    
+    drawMenu(bgAnimator);
     arduboy.display();
   }
 }
 
 // ---------------------
 // Funcs
-void drawMenu(){
+void drawMenu(byte animator){
+  // draw BG
+   arduboy.drawBitmap(0, 0, ((animator%2) == 0)?BAMenuAssetShip1:BAMenuAssetShip2, 128, 64, WHITE);
+
+   // draw text BG
+   arduboy.fillRect(0, MENUMARGIN_TOP - 1, 60, 24, BLACK);
 
     // Draw items
     for(byte i = 0; i < MENUITEMS; i++){

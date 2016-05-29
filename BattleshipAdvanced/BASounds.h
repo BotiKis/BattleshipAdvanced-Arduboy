@@ -2,6 +2,7 @@
 #define BASOUNDS_H
 
 void playSoundSuccess();
+void playSoundBack();
 void playSoundErr();
 
 #endif

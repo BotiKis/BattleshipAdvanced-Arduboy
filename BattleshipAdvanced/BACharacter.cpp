@@ -7,3 +7,4 @@ BAPlayer::BAPlayer(BACharacterData data){
 BACharacterData BAPlayer::getCharacterData(){
   return charData;
 }
+
