@@ -15,19 +15,31 @@ BAGame::BAGame(){
 }
 
 bool BAGame::start(){
-  // Main game Loop
+
+  // reset game
+  reset();
   
+  // Main game Loop
   while(true){
-    // back to menu
+    
+    // Show character selection
     if(showCharSelect() == BAGamesCommandBack){
       playSoundBack();
-      return true;
+      return true; // return to menu if user wants
     }
+
+    
   }
 
   return true;
 }
 
+
+
+BAGame::reset(){
+  delete player;
+  delete enemy;
+}
 
 // --------------------------------------------------
 // CHAR SELECTION
@@ -72,6 +84,17 @@ BAGamesCommand BAGame::showCharSelect(){
     if(globalInput.pressed(A_BUTTON)){
       return BAGamesCommandBack;
     }
+    if(globalInput.pressed(B_BUTTON)){
+      player = new BAPlayer[selectedCharIndex];
+      
+      // get random enemy but not itself
+      byte enemyCharIndex = -1;
+      while(enemyCharIndex == selectedCharIndex) enemyCharIndex = rand()%4;
+      enemy = new BAPlayer[enemyCharIndex];
+      
+      return BAGamesCommandNext;
+    }
+
 
     if (arduboy.everyXFrames(3)){
       bgAnimator++;

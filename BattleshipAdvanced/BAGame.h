@@ -14,9 +14,14 @@ class BAGame{
   public:
     BAGame();
 
+    // Methods
     bool start();
-
+    reset();
     BAGamesCommand showCharSelect();
+
+    // Objects
+    BAPlayer *player;
+    BAPlayer *enemy;
 };
 
 /*
