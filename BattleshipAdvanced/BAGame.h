@@ -16,7 +16,7 @@ class BAGame{
 
     // Methods
     bool start();
-    reset();
+    void reset();
     BAGamesCommand showCharSelect();
 
     // Objects

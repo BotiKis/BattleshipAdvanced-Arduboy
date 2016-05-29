@@ -22,15 +22,15 @@ struct ABRect{
 // --------------------------------------------------------------
 // comparisson
 
-bool pointIsEqualToPoint(ABPoint a, ABPoint b){
+inline bool pointIsEqualToPoint(ABPoint a, ABPoint b){
   return ((a.x == b.x) && (a.y == b.y));
+}
 
-
-bool sizeIsEqualToSize(ABSize a, ABSize b){
+inline bool sizeIsEqualToSize(ABSize a, ABSize b){
   return ((a.width == b.width) && (a.height == b.height));
 }
 
-bool rectIsEqualToRect(ABRect a, ABRect b){
+inline bool rectIsEqualToRect(ABRect a, ABRect b){
   return (pointIsEqualToPoint(a.origin, b.origin) && sizeIsEqualToSize(a.size, b.size));
 }
 
@@ -96,7 +96,7 @@ inline ABPoint substractPoints(ABPoint a, ABPoint b){
 // Animators
 
 // returns a point between the start and endpoint where the progress must be between 0 and 1
-ABPoint animatePointFromTo(ABPoint startPoint, ABPoint endPoint, float progress){
+inline ABPoint animatePointFromToPoint(ABPoint startPoint, ABPoint endPoint, float progress){
   ABPoint result;
 
   result.x = startPoint.x + (int)( ((float)(startPoint.x - endPoint.x))*progress + 0.5f); // 0.5 for correct rounding
@@ -106,7 +106,7 @@ ABPoint animatePointFromTo(ABPoint startPoint, ABPoint endPoint, float progress)
 }
 
 // returns a size between the start and endsize where the progress must be between 0 and 1
-ABSize animateSizeToSize(ABSize startSize, ABSize endSize, float progress){
+inline ABSize animateSizeToSize(ABSize startSize, ABSize endSize, float progress){
   ABSize result;
 
   result.width  = startSize.width   + (int)( ((float)(startSize.width - endSize.width))*progress + 0.5f); // 0.5 for correct rounding
@@ -116,10 +116,10 @@ ABSize animateSizeToSize(ABSize startSize, ABSize endSize, float progress){
 }
 
 // returns a rect between the start and endrect where the progress must be between 0 and 1
-ABRect animateSizeToSize(ABSize startRect, ABSize endRect, float progress){
+inline ABRect animateRectToRect(ABRect startRect, ABRect endRect, float progress){
   ABRect result;
 
-  result.origin = animatePointFromTo(startRect.origin, endRect.origin, progress);
+  result.origin = animatePointFromToPoint(startRect.origin, endRect.origin, progress);
   result.size   = animateSizeToSize(startRect.size, endRect.size, progress);
   
   return result;

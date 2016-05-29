@@ -36,7 +36,7 @@ bool BAGame::start(){
 
 
 
-BAGame::reset(){
+void BAGame::reset(){
   delete player;
   delete enemy;
 }
@@ -85,12 +85,12 @@ BAGamesCommand BAGame::showCharSelect(){
       return BAGamesCommandBack;
     }
     if(globalInput.pressed(B_BUTTON)){
-      player = new BAPlayer[selectedCharIndex];
+      player = new BAPlayer(availableCharacters[selectedCharIndex]);
       
       // get random enemy but not itself
       byte enemyCharIndex = -1;
       while(enemyCharIndex == selectedCharIndex) enemyCharIndex = rand()%4;
-      enemy = new BAPlayer[enemyCharIndex];
+      enemy = new BAPlayer(availableCharacters[enemyCharIndex]);
       
       return BAGamesCommandNext;
     }
