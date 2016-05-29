@@ -12,6 +12,8 @@ void drawTriangles(ABPoint offset, byte animator);
 // GAME CLASS
 // --------------------------------------------------
 BAGame::BAGame(){
+  player = NULL;
+  enemyPlayer = NULL;
 }
 
 bool BAGame::start(){
@@ -27,8 +29,8 @@ bool BAGame::start(){
       playSoundBack();
       return true; // return to menu if user wants
     }
-
     
+  reset();
   }
 
   return true;
@@ -38,7 +40,7 @@ bool BAGame::start(){
 
 void BAGame::reset(){
   delete player;
-  delete enemy;
+  delete enemyPlayer;
 }
 
 // --------------------------------------------------
@@ -90,7 +92,7 @@ BAGamesCommand BAGame::showCharSelect(){
       // get random enemy but not itself
       byte enemyCharIndex = -1;
       while(enemyCharIndex == selectedCharIndex) enemyCharIndex = rand()%4;
-      enemy = new BAPlayer(availableCharacters[enemyCharIndex]);
+      enemyPlayer = new BAPlayer(availableCharacters[enemyCharIndex]);
       
       return BAGamesCommandNext;
     }

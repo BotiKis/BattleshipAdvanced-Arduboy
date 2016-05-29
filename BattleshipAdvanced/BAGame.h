@@ -21,7 +21,7 @@ class BAGame{
 
     // Objects
     BAPlayer *player;
-    BAPlayer *enemy;
+    BAPlayer *enemyPlayer;
 };
 
 /*
