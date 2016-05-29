@@ -1,6 +1,7 @@
 #include "BAGame.h"
 #include "BAGlobal.h"
 #include "BACharacterSelectionHelper.h"
+#include "BAVersusScreen.h"
 
 // --------------------------------------------------
 // Helper
@@ -29,6 +30,8 @@ bool BAGame::start(){
       playSoundBack();
       return true; // return to menu if user wants
     }
+
+    showVersusScreenWithPlayerAndEnemy(player->getCharacterData(), enemyPlayer->getCharacterData());
     
   reset();
   }
@@ -90,8 +93,8 @@ BAGamesCommand BAGame::showCharSelect(){
       player = new BAPlayer(availableCharacters[selectedCharIndex]);
       
       // get random enemy but not itself
-      byte enemyCharIndex = -1;
-      while(enemyCharIndex == selectedCharIndex) enemyCharIndex = rand()%4;
+      byte enemyCharIndex = random(4);
+      while(enemyCharIndex == selectedCharIndex) enemyCharIndex = random(4);
       enemyPlayer = new BAPlayer(availableCharacters[enemyCharIndex]);
       
       return BAGamesCommandNext;
