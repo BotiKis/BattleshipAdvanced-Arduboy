@@ -41,7 +41,7 @@ PROGMEM const unsigned char BACharAsset_characterIDMatt_Fill[] = {
 
 
 
-const unsigned char* outlineAssetForCharacter(CharacterID characterID){
+inline const unsigned char* outlineAssetForCharacter(CharacterID characterID){
   switch(characterID){
     default:
     case CharacterIDMatt:   return BACharAsset_characterMatt;
@@ -51,7 +51,7 @@ const unsigned char* outlineAssetForCharacter(CharacterID characterID){
   }
 }
 
-const unsigned char* fillAssetForCharacter(CharacterID characterID){
+inline const unsigned char* fillAssetForCharacter(CharacterID characterID){
   switch(characterID){
     default:
     case CharacterIDMatt:   return BACharAsset_characterIDMatt_Fill;
