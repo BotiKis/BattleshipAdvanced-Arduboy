@@ -52,7 +52,7 @@ inline ABSize ABSizeMake (int width, int height){
   return s;
 }
 
-inline ABRect ABSizeMake (int originX, int  originY, int width, int height){
+inline ABRect ABRectMake (int originX, int  originY, int width, int height){
   ABRect r;
   r.origin.x = originX;
   r.origin.y = originY;
