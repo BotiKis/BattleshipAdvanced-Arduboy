@@ -1,5 +1,6 @@
 #ifndef ABGEOMETRY_H
 #define ABGEOMETRY_H
+#include <math.h>
 
 // --------------------------------------------------------------
 // Types
@@ -99,8 +100,8 @@ inline ABPoint substractPoints(ABPoint a, ABPoint b){
 inline ABPoint animatePointFromToPoint(ABPoint startPoint, ABPoint endPoint, float progress){
   ABPoint result;
 
-  result.x = startPoint.x + (int)( ((float)(startPoint.x - endPoint.x))*progress + 0.5f); // 0.5 for correct rounding
-  result.y = startPoint.y + (int)( ((float)(startPoint.y - endPoint.y))*progress + 0.5f); // 0.5 for correct rounding
+  result.x = startPoint.x + fabs( ((float)(startPoint.x - endPoint.x))*progress + 0.5f); // 0.5 for correct rounding
+  result.y = startPoint.y + fabs( ((float)(startPoint.y - endPoint.y))*progress + 0.5f); // 0.5 for correct rounding
   
   return result;
 }
@@ -109,8 +110,8 @@ inline ABPoint animatePointFromToPoint(ABPoint startPoint, ABPoint endPoint, flo
 inline ABSize animateSizeToSize(ABSize startSize, ABSize endSize, float progress){
   ABSize result;
 
-  result.width  = startSize.width   + (int)( ((float)(startSize.width - endSize.width))*progress + 0.5f); // 0.5 for correct rounding
-  result.height = startSize.height  + (int)( ((float)(startSize.height - endSize.height))*progress + 0.5f); // 0.5 for correct rounding
+  result.width  = startSize.width   - float( ((float)(startSize.width - endSize.width))*progress + 0.5f); // 0.5 for correct rounding
+  result.height = startSize.height  - float( ((float)(startSize.height - endSize.height))*progress + 0.5f); // 0.5 for correct rounding
   
   return result;
 }
