@@ -1,8 +1,9 @@
 #ifndef VERSUSSCREEN_H
 #define VERSUSSCREEN_H
 #include <Arduboy.h>
+#include "BAGame.h"
 #include "BACharacter.h"
 
-void showVersusScreenWithCharacterData(BACharacterData player, BACharacterData enemy);
+BAGamesCommand showVersusScreenWithPlayerAndEnemy(BACharacterData player, BACharacterData enemy);
 
 #endif
