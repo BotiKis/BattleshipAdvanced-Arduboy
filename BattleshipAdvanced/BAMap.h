@@ -16,6 +16,8 @@ typedef enum BAMapTileType{
   BAMapTileTypeExplosion2,
   BAMapTileTypeExplosion3,
   BAMapTileTypeExplosion4,
+
+  BAMapTileTypeDestroyedShip = -10
 }
 BAMapTye;
 
