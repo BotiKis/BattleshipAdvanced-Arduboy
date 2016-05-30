@@ -2,6 +2,7 @@
 #define GAMESTATE_H
 #include <Arduboy.h>
 #include "BACharacter.h"
+#include "BAMap.h"
 
 typedef enum BAGamesCommand{
   BAGamesCommandErr =-1,
@@ -18,21 +19,13 @@ class BAGame{
     bool start();
     void reset();
     BAGamesCommand showCharSelect();
+    BAGamesCommand showPositionShips();
 
     // Data
     BAPlayer *player;
     BAPlayer *enemyPlayer;
 };
 
-/*
 
-typedef enum BAGamestate{
-  GamestateMenu = 1,
-  GamestateCharSelect,
-  GamestateGame,
-  GamestateEnd
-}
-BAGamestate;
-*/
 
 #endif
