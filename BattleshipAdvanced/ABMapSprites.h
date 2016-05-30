@@ -44,19 +44,19 @@ PROGMEM const unsigned char BAMap_Sprite_Ship_vertical_single[] = {
 // --------------------------------------------------------------
 // Map
 
-PROGMEM const unsigned char BAMap_Sprite_water1[] = {
+PROGMEM const unsigned char BAMap_Sprite_Water1[] = {
 0x00, 0x00, 0x00, 0x01, 0x00, 0x04, 0x00, 0x10
 };
 
-PROGMEM const unsigned char BAMap_Sprite_water2[] = {
+PROGMEM const unsigned char BAMap_Sprite_Water2[] = {
 0x00, 0x01, 0x00, 0x04, 0x00, 0x10, 0x00, 0x40
 };
 
-PROGMEM const unsigned char BAMap_Sprite_water3[] = {
+PROGMEM const unsigned char BAMap_Sprite_Water3[] = {
 0x08, 0x00, 0x20, 0x00, 0x80, 0x00, 0x00, 0x00
 };
 
-PROGMEM const unsigned char BAMap_Sprite_hill[] = {
+PROGMEM const unsigned char BAMap_Sprite_Mountain[] = {
 0xf8, 0xfc, 0xde, 0xaf, 0xd5, 0xaa, 0xd4, 0xf8
 };
 
@@ -64,19 +64,19 @@ PROGMEM const unsigned char BAMap_Sprite_hill[] = {
 // --------------------------------------------------------------
 // Explosion
 
-PROGMEM const unsigned char BAMap_Sprite_explosion1[] = {
+PROGMEM const unsigned char BAMap_Sprite_Explosion1[] = {
 0x00, 0x00, 0x00, 0x18, 0x18, 0x00, 0x00, 0x00
 };
 
-PROGMEM const unsigned char BAMap_Sprite_explosion2[] = {
+PROGMEM const unsigned char BAMap_Sprite_Explosion2[] = {
 0x00, 0x00, 0x24, 0x18, 0x18, 0x24, 0x00, 0x00
 };
 
-PROGMEM const unsigned char BAMap_Sprite_explosion3[] = {
+PROGMEM const unsigned char BAMap_Sprite_Explosion3[] = {
 0x81, 0x42, 0x24, 0x18, 0x18, 0x24, 0x42, 0x81
 };
 
-PROGMEM const unsigned char BAMap_Sprite_explosion4[] = {
+PROGMEM const unsigned char BAMap_Sprite_Explosion4[] = {
 0x81, 0x5a, 0x24, 0x42, 0x42, 0x24, 0x5a, 0x81
 };
 
