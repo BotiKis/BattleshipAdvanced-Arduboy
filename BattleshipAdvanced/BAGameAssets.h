@@ -1,5 +1,8 @@
 #ifndef GAME_ASSETS
 #define GAME_ASSETS
+#include "ABGeometry.h"
+#include "BAGlobal.h"
+#include <string.h>
 
 PROGMEM const unsigned char BAGameAsset_VS[] = {
 0x00, 0x80, 0xe0, 0xf0, 0x70, 0x30, 0x70, 0xe0,
