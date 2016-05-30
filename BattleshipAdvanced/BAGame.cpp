@@ -208,7 +208,7 @@ BAGamesCommand BAGame::showPositionShips(){
         
     //=======================================
     // draw menu
-    arduboy.drawFastVLine(MENU_WIDTH-1, 0, HEIGHT, WHITE);
+    //arduboy.drawFastVLine(MENU_WIDTH-1, 0, HEIGHT, WHITE);
     arduboy.setCursor(1,1);
     arduboy.print(player->getCharacterData().name);
 
