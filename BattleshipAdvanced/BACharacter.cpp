@@ -64,6 +64,7 @@ BAShip BAPlayer::shipAtIndex(byte idx){
 void BAPlayer::updateShipAtIndex(byte idx, BAShip newShip){
   ships[idx].remainingLength = newShip.remainingLength;
   ships[idx].horizontal = newShip.horizontal;
+  ships[idx].position = newShip.position;
 }
 
 byte BAPlayer:: numberOfRemainingShips(){
