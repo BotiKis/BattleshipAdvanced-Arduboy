@@ -74,7 +74,7 @@ void showMenu(){
 // Funcs
 void drawMenu(byte animator){
   // draw BG
-   arduboy.drawBitmap(0, 0, ((animator%2) == 0)?BAMenuAssetShip1:BAMenuAssetShip2, 128, 64, WHITE);
+   arduboy.drawBitmap(0, 0, ((animator%2) == 0)?BAMenuAssetShip1:BAMenuAssetShip1, 128, 64, WHITE);
 
    // draw text BG
    arduboy.fillRect(0, MENUMARGIN_TOP - 1, 64, 24, BLACK);
