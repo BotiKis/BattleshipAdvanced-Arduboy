@@ -35,13 +35,15 @@ BAPlayer::BAPlayer(BACharacterData data){
   ABPoint lastMountainPos = ABPointMake(-1, -1);
   
   for(byte i = 0; i < mountainsCount ; i++){
-    ABPoint mountainPos = ABPointMake(-1, -1);
-    while(pointIsEqualToPoint(mountainPos, lastMountainPos)){
-      mountainPos.x = random(GAME_BOARD_SIZE_WIDTH);
-      mountainPos.y = random(GAME_BOARD_SIZE_HEIGHT);
+    ABPoint mountainPos;
+    do{
+      mountainPos.x = random(0, GAME_BOARD_SIZE_WIDTH);
+      mountainPos.y = random(0, GAME_BOARD_SIZE_HEIGHT);
     }
+    while(pointIsEqualToPoint(mountainPos, lastMountainPos));
+    
     lastMountainPos = mountainPos;
-    playerBoard[mountainPos.x][mountainPos.y] = BAMapTileTypeMountain;
+    playerBoard[mountainPos.y][mountainPos.x] = BAMapTileTypeMountain;    
   }
 }
 
