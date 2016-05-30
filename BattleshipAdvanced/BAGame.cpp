@@ -3,7 +3,7 @@
 #include "BACharacterSelectionHelper.h"
 #include "BAVersusScreen.h"
 #include "ABMapSprites.h"
-
+#include "BAUI.h"
 
 // --------------------------------------------------
 // Helper
@@ -177,7 +177,7 @@ BAGamesCommand BAGame::showPositionShips(){
       playerCursor.x--;
       
       // limit
-      playerCursor.x = ((playerCursor.x < 0)? 0 : playerCursor.x);
+      playerCursor.x = ((playerCursor.x < 0)? -1 : playerCursor.x); // -1 is okay for menu
     }
     if(globalInput.pressed(UP_BUTTON)){
       playerCursor.y--;
@@ -204,21 +204,35 @@ BAGamesCommand BAGame::showPositionShips(){
     arduboy.clear();
 
     // Draw map for player
-     drawMap(player);
-
-    // Draw map
-    for(byte mapPosY = 0; mapPosY < GAME_BOARD_SIZE_HEIGHT; mapPosY++){
-      for(byte mapPosX = 0; mapPosX < GAME_BOARD_SIZE_WIDTH; mapPosX++){
+    drawMap(player);
         
-        //=======================================
-        // Draw cursor
-        ABRect cursorFrame;
-        cursorFrame.origin.x = MENU_WIDTH + playerCursor.x*8 + (cursorFlip ? 1:0);
-        cursorFrame.origin.y = playerCursor.y*8 + (cursorFlip ? 1:0);
-        cursorFrame.size.width = cursorFlip ? 6 : 8;
-        cursorFrame.size.height = cursorFlip ? 6 : 8;
-        arduboy.drawRect(cursorFrame.origin.x, cursorFrame.origin.y, cursorFrame.size.width, cursorFrame.size.height, WHITE);
-      }
+    //=======================================
+    // draw menu
+    arduboy.drawFastVLine(MENU_WIDTH-1, 0, HEIGHT, WHITE);
+    arduboy.setCursor(1,1);
+    arduboy.print(player->getCharacterData().name);
+
+    // Info fields
+    arduboy.drawBitmap(0, 28, BAUI_a_rotate, 30, 8, WHITE);
+    arduboy.drawBitmap(0, 40, BAUI_b_place, 30, 8, WHITE);
+
+    //=======================================
+    // Draw cursor
+    // only draw cursor if index is inside map
+    if(playerCursor.x >= 0){
+      ABRect cursorFrame;
+      cursorFrame.origin.x = MENU_WIDTH + playerCursor.x*8 + (cursorFlip ? 1:0);
+      cursorFrame.origin.y = playerCursor.y*8 + (cursorFlip ? 1:0);
+      cursorFrame.size.width = cursorFlip ? 6 : 8;
+      cursorFrame.size.height = cursorFlip ? 6 : 8;
+      arduboy.drawRect(cursorFrame.origin.x, cursorFrame.origin.y, cursorFrame.size.width, cursorFrame.size.height, WHITE);
+
+      // Draw cancle button
+      arduboy.drawBitmap(0, 55, BAUI_cancel, 30, 8, WHITE);
+    }
+    else{
+      // Draw cancel button
+      arduboy.drawBitmap(0, 55, BAUI_cancel_selected, 30, 8, WHITE);
     }
     
     arduboy.display();

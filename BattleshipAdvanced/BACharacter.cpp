@@ -31,10 +31,11 @@ BAPlayer::BAPlayer(BACharacterData data){
   }
 
   // random mountains
-  byte mountainsCount = random(3,5);
-    ABPoint lastMountainPos = ABPointMake(-1, -1);
+  byte mountainsCount = random(3,6);
+  ABPoint lastMountainPos = ABPointMake(-1, -1);
+  
   for(byte i = 0; i < mountainsCount ; i++){
-    ABPoint mountainPos;
+    ABPoint mountainPos = ABPointMake(-1, -1);
     while(pointIsEqualToPoint(mountainPos, lastMountainPos)){
       mountainPos.x = random(GAME_BOARD_SIZE_WIDTH);
       mountainPos.y = random(GAME_BOARD_SIZE_HEIGHT);
