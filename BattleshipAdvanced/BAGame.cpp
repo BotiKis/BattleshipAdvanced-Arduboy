@@ -208,8 +208,24 @@ BAGamesCommand BAGame::showPositionShips(){
         return BAGamesCommandBack;
       }
       else{
+       
         // check if ship collides with other ship or mountain
-        if (player->playerBoard[playerCursor.y][playerCursor.x] >= 0 || player->playerBoard[playerCursor.y][playerCursor.x] == BAMapTileTypeMountain){
+        bool safe = true;
+        for (int len = 0; len < currentShip.fullLength; len++) {
+          int dX = 0, dY = 0;
+
+          if (orienteationHorizontal)
+            dX = len;
+          else
+            dY = len;
+
+          if (player->playerBoard[playerCursor.y+dY][playerCursor.x+dX] >= 0 || player->playerBoard[playerCursor.y+dY][playerCursor.x+dX] == BAMapTileTypeMountain) {
+            safe = false;
+            break;
+          }
+        }
+        
+        if (!safe) {
           // play error sound and ignore
           playSoundErr();
         }
@@ -223,6 +239,7 @@ BAGamesCommand BAGame::showPositionShips(){
             // show done?
           }
         }
+        
       }
     }
     
