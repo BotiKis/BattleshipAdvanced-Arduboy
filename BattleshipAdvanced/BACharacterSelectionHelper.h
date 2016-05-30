@@ -5,8 +5,6 @@
 #include "BACharacter.h"
 #include "BACharAssets.h"
 
-
-
 void drawCharacterSelectionAsset(BACharacterData character, ABPoint offset){
    ABRect frame;
    frame.origin.x = offset.x;
