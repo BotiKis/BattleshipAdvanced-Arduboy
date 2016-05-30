@@ -3,8 +3,6 @@
 #include "BAGlobal.h"
 #include "ABMapSprites.h"
 
-#include <math.h>
-
 void drawMap(BAPlayer *player){
 
   // flip for watrer animation
