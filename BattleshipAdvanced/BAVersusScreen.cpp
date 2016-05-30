@@ -26,6 +26,7 @@ BAGamesCommand showVersusScreenWithPlayerAndEnemy(BACharacterData player, BAChar
   
   // main loop
   while(true){
+    if (!arduboy.nextFrame()) continue;
     arduboy.clear();
 
     // update input
@@ -37,14 +38,14 @@ BAGamesCommand showVersusScreenWithPlayerAndEnemy(BACharacterData player, BAChar
     // draw player 1
     if (deltatime> player1AppearAfter){
        arduboy.drawBitmap(12, 32, outlineAssetForCharacter(player.characterID), 32, 32, WHITE);
-       arduboy.setCursor(16,10);
+       arduboy.setCursor(12,10);
        arduboy.print(player.name);
     }
        
     // draw enemy
     if (deltatime> player2AppearAfter){
        arduboy.drawBitmap(84, 32, outlineAssetForCharacter(enemy.characterID), 32, 32, WHITE);
-       arduboy.setCursor(78,10);
+       arduboy.setCursor(82,10);
        arduboy.print(enemy.name);
     }
 
