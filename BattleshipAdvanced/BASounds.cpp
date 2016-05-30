@@ -6,9 +6,9 @@ void playSoundSuccess(){
 }
 
 void playSoundBack(){
-  arduboy.tunes.tone(200, 10);
+  arduboy.tunes.tone(200, 20);
 }
 
 void playSoundErr(){
-  arduboy.tunes.tone(25, 300);
+  arduboy.tunes.tone(25, 350);
 }
