@@ -1,8 +1,10 @@
 #ifndef BASHIP_H
 #define BASHIP_H
 #include <Arduboy.h>
+#include "ABGeometry.h"
 
 struct BAShip{
+  ABPoint position;
   byte fullLength;
   byte remainingLength;
   bool horizontal;
