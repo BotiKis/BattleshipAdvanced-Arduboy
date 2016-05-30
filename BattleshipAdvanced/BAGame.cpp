@@ -21,7 +21,6 @@ BAGame::BAGame(){
 
 bool BAGame::start(){
 
-  
   // Main game Loop
   while(true){
     
@@ -34,14 +33,11 @@ bool BAGame::start(){
       return true; // return to menu if user wants
     }
 
-    if(showVersusScreenWithPlayerAndEnemy(player->getCharacterData(), enemyPlayer->getCharacterData())){
-      playSoundBack();
+    if(showVersusScreenWithPlayerAndEnemy(player->getCharacterData(), enemyPlayer->getCharacterData()) == BAGamesCommandBack){
       continue;
     }
-    playSoundSuccess();
 
    if(showPositionShips()){
-      playSoundBack();
       continue;
     }
     
@@ -100,6 +96,7 @@ BAGamesCommand BAGame::showCharSelect(){
       selectedCharIndex = (selectedCharIndex+2)%4;
     }
     if(globalInput.pressed(A_BUTTON)){
+      playSoundBack();
       return BAGamesCommandBack;
     }
     if(globalInput.pressed(B_BUTTON)){
@@ -160,6 +157,8 @@ BAGamesCommand BAGame::showPositionShips(){
   bool cursorFlip = true;
   byte numberOfPlacedShips = 0;
 
+  bool orienteationHorizontal = true;
+
   while(true){
      if (!arduboy.nextFrame()) continue;
      if (arduboy.everyXFrames(10)) cursorFlip = !cursorFlip;
@@ -192,12 +191,27 @@ BAGamesCommand BAGame::showPositionShips(){
       playerCursor.y = ((playerCursor.y >= GAME_BOARD_SIZE_HEIGHT)? (GAME_BOARD_SIZE_HEIGHT-1) : playerCursor.y);
     }
     if(globalInput.pressed(A_BUTTON)){
-      // Back
-      return BAGamesCommandBack;
+      // Flip orientation
+      orienteationHorizontal = !orienteationHorizontal;
     }
     if(globalInput.pressed(B_BUTTON)){
-      // place ship
-      playSoundSuccess();
+
+      // Check if cancel was pressed
+      if(playerCursor.x < 0){
+        playSoundBack();
+        return BAGamesCommandBack;
+      }
+      else{
+        // check if ship collides with other ship or mountain
+        if (player->playerBoard[playerCursor.y][playerCursor.x] >= 0 || player->playerBoard[playerCursor.y][playerCursor.x] == BAMapTileTypeMountain){
+          // play error sound and ignore
+          playSoundErr();
+        }
+        else{
+          // nope, place ship!
+          playSoundSuccess();
+        }
+      }
     }
     
     // clear screen
