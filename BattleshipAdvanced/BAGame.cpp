@@ -6,6 +6,9 @@
 #include "BAUI.h"
 #include "BAShip.h"
 
+
+#define MILLIS_SINCE(MILLIS) (millis() - MILLIS)
+
 // --------------------------------------------------
 // Helper
 // --------------------------------------------------
@@ -18,6 +21,7 @@ void drawTriangles(ABPoint offset, byte animator);
 BAGame::BAGame(){
   player = NULL;
   enemyPlayer = NULL;
+  playerFirstRound = true;
 }
 
 bool BAGame::start(){
@@ -38,9 +42,11 @@ bool BAGame::start(){
       continue;
     }
 
-   if(showPositionShips()){
+   if(showPositionShips() == BAGamesCommandBack){
       continue;
     }
+
+    showFirstPlayer();
     
   }
 
@@ -232,11 +238,28 @@ BAGamesCommand BAGame::showPositionShips(){
         else{
           // nope, place ship!
           playSoundSuccess();
+          
+          // update  orientation
+          currentShip.horizontal = orienteationHorizontal;
+          player->updateShipAtIndex(numberOfPlacedShips, currentShip);
+
+          // store on map
+          for (int len = 0; len < currentShip.fullLength; len++) {
+            int dX = 0, dY = 0;
+  
+            if (orienteationHorizontal)
+              dX = len;
+            else
+              dY = len;
+  
+            player->playerBoard[playerCursor.y+dY][playerCursor.x+dX] =  numberOfPlacedShips; // write index of ship on the map
+          }
+          
           numberOfPlacedShips++;
 
           // check if done
           if(numberOfPlacedShips == player->numberOfShips){
-            // show done?
+            return BAGamesCommandNext;
           }
         }
         
@@ -296,6 +319,63 @@ BAGamesCommand BAGame::showPositionShips(){
   }
 
   return BAGamesCommandErr;
+}
+
+void BAGame::showFirstPlayer(){
+
+  bool animationDone = false;
+  bool animationFlip = false;
+
+  // 0 = player, 1 = AI
+  byte firstPlayer = random(2);
+
+  unsigned long startTime = millis();
+  
+  // screenloop
+  while(true){
+    if (!arduboy.nextFrame()) continue;
+    if(arduboy.everyXFrames(6)) animationFlip = !animationFlip;
+
+    // handle input
+    globalInput.updateInput();
+
+    // calc time
+    unsigned long deltaTime = MILLIS_SINCE(startTime);
+
+    if(globalInput.pressed(A_BUTTON) || globalInput.pressed(B_BUTTON)){
+      // close screen
+      if(animationDone && deltaTime > 1000){
+        return;
+      }
+      else{
+        animationDone = true;
+      }
+    }
+
+    // check if animation should stop
+    animationDone = deltaTime > 4000 || animationDone;
+    
+    // clear screen
+    arduboy.clear();
+
+    // write stuff
+    arduboy.setCursor(22, 14);
+    arduboy.print("BATTLE BEGINS!");
+    arduboy.setCursor(25, 26);
+    arduboy.print("First player:");
+    arduboy.setCursor(49, 38);
+
+    if(animationDone){
+      arduboy.print( (playerFirstRound ? player->getCharacterData().name: enemyPlayer->getCharacterData().name));
+      arduboy.setCursor(13, 48);
+      if(animationFlip) arduboy.print("press a button...");
+    }
+     else
+      arduboy.print( (animationFlip ? player->getCharacterData().name: enemyPlayer->getCharacterData().name));
+
+    // show
+    arduboy.display();
+  }
 }
 
 

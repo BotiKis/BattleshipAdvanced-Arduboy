@@ -20,10 +20,12 @@ class BAGame{
     void reset();
     BAGamesCommand showCharSelect();
     BAGamesCommand showPositionShips();
+    void showFirstPlayer();
 
     // Data
     BAPlayer *player;
     BAPlayer *enemyPlayer;
+    bool playerFirstRound;
 };
 
 
