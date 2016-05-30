@@ -48,17 +48,18 @@ bool BAGame::start(){
 
     // -----------------
     // Check player order
+    /*
     if(playerFirstRound){
       while(1){
         for(byte i = 0; i < player->getCharacterData().shots; i++)
           playerRound();
           
-        translateFromPlayerToPlayer(player, enemyPlayer);
+        translateFromPlayerToPlayer(enemyPlayer, player, true);
         
         for(byte i = 0; i < enemyPlayer->getCharacterData().shots; i++)
           enemyRound();
           
-        translateFromPlayerToPlayer(enemyPlayer, player);
+        translateFromPlayerToPlayer(player, enemyPlayer, false);
       }
     }
     else{
@@ -66,14 +67,25 @@ bool BAGame::start(){
         for(byte i = 0; i < enemyPlayer->getCharacterData().shots; i++)
           enemyRound();
 
-        translateFromPlayerToPlayer(enemyPlayer, player);
+        translateFromPlayerToPlayer(player, enemyPlayer, true);
           
         for(byte i = 0; i < player->getCharacterData().shots; i++)
           playerRound();
           
-        translateFromPlayerToPlayer(player, enemyPlayer);
+        translateFromPlayerToPlayer(enemyPlayer, player, false);
       }
-    }
+    }*/
+    while(1){
+        for(byte i = 0; i < player->getCharacterData().shots; i++)
+          playerRound();
+          
+        translateFromPlayerToPlayer(enemyPlayer, player, true);
+        
+        for(byte i = 0; i < enemyPlayer->getCharacterData().shots; i++)
+          enemyRound();
+          
+        translateFromPlayerToPlayer(player, enemyPlayer, false);
+      }
     
     // -----------------
     // end game
@@ -471,6 +483,7 @@ BAGamesCommand BAGame::playerRound(){
         menuIdx = (menuIdx+1)%2;
     }
     if(globalInput.pressed(A_BUTTON)){
+      playSoundSuccess();
       targetLocked = false;
       selectedTargetTile = ABPointMake(-1, -1);
       
@@ -479,6 +492,7 @@ BAGamesCommand BAGame::playerRound(){
       }
     }
     if(globalInput.pressed(B_BUTTON)){
+       playSoundSuccess();
       if(playerCursor.x >= 0){
         targetLocked = true;
         selectedTargetTile = playerCursor;
@@ -488,6 +502,7 @@ BAGamesCommand BAGame::playerRound(){
       else{
         if(menuIdx == 0 && targetLocked){
           // DO SHOOT
+          return BAGamesCommandNext;
         }
         else if ( menuIdx == 1 && targetLocked){
           targetLocked = false;
@@ -560,11 +575,64 @@ BAGamesCommand BAGame::playerRound(){
 
 
 BAGamesCommand BAGame::enemyRound(){
+    // store information
+  ABPoint playerCursor = ABPointMake(6, 4);
+  ABPoint selectedTargetTile = ABPointMake(-1, -1);
+  bool targetLocked = false;
+  bool cursorFlip = true;
   
+  while(true){
+    if (!arduboy.nextFrame()) continue;
+    if (arduboy.everyXFrames(10)) cursorFlip = !cursorFlip;
+    
+    // handle input
+    globalInput.updateInput();
+
+    if(globalInput.pressed(B_BUTTON)){
+       playSoundSuccess();
+       return BAGamesCommandNext;
+    }
+    
+    // clear screen
+    arduboy.clear();
+
+    // Draw map of enemy
+    drawMap(player, true);
+    
+    arduboy.display();
+  }
 }
 
-void BAGame::translateFromPlayerToPlayer(BAPlayer *fromPlayer, BAPlayer *toPlayer){
+void BAGame::translateFromPlayerToPlayer(BAPlayer *fromPlayer, BAPlayer *toPlayer,  bool directionUp){
+  unsigned long startTime = millis();
+  int animationDuration = 1000;
+  ABPoint startPointFrom = ABPointMake(0,0);
+  ABPoint endPointFrom = ABPointMake(0, (directionUp?-64:64));
+  
+  ABPoint startPointTo = ABPointMake(0, (directionUp?64:-64));
+  ABPoint endPointTo = ABPointMake(0,0);
+  
+  while(true){
 
+    if (!arduboy.nextFrame()) continue;
+    arduboy.clear();
+    
+    int deltaTime = MILLIS_SINCE(startTime);
+
+    // finish translation
+    if(deltaTime > animationDuration) return;
+
+    // calc progress
+    float progress = ((float)deltaTime/(float)animationDuration);
+    ABPoint progressPointFrom = animatePointFromToPoint(startPointFrom, endPointFrom, progress);
+    ABPoint progressPointTo = animatePointFromToPoint(startPointTo, endPointTo, progress);
+    
+    // draw
+    drawMapAtPosition(fromPlayer, progressPointFrom, (fromPlayer == player));
+    drawMapAtPosition(toPlayer, progressPointTo, (toPlayer == player));
+    
+    arduboy.display();
+  }
 }
 
 
