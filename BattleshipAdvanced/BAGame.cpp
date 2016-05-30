@@ -4,6 +4,7 @@
 #include "BAVersusScreen.h"
 #include "ABMapSprites.h"
 #include "BAUI.h"
+#include "BAShip.h"
 
 // --------------------------------------------------
 // Helper
@@ -160,17 +161,17 @@ BAGamesCommand BAGame::showPositionShips(){
   bool orienteationHorizontal = true;
 
   while(true){
-     if (!arduboy.nextFrame()) continue;
-     if (arduboy.everyXFrames(10)) cursorFlip = !cursorFlip;
+    if (!arduboy.nextFrame()) continue;
+    if (arduboy.everyXFrames(10)) cursorFlip = !cursorFlip;
+
+    // get current ship
+    BAShip currentShip = player->shipAtIndex(numberOfPlacedShips);
 
     // handle input
     globalInput.updateInput();
 
     if(globalInput.pressed(RIGHT_BUTTON)){
-      playerCursor.x++;
-
-      // limit
-      playerCursor.x = ((playerCursor.x >= GAME_BOARD_SIZE_WIDTH)? (GAME_BOARD_SIZE_WIDTH-1) : playerCursor.x);
+      playerCursor.x++;      
     }
     if(globalInput.pressed(LEFT_BUTTON)){
       playerCursor.x--;
@@ -186,14 +187,19 @@ BAGamesCommand BAGame::showPositionShips(){
     }
     if(globalInput.pressed(DOWN_BUTTON)){
       playerCursor.y++;
-
-      // limit
-      playerCursor.y = ((playerCursor.y >= GAME_BOARD_SIZE_HEIGHT)? (GAME_BOARD_SIZE_HEIGHT-1) : playerCursor.y);
     }
     if(globalInput.pressed(A_BUTTON)){
       // Flip orientation
       orienteationHorizontal = !orienteationHorizontal;
     }
+    
+    // move cursor inside bounds if ship gets longer
+    int maxX = GAME_BOARD_SIZE_WIDTH - ( orienteationHorizontal ? currentShip.fullLength : 1);
+    int maxY = GAME_BOARD_SIZE_HEIGHT - ( !orienteationHorizontal ? currentShip.fullLength : 1); 
+    playerCursor.y = ((playerCursor.y > maxY)? maxY : playerCursor.y);
+    playerCursor.x = ((playerCursor.x > maxX)? maxX : playerCursor.x);
+
+    
     if(globalInput.pressed(B_BUTTON)){
 
       // Check if cancel was pressed
@@ -210,6 +216,12 @@ BAGamesCommand BAGame::showPositionShips(){
         else{
           // nope, place ship!
           playSoundSuccess();
+          numberOfPlacedShips++;
+
+          // check if done
+          if(numberOfPlacedShips == player->numberOfShips){
+            // show done?
+          }
         }
       }
     }
@@ -222,9 +234,9 @@ BAGamesCommand BAGame::showPositionShips(){
         
     //=======================================
     // draw menu
-    //arduboy.drawFastVLine(MENU_WIDTH-1, 0, HEIGHT, WHITE);
     arduboy.setCursor(1,1);
-    arduboy.print(player->getCharacterData().name);
+    arduboy.println(player->getCharacterData().name);
+    arduboy.println(player->numberOfShips);
 
     // Info fields
     arduboy.drawBitmap(0, 28, BAUI_a_rotate, 30, 8, WHITE);
@@ -234,9 +246,23 @@ BAGamesCommand BAGame::showPositionShips(){
     // Draw cursor
     // only draw cursor if index is inside map
     if(playerCursor.x >= 0){
+
+      ABPoint shipPos;
+      shipPos.x = MENU_WIDTH + playerCursor.x*8;
+      shipPos.y = playerCursor.y*8;
+      
+      // draw current ship
+      if(orienteationHorizontal){
+        drawHorizontalShip(shipPos, currentShip.fullLength, WHITE);
+      }
+      else{
+        drawVerticalShip(shipPos, currentShip.fullLength, WHITE);
+      }
+      
+      
       ABRect cursorFrame;
-      cursorFrame.origin.x = MENU_WIDTH + playerCursor.x*8 + (cursorFlip ? 1:0);
-      cursorFrame.origin.y = playerCursor.y*8 + (cursorFlip ? 1:0);
+      cursorFrame.origin.x = shipPos.x + (cursorFlip ? 1:0);
+      cursorFrame.origin.y = shipPos.y + (cursorFlip ? 1:0);
       cursorFrame.size.width = cursorFlip ? 6 : 8;
       cursorFrame.size.height = cursorFlip ? 6 : 8;
       arduboy.drawRect(cursorFrame.origin.x, cursorFrame.origin.y, cursorFrame.size.width, cursorFrame.size.height, WHITE);
