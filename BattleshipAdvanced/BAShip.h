@@ -10,12 +10,13 @@ typedef enum BAShipType{
 
 struct BAShip{
   BAShipType shipType;
+  byte fullLength;
   byte remainingLength;
   bool horizontal;
 };
 
 inline BAShip BAShipMake(BAShipType shipType, byte shipLength){
-  return  {shipType, shipLength, true};
+  return  {shipType, shipLength, shipLength, true};
 }
 
 inline bool isShipDestroyed(BAShip ship){
