@@ -25,6 +25,8 @@ BAMapTye;
 // Draws the map for the given player
 // --------------------------------------------------
 
-void drawMap(BAPlayer *player);
+void drawMap(BAPlayer *player, bool showShips);
+
+void drawMapAtPosition(BAPlayer *player, ABPoint position, bool showShips);
 
 #endif
