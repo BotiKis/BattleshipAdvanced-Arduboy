@@ -7,7 +7,9 @@
 typedef enum BAGamesCommand{
   BAGamesCommandErr =-1,
   BAGamesCommandBack = 0,
-  BAGamesCommandNext
+  BAGamesCommandNext,
+  BAGamesCommandPlayerWon,
+  BAGamesCommandAIWon
 }
 BAGamesCommand;
 
@@ -21,7 +23,9 @@ class BAGame{
     BAGamesCommand showCharSelect();
     BAGamesCommand showPositionShips();
     void showFirstPlayer();
-    BAGamesCommand gameRounds();
+    BAGamesCommand playerRound();
+    void translateFromPlayerToPlayer(BAPlayer *fromPlayer, BAPlayer *toPlayer);
+    BAGamesCommand enemyRound();
 
     // Data
     BAPlayer *player;

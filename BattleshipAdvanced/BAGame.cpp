@@ -46,10 +46,27 @@ bool BAGame::start(){
       continue;
     }
 
-    showFirstPlayer();
-
-    gameRounds();
+    // -----------------
+    // Check player order
+    if(playerFirstRound){
+      while(1){
+        playerRound();
+        translateFromPlayerToPlayer(player, enemyPlayer);
+        enemyRound();
+        translateFromPlayerToPlayer(enemyPlayer, player);
+      }
+    }
+    else{
+      while(1){
+        enemyRound();
+        translateFromPlayerToPlayer(enemyPlayer, player);
+        playerRound();
+        translateFromPlayerToPlayer(player, enemyPlayer);
+      }
+    }
     
+    // -----------------
+    // end game
     return true; // return to menu if user wants
   }
 
@@ -338,6 +355,7 @@ void BAGame::showFirstPlayer(){
 
   // 0 = player, 1 = AI
   byte firstPlayer = random(2);
+  playerFirstRound = (firstPlayer%2 == 0);
 
   unsigned long startTime = millis();
   
@@ -393,7 +411,7 @@ void BAGame::showFirstPlayer(){
 // Game rounds
 // --------------------------------------------------
 
-BAGamesCommand BAGame::gameRounds(){
+BAGamesCommand BAGame::playerRound(){
   
   // store information
   ABPoint playerCursor = ABPointMake(6, 4);
@@ -528,6 +546,15 @@ BAGamesCommand BAGame::gameRounds(){
   }
 
   return BAGamesCommandErr;
+}
+
+
+BAGamesCommand BAGame::enemyRound(){
+  
+}
+
+void BAGame::translateFromPlayerToPlayer(BAPlayer *fromPlayer, BAPlayer *toPlayer){
+
 }
 
 
