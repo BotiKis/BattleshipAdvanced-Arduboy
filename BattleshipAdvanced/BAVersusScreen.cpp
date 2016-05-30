@@ -70,11 +70,12 @@ BAGamesCommand showVersusScreenWithPlayerAndEnemy(BACharacterData player, BAChar
     }
     
     // Get Input
-    if(globalInput.pressed(A_BUTTON)){
+    if(globalInput.pressed(B_BUTTON)){
       playSoundSuccess();
       return BAGamesCommandNext;
     }
-    if(globalInput.pressed(B_BUTTON)){
+    if(globalInput.pressed(A_BUTTON)){
+      playSoundBack();
       return BAGamesCommandBack;
     }
 
