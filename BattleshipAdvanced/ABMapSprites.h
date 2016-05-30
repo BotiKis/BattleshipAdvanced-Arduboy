@@ -1,5 +1,6 @@
 #ifndef MAPSPRITES_H
 #define MAPSPRITES_H
+#import "ABGeometry.h"
 
 // --------------------------------------------------------------
 // Ship Horizontal
@@ -25,6 +26,8 @@ PROGMEM const unsigned char BAMap_Sprite_Ship_destroyed[] = {
 };
 
 
+void drawHorizontalShip(ABPoint origin, byte shipLength, byte color);
+
 // --------------------------------------------------------------
 // Ship Vertical
 
@@ -44,6 +47,7 @@ PROGMEM const unsigned char BAMap_Sprite_Ship_vertical_single[] = {
 0x00, 0x3c, 0x42, 0x91, 0x91, 0x42, 0x3c, 0x00
 };
 
+void drawVerticalShip(ABPoint origin, byte shipLength, byte color);
 
 // --------------------------------------------------------------
 // Map
