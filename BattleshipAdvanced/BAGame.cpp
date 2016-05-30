@@ -47,7 +47,10 @@ bool BAGame::start(){
     }
 
     showFirstPlayer();
+
+    gameRounds();
     
+    return true; // return to menu if user wants
   }
 
   return true;
@@ -275,13 +278,14 @@ BAGamesCommand BAGame::showPositionShips(){
         
     //=======================================
     // draw menu
+    arduboy.drawFastVLine(MENU_WIDTH-1, 0, arduboy.height(), WHITE);
     arduboy.setCursor(1,1);
     arduboy.println(player->getCharacterData().name);
     arduboy.println(player->numberOfShips - numberOfPlacedShips);
 
     // Info fields
-    arduboy.drawBitmap(0, 28, BAUI_a_rotate, 30, 8, WHITE);
-    arduboy.drawBitmap(0, 40, BAUI_b_place, 30, 8, WHITE);
+    arduboy.drawBitmap(0, 28, BAUI_a_rotate, 30, 9, WHITE);
+    arduboy.drawBitmap(0, 40, BAUI_b_place, 30, 9, WHITE);
 
     //=======================================
     // Draw cursor
@@ -309,11 +313,11 @@ BAGamesCommand BAGame::showPositionShips(){
       arduboy.drawRect(cursorFrame.origin.x, cursorFrame.origin.y, cursorFrame.size.width, cursorFrame.size.height, WHITE);
 
       // Draw cancle button
-      arduboy.drawBitmap(0, 55, BAUI_cancel, 30, 8, WHITE);
+      arduboy.drawBitmap(0, 54, BAUI_cancel, 30, 9, WHITE);
     }
     else{
       // Draw cancel button
-      arduboy.drawBitmap(0, 55, BAUI_cancel_selected, 30, 8, WHITE);
+      arduboy.drawBitmap(0, 54, BAUI_cancel_selected, 30, 9, WHITE);
     }
     
     arduboy.display();
@@ -321,6 +325,11 @@ BAGamesCommand BAGame::showPositionShips(){
 
   return BAGamesCommandErr;
 }
+
+
+// --------------------------------------------------
+// PFirst player screen
+// --------------------------------------------------
 
 void BAGame::showFirstPlayer(){
 
@@ -360,7 +369,7 @@ void BAGame::showFirstPlayer(){
     arduboy.clear();
 
     // write stuff
-    arduboy.setCursor(22, 14);
+    arduboy.setCursor(22, 8);
     arduboy.print("BATTLE BEGINS!");
     arduboy.setCursor(25, 26);
     arduboy.print("First player:");
@@ -377,6 +386,148 @@ void BAGame::showFirstPlayer(){
     // show
     arduboy.display();
   }
+}
+
+
+// --------------------------------------------------
+// Game rounds
+// --------------------------------------------------
+
+BAGamesCommand BAGame::gameRounds(){
+  
+  // store information
+  ABPoint playerCursor = ABPointMake(6, 4);
+  ABPoint selectedTargetTile = ABPointMake(-1, -1);
+  bool targetLocked = false;
+  bool cursorFlip = true;
+  uint8_t menuIdx = 0;
+  
+  while(true){
+    if (!arduboy.nextFrame()) continue;
+    if (arduboy.everyXFrames(10)) cursorFlip = !cursorFlip;
+
+    // handle input
+    globalInput.updateInput();
+
+    if(globalInput.pressed(RIGHT_BUTTON)){
+      playerCursor.x++;
+      
+      // limit
+      int maxX = GAME_BOARD_SIZE_WIDTH - 1;
+      playerCursor.x = ((playerCursor.x > maxX)? maxX : playerCursor.x);
+    }
+    if(globalInput.pressed(LEFT_BUTTON)){
+      playerCursor.x--;
+      
+      // limit
+      playerCursor.x = ((playerCursor.x < 0)? -1 : playerCursor.x); // -1 is okay for menu
+    }
+    if(globalInput.pressed(UP_BUTTON)){
+      playerCursor.y--;
+      
+      // limit
+      playerCursor.y = ((playerCursor.y < 0)? 0 : playerCursor.y);
+
+      if(playerCursor.x < 0)
+        menuIdx = (menuIdx+1)%2;
+      
+    }
+    if(globalInput.pressed(DOWN_BUTTON)){
+      playerCursor.y++;
+      
+      // limit
+      int maxY = GAME_BOARD_SIZE_HEIGHT - 1; 
+      playerCursor.y = ((playerCursor.y > maxY)? maxY : playerCursor.y);
+
+      if(playerCursor.x < 0)
+        menuIdx = (menuIdx+1)%2;
+    }
+    if(globalInput.pressed(A_BUTTON)){
+      targetLocked = false;
+      selectedTargetTile = ABPointMake(-1, -1);
+      
+      if(playerCursor.x < 0){
+        playerCursor = ABPointMake(6, 4);
+      }
+    }
+    if(globalInput.pressed(B_BUTTON)){
+      if(playerCursor.x >= 0){
+        targetLocked = true;
+        selectedTargetTile = playerCursor;
+        playerCursor.x = -1;
+        menuIdx = 0;
+      }
+      else{
+        if(menuIdx == 0 && targetLocked){
+          // DO SHOOT
+        }
+        else if ( menuIdx == 1 && targetLocked){
+          targetLocked = false;
+          selectedTargetTile = ABPointMake(-1, -1);
+          playerCursor = ABPointMake(6, 4);
+        }
+      }
+    }
+    
+    // clear screen
+    arduboy.clear();
+
+    // Draw map for player
+    drawMap(player);
+        
+    //=======================================
+    // draw menu
+    arduboy.drawFastVLine(MENU_WIDTH-1, 0, arduboy.height(), WHITE);
+    arduboy.setCursor(1,1);
+    arduboy.println(player->getCharacterData().name);
+
+    if(targetLocked){
+      // draw buttons
+      drawButton("FIRE", ABRectMake(0, 40, 30, 12), ((playerCursor.x < 0) && (menuIdx%2 == 0)) );
+      
+      if((playerCursor.x < 0) && (menuIdx%2 == 1))
+        arduboy.drawBitmap(0, 54, BAUI_cancel_selected, 30, 9, WHITE);
+      else
+        arduboy.drawBitmap(0, 54, BAUI_cancel, 30, 9, WHITE);
+
+      // Draw target selection
+      ABRect targetFrame;
+      targetFrame.origin.x = selectedTargetTile.x*8 + MENU_WIDTH;
+      targetFrame.origin.y = selectedTargetTile.y*8;
+      targetFrame.size.width = 8;
+      targetFrame.size.height = 8;
+      arduboy.drawRect(targetFrame.origin.x, targetFrame.origin.y, targetFrame.size.width, targetFrame.size.height, WHITE);
+
+      if(cursorFlip)
+        arduboy.drawCircle(targetFrame.origin.x+4, targetFrame.origin.y+4, 2, WHITE);
+    }
+    else{
+      // Info fields
+      arduboy.drawBitmap(0, 54, BAUI_b_aim, 30, 9, WHITE);
+    }
+
+   
+    //=======================================
+    // Draw cursor
+    // only draw cursor if index is inside map
+    if(playerCursor.x >= 0){
+
+      ABPoint shipPos;
+      shipPos.x = MENU_WIDTH + playerCursor.x*8;
+      shipPos.y = playerCursor.y*8;
+      
+      ABRect cursorFrame;
+      cursorFrame.origin.x = shipPos.x + (cursorFlip ? 1:0);
+      cursorFrame.origin.y = shipPos.y + (cursorFlip ? 1:0);
+      cursorFrame.size.width = cursorFlip ? 6 : 8;
+      cursorFrame.size.height = cursorFlip ? 6 : 8;
+      arduboy.drawRect(cursorFrame.origin.x, cursorFrame.origin.y, cursorFrame.size.width, cursorFrame.size.height, WHITE);
+    }
+    
+    arduboy.display();
+  }
+
+  return BAGamesCommandErr;
 }
 
 

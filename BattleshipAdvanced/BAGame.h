@@ -21,6 +21,7 @@ class BAGame{
     BAGamesCommand showCharSelect();
     BAGamesCommand showPositionShips();
     void showFirstPlayer();
+    BAGamesCommand gameRounds();
 
     // Data
     BAPlayer *player;
