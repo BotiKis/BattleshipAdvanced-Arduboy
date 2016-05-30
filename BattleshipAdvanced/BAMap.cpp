@@ -10,49 +10,66 @@ void drawMap(BAPlayer *player){
   
     for(byte mapPosY = 0; mapPosY < GAME_BOARD_SIZE_HEIGHT; mapPosY++){
       for(byte mapPosX = 0; mapPosX < GAME_BOARD_SIZE_WIDTH; mapPosX++){
+
+        int currentMapIndex = player->playerBoard[mapPosY][mapPosX];
+        
           //=======================================
         // If it's a ship
-        if(player->playerBoard[mapPosY][mapPosX] >= 0){
-          // TODO ORIENTATION AND TYPE
-          arduboy.drawBitmap(MENU_WIDTH+mapPosX*8, mapPosY*8, BAMap_Sprite_Ship_horizontal_single, 8, 8, WHITE);
-        }
+        if(currentMapIndex >= 0){
+           // get actual ship from player
+           BAShip currentShip = player->shipAtIndex(currentMapIndex);
 
+           ABPoint shipPosition = currentShip.position;
+           shipPosition.x = shipPosition.x*8 + MENU_WIDTH;
+           shipPosition.y = shipPosition.y*8;
+           
+           if(currentShip.horizontal)
+            drawHorizontalShip(shipPosition, currentShip.fullLength, WHITE);
+           else
+            drawVerticalShip(shipPosition, currentShip.fullLength, WHITE);
+        }
 
         //=======================================
         // If it's a Mountain
-        else if(player->playerBoard[mapPosY][mapPosX] == BAMapTileTypeMountain){
+        else if(currentMapIndex == BAMapTileTypeMountain){
           arduboy.drawBitmap(MENU_WIDTH+mapPosX*8, mapPosY*8, BAMap_Sprite_Mountain, 8, 8, WHITE);
         }
 
         
         //=======================================
         // If it's a water sprite
-        else if(player->playerBoard[mapPosY][mapPosX] == BAMapTileTypeWater1){
+        else if(currentMapIndex == BAMapTileTypeWater1){
            arduboy.drawBitmap(MENU_WIDTH+mapPosX*8, mapPosY*8, BAMap_Sprite_Water1, 8, 8, WHITE);
            
            if(waterAnimationStepped) // set to next frame
-             player->playerBoard[mapPosY][mapPosX] = BAMapTileTypeWater2;
+             currentMapIndex = BAMapTileTypeWater2;
         }
-        else if(player->playerBoard[mapPosY][mapPosX] == BAMapTileTypeWater2){
+        else if(currentMapIndex == BAMapTileTypeWater2){
            arduboy.drawBitmap(MENU_WIDTH+mapPosX*8, mapPosY*8, BAMap_Sprite_Water2, 8, 8, WHITE);
            
            if(waterAnimationStepped) // set to next frame
-             player->playerBoard[mapPosY][mapPosX] = BAMapTileTypeWater3;
+             currentMapIndex = BAMapTileTypeWater3;
         }
-        else if(player->playerBoard[mapPosY][mapPosX] == BAMapTileTypeWater3){
+        else if(currentMapIndex == BAMapTileTypeWater3){
           arduboy.drawBitmap(MENU_WIDTH+mapPosX*8, mapPosY*8, BAMap_Sprite_Water3, 8, 8, WHITE);
           
            if(waterAnimationStepped) // set to next frame
-             player->playerBoard[mapPosY][mapPosX] = BAMapTileTypeWater0;
+             currentMapIndex = BAMapTileTypeWater0;
         }
 
+        //=======================================
+        // If it's a destroyed ship overdraw the field
+        if(currentMapIndex == BAMapTileTypeDestroyedShip){
+          arduboy.fillRect(MENU_WIDTH+mapPosX*8, mapPosY*8, 8, 8, BLACK);
+          arduboy.drawBitmap(MENU_WIDTH+mapPosX*8, mapPosY*8, BAMap_Sprite_Mountain, 8, 8, WHITE);
+        }
         
         //=======================================
         // animate water
-        if(player->playerBoard[mapPosY][mapPosX] == BAMapTileTypeWater0 && waterAnimationStepped){
+        if(currentMapIndex == BAMapTileTypeWater0 && waterAnimationStepped){
           // check probability for new water
           if(random(100) < 1)
-            player->playerBoard[mapPosY][mapPosX] = BAMapTileTypeWater1;
+            currentMapIndex = BAMapTileTypeWater1;
         }
 
       }
