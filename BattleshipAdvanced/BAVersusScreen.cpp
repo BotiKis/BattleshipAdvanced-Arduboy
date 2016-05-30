@@ -33,7 +33,7 @@ BAGamesCommand showVersusScreenWithPlayerAndEnemy(BACharacterData player, BAChar
     globalInput.updateInput();
 
     // get time
-    int deltatime = VSSCREEN_MILLIS_SINCE(startTime);
+    unsigned int deltatime = VSSCREEN_MILLIS_SINCE(startTime);
 
     // draw player 1
     if (deltatime> player1AppearAfter){
@@ -44,13 +44,14 @@ BAGamesCommand showVersusScreenWithPlayerAndEnemy(BACharacterData player, BAChar
        
     // draw enemy
     if (deltatime> player2AppearAfter){
-       arduboy.drawBitmap(84, 32, outlineAssetForCharacter(enemy.characterID), 32, 32, WHITE);
-       arduboy.setCursor(82,10);
+       arduboy.drawBitmap(86, 32, outlineAssetForCharacter(enemy.characterID), 32, 32, WHITE);
+       arduboy.setCursor(86,10);
        arduboy.print(enemy.name);
     }
 
     // Draw appear player rect
     // clac progress
+    deltatime = deltatime%5000; // this repeats the animation every 5 seconds
     float progress = (float)deltatime/(float)VSSCREEN_ANIMATIONTIME;
     progress = (progress > 1.0f)?1.0f:progress;
   
