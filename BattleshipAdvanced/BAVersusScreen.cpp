@@ -70,7 +70,11 @@ BAGamesCommand showVersusScreenWithPlayerAndEnemy(BACharacterData player, BAChar
     
     // Get Input
     if(globalInput.pressed(A_BUTTON)){
+      playSoundSuccess();
       return BAGamesCommandNext;
+    }
+    if(globalInput.pressed(B_BUTTON)){
+      return BAGamesCommandBack;
     }
 
     arduboy.display();

@@ -19,7 +19,7 @@ class BAGame{
     void reset();
     BAGamesCommand showCharSelect();
 
-    // Objects
+    // Data
     BAPlayer *player;
     BAPlayer *enemyPlayer;
 };

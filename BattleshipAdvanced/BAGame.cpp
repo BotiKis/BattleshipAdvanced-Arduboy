@@ -19,11 +19,12 @@ BAGame::BAGame(){
 
 bool BAGame::start(){
 
-  // reset game
-  reset();
   
   // Main game Loop
   while(true){
+    
+    // reset game
+    reset();
     
     // Show character selection
     if(showCharSelect() == BAGamesCommandBack){
@@ -31,14 +32,14 @@ bool BAGame::start(){
       return true; // return to menu if user wants
     }
 
-    showVersusScreenWithPlayerAndEnemy(player->getCharacterData(), enemyPlayer->getCharacterData());
-    
-  reset();
+    if(showVersusScreenWithPlayerAndEnemy(player->getCharacterData(), enemyPlayer->getCharacterData())){
+      playSoundBack();
+      continue;
+    }
   }
 
   return true;
 }
-
 
 
 void BAGame::reset(){
