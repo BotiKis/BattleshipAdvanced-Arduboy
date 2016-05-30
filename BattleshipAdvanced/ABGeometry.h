@@ -89,8 +89,8 @@ static inline ABPoint substractPoints(ABPoint a, ABPoint b){
 static inline ABPoint animatePointFromToPoint(ABPoint startPoint, ABPoint endPoint, float progress){
   ABPoint result;
 
-  result.x = startPoint.x + fabs( ((float)(startPoint.x - endPoint.x))*progress + 0.5f); // 0.5 for correct rounding
-  result.y = startPoint.y + fabs( ((float)(startPoint.y - endPoint.y))*progress + 0.5f); // 0.5 for correct rounding
+  result.x = startPoint.x + (((float)(endPoint.x - startPoint.x))*progress + 0.5f); // 0.5 for correct rounding
+  result.y = startPoint.y + (((float)(endPoint.y - startPoint.y))*progress + 0.5f); // 0.5 for correct rounding
   
   return result;
 }
@@ -99,8 +99,8 @@ static inline ABPoint animatePointFromToPoint(ABPoint startPoint, ABPoint endPoi
 static inline ABSize animateSizeToSize(ABSize startSize, ABSize endSize, float progress){
   ABSize result;
 
-  result.width  = startSize.width   - float( ((float)(startSize.width - endSize.width))*progress + 0.5f); // 0.5 for correct rounding
-  result.height = startSize.height  - float( ((float)(startSize.height - endSize.height))*progress + 0.5f); // 0.5 for correct rounding
+  result.width  = startSize.width   + ( ((float)(endSize.width - startSize.width))*progress + 0.5f); // 0.5 for correct rounding
+  result.height = startSize.height  + ( ((float)(endSize.height - startSize.height))*progress + 0.5f); // 0.5 for correct rounding
   
   return result;
 }
