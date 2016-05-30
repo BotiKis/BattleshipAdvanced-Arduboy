@@ -277,7 +277,7 @@ BAGamesCommand BAGame::showPositionShips(){
     // draw menu
     arduboy.setCursor(1,1);
     arduboy.println(player->getCharacterData().name);
-    arduboy.println(player->numberOfShips);
+    arduboy.println(player->numberOfShips - numberOfPlacedShips);
 
     // Info fields
     arduboy.drawBitmap(0, 28, BAUI_a_rotate, 30, 8, WHITE);
