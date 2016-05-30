@@ -73,6 +73,7 @@ class BAPlayer{
     // ships
     byte numberOfShips; // includes the destroyed ones
     BAShip shipAtIndex(byte idx);
+    void updateShipAtIndex(byte idx, BAShip newShip);
     byte numberOfRemainingShips();
     
   private:
