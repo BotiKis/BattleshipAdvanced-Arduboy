@@ -12,15 +12,15 @@ BAPlayer::BAPlayer(BACharacterData data){
 
   // small ships
   for(size_t i = 0; i < charData.sShips; i++)
-    ships[i] = BAShipMake(BAShipTypeSmall, 1);
+    ships[i] = BAShipMake(1);
     
   // medium ships
   for(size_t i = 0; i < charData.mShips; i++)
-    ships[i+charData.sShips] = BAShipMake( BAShipTypeMedium, 2);
+    ships[i+charData.sShips] = BAShipMake(2);
     
   // big ships
   for(size_t i = 0; i < charData.lShips; i++)
-    ships[i+charData.sShips+charData.mShips] = BAShipMake(BAShipTypeBig, 3);
+    ships[i+charData.sShips+charData.mShips] = BAShipMake(3);
 
   // create water map
   for(size_t j = 0; j < GAME_BOARD_SIZE_HEIGHT; j++){
