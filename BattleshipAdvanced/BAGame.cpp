@@ -45,6 +45,9 @@ bool BAGame::start(){
 void BAGame::reset(){
   delete player;
   delete enemyPlayer;
+  
+  player = NULL;
+  enemyPlayer = NULL;
 }
 
 // --------------------------------------------------
