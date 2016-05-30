@@ -8,8 +8,8 @@ void drawMapAtPosition(BAPlayer *player, ABPoint position, bool showShips){
   // flip for watrer animation
   bool waterAnimationStepped = arduboy.everyXFrames(30);
   
-    for(byte mapPosY = 0; mapPosY < GAME_BOARD_SIZE_HEIGHT; mapPosY++){
-      for(byte mapPosX = 0; mapPosX < GAME_BOARD_SIZE_WIDTH; mapPosX++){
+    for(int mapPosY = 0; mapPosY < GAME_BOARD_SIZE_HEIGHT; mapPosY++){
+      for(int mapPosX = 0; mapPosX < GAME_BOARD_SIZE_WIDTH; mapPosX++){
 
         int currentMapIndex = player->playerBoard[mapPosY][mapPosX];
         
