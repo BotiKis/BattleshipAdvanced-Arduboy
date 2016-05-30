@@ -50,17 +50,27 @@ bool BAGame::start(){
     // Check player order
     if(playerFirstRound){
       while(1){
-        playerRound();
+        for(byte i = 0; i < player->getCharacterData().shots; i++)
+          playerRound();
+          
         translateFromPlayerToPlayer(player, enemyPlayer);
-        enemyRound();
+        
+        for(byte i = 0; i < enemyPlayer->getCharacterData().shots; i++)
+          enemyRound();
+          
         translateFromPlayerToPlayer(enemyPlayer, player);
       }
     }
     else{
       while(1){
-        enemyRound();
+        for(byte i = 0; i < enemyPlayer->getCharacterData().shots; i++)
+          enemyRound();
+
         translateFromPlayerToPlayer(enemyPlayer, player);
-        playerRound();
+          
+        for(byte i = 0; i < player->getCharacterData().shots; i++)
+          playerRound();
+          
         translateFromPlayerToPlayer(player, enemyPlayer);
       }
     }
@@ -291,7 +301,7 @@ BAGamesCommand BAGame::showPositionShips(){
     arduboy.clear();
 
     // Draw map for player
-    drawMap(player);
+    drawMap(player, true);
         
     //=======================================
     // draw menu
@@ -490,8 +500,8 @@ BAGamesCommand BAGame::playerRound(){
     // clear screen
     arduboy.clear();
 
-    // Draw map for player
-    drawMap(player);
+    // Draw map of enemy
+    drawMap(enemyPlayer, false);
         
     //=======================================
     // draw menu
