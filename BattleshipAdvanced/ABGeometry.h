@@ -74,12 +74,12 @@ static inline bool ABRectIntersectsRect ( ABRect rect1, ABRect rect2 ){
 
 // Returns a+b
 static inline ABPoint addPoints(ABPoint a, ABPoint b){
-  ABPointMake(a.x + b.x, a.y + b.y);
+  return ABPointMake(a.x + b.x, a.y + b.y);
 }
 
 // Returns a-b
 static inline ABPoint substractPoints(ABPoint a, ABPoint b){
-  ABPointMake(a.x - b.x, a.y - b.y);
+  return ABPointMake(a.x - b.x, a.y - b.y);
 }
 
 // --------------------------------------------------------------
