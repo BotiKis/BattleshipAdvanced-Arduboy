@@ -241,6 +241,7 @@ BAGamesCommand BAGame::showPositionShips(){
           
           // update  orientation
           currentShip.horizontal = orienteationHorizontal;
+          currentShip.position = ABPointMake(playerCursor.x, playerCursor.y);
           player->updateShipAtIndex(numberOfPlacedShips, currentShip);
 
           // store on map
