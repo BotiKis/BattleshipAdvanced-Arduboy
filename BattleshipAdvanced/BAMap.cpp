@@ -3,6 +3,8 @@
 #include "BAGlobal.h"
 #include "ABMapSprites.h"
 
+#include <math.h>
+
 void drawMap(BAPlayer *player){
 
   // flip for watrer animation
@@ -34,7 +36,6 @@ void drawMap(BAPlayer *player){
         else if(currentMapIndex == BAMapTileTypeMountain){
           arduboy.drawBitmap(MENU_WIDTH+mapPosX*8, mapPosY*8, BAMap_Sprite_Mountain, 8, 8, WHITE);
         }
-
         
         //=======================================
         // If it's a water sprite
@@ -42,26 +43,19 @@ void drawMap(BAPlayer *player){
            arduboy.drawBitmap(MENU_WIDTH+mapPosX*8, mapPosY*8, BAMap_Sprite_Water1, 8, 8, WHITE);
            
            if(waterAnimationStepped) // set to next frame
-             currentMapIndex = BAMapTileTypeWater2;
+             player->playerBoard[mapPosY][mapPosX] = BAMapTileTypeWater2;
         }
         else if(currentMapIndex == BAMapTileTypeWater2){
            arduboy.drawBitmap(MENU_WIDTH+mapPosX*8, mapPosY*8, BAMap_Sprite_Water2, 8, 8, WHITE);
            
            if(waterAnimationStepped) // set to next frame
-             currentMapIndex = BAMapTileTypeWater3;
+             player->playerBoard[mapPosY][mapPosX] = BAMapTileTypeWater3;
         }
         else if(currentMapIndex == BAMapTileTypeWater3){
           arduboy.drawBitmap(MENU_WIDTH+mapPosX*8, mapPosY*8, BAMap_Sprite_Water3, 8, 8, WHITE);
           
            if(waterAnimationStepped) // set to next frame
-             currentMapIndex = BAMapTileTypeWater0;
-        }
-
-        //=======================================
-        // If it's a destroyed ship overdraw the field
-        if(currentMapIndex == BAMapTileTypeDestroyedShip){
-          arduboy.fillRect(MENU_WIDTH+mapPosX*8, mapPosY*8, 8, 8, BLACK);
-          arduboy.drawBitmap(MENU_WIDTH+mapPosX*8, mapPosY*8, BAMap_Sprite_Mountain, 8, 8, WHITE);
+             player->playerBoard[mapPosY][mapPosX] = BAMapTileTypeWater0;
         }
         
         //=======================================
@@ -69,7 +63,14 @@ void drawMap(BAPlayer *player){
         if(currentMapIndex == BAMapTileTypeWater0 && waterAnimationStepped){
           // check probability for new water
           if(random(100) < 1)
-            currentMapIndex = BAMapTileTypeWater1;
+            player->playerBoard[mapPosY][mapPosX] = BAMapTileTypeWater1;
+        }
+
+        //=======================================
+        // If it's a destroyed ship overdraw the field
+        if(currentMapIndex == BAMapTileTypeDestroyedShip){
+          arduboy.fillRect(MENU_WIDTH+mapPosX*8, mapPosY*8, 8, 8, BLACK);
+          arduboy.drawBitmap(MENU_WIDTH+mapPosX*8, mapPosY*8, BAMap_Sprite_Mountain, 8, 8, WHITE);
         }
 
       }
