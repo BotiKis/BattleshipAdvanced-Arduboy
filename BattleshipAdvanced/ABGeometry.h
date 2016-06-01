@@ -1,6 +1,5 @@
 #ifndef ABGEOMETRY_H
 #define ABGEOMETRY_H
-#include <math.h>
 
 // --------------------------------------------------------------
 // Types

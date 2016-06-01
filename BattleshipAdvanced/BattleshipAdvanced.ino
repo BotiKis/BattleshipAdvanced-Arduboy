@@ -1,5 +1,4 @@
 #include <Arduboy.h>
-#include <stdio.h>
 
 #include "BAGlobal.h"
 #include "BAMenu.h"
