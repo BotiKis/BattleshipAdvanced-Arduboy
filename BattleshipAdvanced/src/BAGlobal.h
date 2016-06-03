@@ -4,7 +4,6 @@
 #include <Arduboy.h>
 #include "BAInput.h"
 #include "BASounds.h"
-#include "ABGeometry.h"
 
 // In 8x8 blocks
 #define GAME_BOARD_SIZE_WIDTH 12

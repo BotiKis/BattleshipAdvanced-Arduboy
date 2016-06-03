@@ -21,10 +21,10 @@ typedef enum {
 
 
 // ===========================================================
-// Char Data 
+// Char Data
 struct BACharacterData{
     // Char name
-    char name[10];
+    char name[6];
 
     // ID for artwork
     CharacterID characterID;
@@ -63,19 +63,19 @@ class BAPlayer{
   public:
     BAPlayer(BACharacterData data);
     ~BAPlayer();
-    
+
     // Getter for char data
     BACharacterData getCharacterData();
 
     // board
-    int playerBoard[GAME_BOARD_SIZE_HEIGHT][GAME_BOARD_SIZE_WIDTH];
+    int8_t playerBoard[GAME_BOARD_SIZE_HEIGHT][GAME_BOARD_SIZE_WIDTH];
 
     // ships
     byte numberOfShips; // includes the destroyed ones
     BAShip shipAtIndex(byte idx);
     void updateShipAtIndex(byte idx, BAShip newShip);
     byte numberOfRemainingShips();
-    
+
   private:
     // Chardata is not allowed to be modified
     BACharacterData charData;

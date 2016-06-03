@@ -28,7 +28,7 @@ BAInput::BAInput(){
 void BAInput::reset(){
   uint8_t btns[6] = {LEFT_BUTTON, RIGHT_BUTTON, UP_BUTTON, DOWN_BUTTON, A_BUTTON, B_BUTTON};
   // init buttons with arduboy buttons
-  for (size_t i = 0; i < 6; i++) {
+  for (uint8_t i = 0; i < 6; i++) {
     buttons[i].reset();
     buttons[i].arduBoyButton = btns[i];
   }
@@ -37,7 +37,7 @@ void BAInput::reset(){
 void BAInput::updateInput(){
 
   // all buttons
-  for (size_t i = 0; i < 6; i++) {
+  for (uint8_t i = 0; i < 6; i++) {
     if (arduboy.pressed(buttons[i].arduBoyButton)) {
         if (buttons[i].pressed) {
           buttons[i].hold = true;
@@ -60,7 +60,7 @@ void BAInput::updateInput(){
 
 bool BAInput::pressed(uint8_t button){
 
-  for (size_t i = 0; i < 6; i++){
+  for (uint8_t i = 0; i < 6; i++){
     if(buttons[i].arduBoyButton == button && buttons[i].pressed){
       if(fireContinuous)
         return true;
@@ -76,7 +76,7 @@ bool BAInput::pressed(uint8_t button){
 }
 
 bool BAInput::pressedForMillis(uint8_t button, unsigned long milliseconds){
-  for (size_t i = 0; i < 6; i++){
+  for (uint8_t i = 0; i < 6; i++){
     if(buttons[i].arduBoyButton == button && buttons[i].hold){
       return (MILLIS_SINCE(buttons[i].pressedTimestamp) > milliseconds);
     }

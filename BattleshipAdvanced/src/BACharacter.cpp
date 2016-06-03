@@ -11,20 +11,20 @@ BAPlayer::BAPlayer(BACharacterData data){
   ships = new BAShip[numberOfShips];
 
   // small ships
-  for(size_t i = 0; i < charData.sShips; i++)
+  for(int8_t i = 0; i < charData.sShips; i++)
     ships[i] = BAShipMake(1);
-    
+
   // medium ships
-  for(size_t i = 0; i < charData.mShips; i++)
+  for(int8_t i = 0; i < charData.mShips; i++)
     ships[i+charData.sShips] = BAShipMake(2);
-    
+
   // big ships
-  for(size_t i = 0; i < charData.lShips; i++)
+  for(int8_t i = 0; i < charData.lShips; i++)
     ships[i+charData.sShips+charData.mShips] = BAShipMake(3);
 
   // create water map
-  for(size_t j = 0; j < GAME_BOARD_SIZE_HEIGHT; j++){
-    for(size_t i = 0; i < GAME_BOARD_SIZE_WIDTH; i++){
+  for(int8_t j = 0; j < GAME_BOARD_SIZE_HEIGHT; j++){
+    for(int8_t i = 0; i < GAME_BOARD_SIZE_WIDTH; i++){
       //Water
       playerBoard[j][i] = BAMapTileTypeWater0;
     }
@@ -33,17 +33,17 @@ BAPlayer::BAPlayer(BACharacterData data){
   // random mountains
   byte mountainsCount = random(3,6);
   ABPoint lastMountainPos = ABPointMake(-1, -1);
-  
+
   for(byte i = 0; i < mountainsCount ; i++){
     ABPoint mountainPos;
     do{
       mountainPos.x = random(0, GAME_BOARD_SIZE_WIDTH);
       mountainPos.y = random(0, GAME_BOARD_SIZE_HEIGHT);
     }
-    while(pointIsEqualToPoint(mountainPos, lastMountainPos));
-    
+    while(ABPointEqualToPoint(mountainPos, lastMountainPos));
+
     lastMountainPos = mountainPos;
-    playerBoard[mountainPos.y][mountainPos.x] = BAMapTileTypeMountain;    
+    playerBoard[mountainPos.y][mountainPos.x] = BAMapTileTypeMountain;
   }
 }
 
@@ -75,4 +75,3 @@ byte BAPlayer:: numberOfRemainingShips(){
 
   return nr;
 }
-
