@@ -1,5 +1,8 @@
 #ifndef BAUI_H
 #define BAUI_H
+#include <Arduboy.h>
+#include "BAGlobal.h"
+#include "ABGeometry.h"
 
 // all 30x9 size
 
@@ -65,8 +68,6 @@ PROGMEM const unsigned char BAUI_b_aim[] = {
 inline void drawText(char *text, ABPoint position, uint8_t color){
   for(byte i = 0; i < strlen(text); i++){
     arduboy.drawChar(position.x + i*6, position.y, text[i], color, (color+1)%2, 1);
-    // 
-  void drawChar(int16_t x, int16_t y, unsigned char c, uint8_t color, uint8_t bg, uint8_t size);
   }
 }
 
@@ -74,7 +75,7 @@ inline void drawButton(char *title, ABRect frame, bool selected){
 
   // limit button to fit text
   uint8_t textLength = strlen(title)*6;
-  
+
   frame.size.width = (frame.size.width < (textLength+2))? (textLength+2) : frame.size.width;
   frame.size.height = (frame.size.height < 10)? 10 : frame.size.height;
 
