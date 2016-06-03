@@ -14,7 +14,7 @@ inline BAShip BAShipMake(byte shipLength){
   return  {{0,0}, shipLength, shipLength, true};
 }
 
-inline bool isShipDestroyed(BAShip ship){
+inline bool BAShipIsShipDestroyed(BAShip ship){
   return ship.remainingLength <= 0;
 }
 

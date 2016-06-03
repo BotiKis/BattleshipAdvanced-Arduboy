@@ -1,6 +1,6 @@
 #ifndef MAPSPRITES_H
 #define MAPSPRITES_H
-#import "ABGeometry.h"
+#include "ABGeometry.h"
 
 // --------------------------------------------------------------
 // Ship Horizontal

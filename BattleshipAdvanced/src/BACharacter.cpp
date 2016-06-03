@@ -7,20 +7,20 @@ BAPlayer::BAPlayer(BACharacterData data){
 
   // init ships
   ships = NULL;
-  numberOfShips = charData.sShips + charData.mShips + charData.lShips;
+  numberOfShips = charData.numberOfSmallShips + charData.numberOfMediumShips + charData.numberOfLargeShips;
   ships = new BAShip[numberOfShips];
 
   // small ships
-  for(int8_t i = 0; i < charData.sShips; i++)
+  for(int8_t i = 0; i < charData.numberOfSmallShips; i++)
     ships[i] = BAShipMake(1);
 
   // medium ships
-  for(int8_t i = 0; i < charData.mShips; i++)
-    ships[i+charData.sShips] = BAShipMake(2);
+  for(int8_t i = 0; i < charData.numberOfMediumShips; i++)
+    ships[i + charData.numberOfSmallShips] = BAShipMake(2);
 
   // big ships
-  for(int8_t i = 0; i < charData.lShips; i++)
-    ships[i+charData.sShips+charData.mShips] = BAShipMake(3);
+  for(int8_t i = 0; i < charData.numberOfLargeShips; i++)
+    ships[i + charData.numberOfSmallShips + charData.numberOfMediumShips] = BAShipMake(3);
 
   // create water map
   for(int8_t j = 0; j < GAME_BOARD_SIZE_HEIGHT; j++){
@@ -71,7 +71,7 @@ byte BAPlayer:: numberOfRemainingShips(){
   byte nr = 0;
 
   for(int i = 0; i<numberOfShips ;i++)
-    if(!isShipDestroyed(ships[i])) nr++;
+    if(!BAShipIsShipDestroyed(ships[i])) nr++;
 
   return nr;
 }

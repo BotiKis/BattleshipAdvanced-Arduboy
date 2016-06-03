@@ -30,12 +30,12 @@ struct BACharacterData{
     CharacterID characterID;
 
     // number of shots
-    byte shots;
+    byte numberOfShots;
 
     // number of ships in every size
-    byte sShips;
-    byte mShips;
-    byte lShips;
+    byte numberOfSmallShips;
+    byte numberOfMediumShips;
+    byte numberOfLargeShips;
 
     // aim dificulty
     CharDifficulty difficulty;
@@ -46,10 +46,10 @@ inline BACharacterData BACharacterDataMake(const char *charName, CharacterID cha
 
   strcpy(character.name, charName);
   character.characterID = charID;
-  character.shots = charShoots;
-  character.sShips = charSShips;
-  character.mShips = charMShips;
-  character.lShips = charLShips;
+  character.numberOfShots = charShoots;
+  character.numberOfSmallShips = charSShips;
+  character.numberOfMediumShips = charMShips;
+  character.numberOfLargeShips = charLShips;
   character.difficulty = charDifficulty;
 
   return character;

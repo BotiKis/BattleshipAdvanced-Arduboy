@@ -28,10 +28,10 @@ bool BAGame::start(){
 
   // Main game Loop
   while(true){
-    
+
     // reset game
     reset();
-    
+
     // Show character selection
     if(showCharSelect() == BAGamesCommandBack){
       playSoundBack();
@@ -53,12 +53,12 @@ bool BAGame::start(){
       while(1){
         for(byte i = 0; i < player->getCharacterData().shots; i++)
           playerRound();
-          
+
         translateFromPlayerToPlayer(enemyPlayer, player, true);
-        
+
         for(byte i = 0; i < enemyPlayer->getCharacterData().shots; i++)
           enemyRound();
-          
+
         translateFromPlayerToPlayer(player, enemyPlayer, false);
       }
     }
@@ -68,25 +68,25 @@ bool BAGame::start(){
           enemyRound();
 
         translateFromPlayerToPlayer(player, enemyPlayer, true);
-          
+
         for(byte i = 0; i < player->getCharacterData().shots; i++)
           playerRound();
-          
+
         translateFromPlayerToPlayer(enemyPlayer, player, false);
       }
     }*/
     while(1){
-        for(byte i = 0; i < player->getCharacterData().shots; i++)
+        for(byte i = 0; i < player->getCharacterData().numberOfShots; i++)
           playerRound();
-          
+
         translateFromPlayerToPlayer(enemyPlayer, player, true);
-        
-        for(byte i = 0; i < enemyPlayer->getCharacterData().shots; i++)
+
+        for(byte i = 0; i < enemyPlayer->getCharacterData().numberOfShots; i++)
           enemyRound();
-          
+
         translateFromPlayerToPlayer(player, enemyPlayer, false);
       }
-    
+
     // -----------------
     // end game
     return true; // return to menu if user wants
@@ -99,7 +99,7 @@ bool BAGame::start(){
 void BAGame::reset(){
   delete player;
   delete enemyPlayer;
-  
+
   player = NULL;
   enemyPlayer = NULL;
 }
@@ -150,12 +150,12 @@ BAGamesCommand BAGame::showCharSelect(){
     }
     if(globalInput.pressed(B_BUTTON)){
       player = new BAPlayer(availableCharacters[selectedCharIndex]);
-      
+
       // get random enemy but not itself
       byte enemyCharIndex = random(4);
       while(enemyCharIndex == selectedCharIndex) enemyCharIndex = random(4);
       enemyPlayer = new BAPlayer(availableCharacters[enemyCharIndex]);
-      
+
       return BAGamesCommandNext;
     }
 
@@ -168,11 +168,11 @@ BAGamesCommand BAGame::showCharSelect(){
       selectionAnimator++;
       selectionAnimator = selectionAnimator%2;
     }
-    
+
     ABPoint offset;
     offset.x = ( ((selectedCharIndex%2) == 0)?0:64);
     offset.y = ( (selectedCharIndex > 1)?32:0);
-    
+
     // clear screen
     arduboy.clear();
 
@@ -187,7 +187,7 @@ BAGamesCommand BAGame::showCharSelect(){
       charOffset.y = ((i>1)?32:0);
       drawCharacterSelectionAsset(availableCharacters[i], charOffset);
     }
-    
+
     arduboy.display();
   }
 
@@ -219,17 +219,17 @@ BAGamesCommand BAGame::showPositionShips(){
     globalInput.updateInput();
 
     if(globalInput.pressed(RIGHT_BUTTON)){
-      playerCursor.x++;      
+      playerCursor.x++;
     }
     if(globalInput.pressed(LEFT_BUTTON)){
       playerCursor.x--;
-      
+
       // limit
       playerCursor.x = ((playerCursor.x < 0)? -1 : playerCursor.x); // -1 is okay for menu
     }
     if(globalInput.pressed(UP_BUTTON)){
       playerCursor.y--;
-      
+
       // limit
       playerCursor.y = ((playerCursor.y < 0)? 0 : playerCursor.y);
     }
@@ -240,14 +240,14 @@ BAGamesCommand BAGame::showPositionShips(){
       // Flip orientation
       orienteationHorizontal = !orienteationHorizontal;
     }
-    
+
     // move cursor inside bounds if ship gets longer
     int maxX = GAME_BOARD_SIZE_WIDTH - ( orienteationHorizontal ? currentShip.fullLength : 1);
-    int maxY = GAME_BOARD_SIZE_HEIGHT - ( !orienteationHorizontal ? currentShip.fullLength : 1); 
+    int maxY = GAME_BOARD_SIZE_HEIGHT - ( !orienteationHorizontal ? currentShip.fullLength : 1);
     playerCursor.y = ((playerCursor.y > maxY)? maxY : playerCursor.y);
     playerCursor.x = ((playerCursor.x > maxX)? maxX : playerCursor.x);
 
-    
+
     if(globalInput.pressed(B_BUTTON)){
 
       // Check if cancel was pressed
@@ -256,7 +256,7 @@ BAGamesCommand BAGame::showPositionShips(){
         return BAGamesCommandBack;
       }
       else{
-       
+
         // check if ship collides with other ship or mountain
         bool safe = true;
         for (int len = 0; len < currentShip.fullLength; len++) {
@@ -272,7 +272,7 @@ BAGamesCommand BAGame::showPositionShips(){
             break;
           }
         }
-        
+
         if (!safe) {
           // play error sound and ignore
           playSoundErr();
@@ -280,7 +280,7 @@ BAGamesCommand BAGame::showPositionShips(){
         else{
           // nope, place ship!
           playSoundSuccess();
-          
+
           // update  orientation
           currentShip.horizontal = orienteationHorizontal;
           currentShip.position = ABPointMake(playerCursor.x, playerCursor.y);
@@ -289,15 +289,15 @@ BAGamesCommand BAGame::showPositionShips(){
           // store on map
           for (int len = 0; len < currentShip.fullLength; len++) {
             int dX = 0, dY = 0;
-  
+
             if (orienteationHorizontal)
               dX = len;
             else
               dY = len;
-  
+
             player->playerBoard[playerCursor.y+dY][playerCursor.x+dX] =  numberOfPlacedShips; // write index of ship on the map
           }
-          
+
           numberOfPlacedShips++;
 
           // check if done
@@ -305,16 +305,16 @@ BAGamesCommand BAGame::showPositionShips(){
             return BAGamesCommandNext;
           }
         }
-        
+
       }
     }
-    
+
     // clear screen
     arduboy.clear();
 
     // Draw map for player
     drawMap(player, true);
-        
+
     //=======================================
     // draw menu
     arduboy.drawFastVLine(MENU_WIDTH-1, 0, arduboy.height(), WHITE);
@@ -334,7 +334,7 @@ BAGamesCommand BAGame::showPositionShips(){
       ABPoint shipPos;
       shipPos.x = MENU_WIDTH + playerCursor.x*8;
       shipPos.y = playerCursor.y*8;
-      
+
       // draw current ship
       if(orienteationHorizontal){
         drawHorizontalShip(shipPos, currentShip.fullLength, WHITE);
@@ -342,8 +342,8 @@ BAGamesCommand BAGame::showPositionShips(){
       else{
         drawVerticalShip(shipPos, currentShip.fullLength, WHITE);
       }
-      
-      
+
+
       ABRect cursorFrame;
       cursorFrame.origin.x = shipPos.x + (cursorFlip ? 1:0);
       cursorFrame.origin.y = shipPos.y + (cursorFlip ? 1:0);
@@ -358,7 +358,7 @@ BAGamesCommand BAGame::showPositionShips(){
       // Draw cancel button
       arduboy.drawBitmap(0, 54, BAUI_cancel_selected, 30, 9, WHITE);
     }
-    
+
     arduboy.display();
   }
 
@@ -380,7 +380,7 @@ void BAGame::showFirstPlayer(){
   playerFirstRound = (firstPlayer%2 == 0);
 
   unsigned long startTime = millis();
-  
+
   // screenloop
   while(true){
     if (!arduboy.nextFrame()) continue;
@@ -404,7 +404,7 @@ void BAGame::showFirstPlayer(){
 
     // check if animation should stop
     animationDone = deltaTime > 4000 || animationDone;
-    
+
     // clear screen
     arduboy.clear();
 
@@ -434,14 +434,14 @@ void BAGame::showFirstPlayer(){
 // --------------------------------------------------
 
 BAGamesCommand BAGame::playerRound(){
-  
+
   // store information
   ABPoint playerCursor = ABPointMake(6, 4);
   ABPoint selectedTargetTile = ABPointMake(-1, -1);
   bool targetLocked = false;
   bool cursorFlip = true;
   uint8_t menuIdx = 0;
-  
+
   while(true){
     if (!arduboy.nextFrame()) continue;
     if (arduboy.everyXFrames(10)) cursorFlip = !cursorFlip;
@@ -451,32 +451,32 @@ BAGamesCommand BAGame::playerRound(){
 
     if(globalInput.pressed(RIGHT_BUTTON)){
       playerCursor.x++;
-      
+
       // limit
       int maxX = GAME_BOARD_SIZE_WIDTH - 1;
       playerCursor.x = ((playerCursor.x > maxX)? maxX : playerCursor.x);
     }
     if(globalInput.pressed(LEFT_BUTTON)){
       playerCursor.x--;
-      
+
       // limit
       playerCursor.x = ((playerCursor.x < 0)? -1 : playerCursor.x); // -1 is okay for menu
     }
     if(globalInput.pressed(UP_BUTTON)){
       playerCursor.y--;
-      
+
       // limit
       playerCursor.y = ((playerCursor.y < 0)? 0 : playerCursor.y);
 
       if(playerCursor.x < 0)
         menuIdx = (menuIdx+1)%2;
-      
+
     }
     if(globalInput.pressed(DOWN_BUTTON)){
       playerCursor.y++;
-      
+
       // limit
-      int maxY = GAME_BOARD_SIZE_HEIGHT - 1; 
+      int maxY = GAME_BOARD_SIZE_HEIGHT - 1;
       playerCursor.y = ((playerCursor.y > maxY)? maxY : playerCursor.y);
 
       if(playerCursor.x < 0)
@@ -486,7 +486,7 @@ BAGamesCommand BAGame::playerRound(){
       playSoundSuccess();
       targetLocked = false;
       selectedTargetTile = ABPointMake(-1, -1);
-      
+
       if(playerCursor.x < 0){
         playerCursor = ABPointMake(6, 4);
       }
@@ -511,13 +511,13 @@ BAGamesCommand BAGame::playerRound(){
         }
       }
     }
-    
+
     // clear screen
     arduboy.clear();
 
     // Draw map of enemy
     drawMap(enemyPlayer, false);
-        
+
     //=======================================
     // draw menu
     arduboy.drawFastVLine(MENU_WIDTH-1, 0, arduboy.height(), WHITE);
@@ -527,7 +527,7 @@ BAGamesCommand BAGame::playerRound(){
     if(targetLocked){
       // draw buttons
       drawButton("FIRE", ABRectMake(0, 40, 30, 12), ((playerCursor.x < 0) && (menuIdx%2 == 0)) );
-      
+
       if((playerCursor.x < 0) && (menuIdx%2 == 1))
         arduboy.drawBitmap(0, 54, BAUI_cancel_selected, 30, 9, WHITE);
       else
@@ -549,7 +549,7 @@ BAGamesCommand BAGame::playerRound(){
       arduboy.drawBitmap(0, 54, BAUI_b_aim, 30, 9, WHITE);
     }
 
-   
+
     //=======================================
     // Draw cursor
     // only draw cursor if index is inside map
@@ -558,7 +558,7 @@ BAGamesCommand BAGame::playerRound(){
       ABPoint shipPos;
       shipPos.x = MENU_WIDTH + playerCursor.x*8;
       shipPos.y = playerCursor.y*8;
-      
+
       ABRect cursorFrame;
       cursorFrame.origin.x = shipPos.x + (cursorFlip ? 1:0);
       cursorFrame.origin.y = shipPos.y + (cursorFlip ? 1:0);
@@ -566,7 +566,7 @@ BAGamesCommand BAGame::playerRound(){
       cursorFrame.size.height = cursorFlip ? 6 : 8;
       arduboy.drawRect(cursorFrame.origin.x, cursorFrame.origin.y, cursorFrame.size.width, cursorFrame.size.height, WHITE);
     }
-    
+
     arduboy.display();
   }
 
@@ -580,11 +580,11 @@ BAGamesCommand BAGame::enemyRound(){
   ABPoint selectedTargetTile = ABPointMake(-1, -1);
   bool targetLocked = false;
   bool cursorFlip = true;
-  
+
   while(true){
     if (!arduboy.nextFrame()) continue;
     if (arduboy.everyXFrames(10)) cursorFlip = !cursorFlip;
-    
+
     // handle input
     globalInput.updateInput();
 
@@ -592,13 +592,13 @@ BAGamesCommand BAGame::enemyRound(){
        playSoundSuccess();
        return BAGamesCommandNext;
     }
-    
+
     // clear screen
     arduboy.clear();
 
     // Draw map of enemy
     drawMap(player, true);
-    
+
     arduboy.display();
   }
 }
@@ -608,15 +608,15 @@ void BAGame::translateFromPlayerToPlayer(BAPlayer *fromPlayer, BAPlayer *toPlaye
   int animationDuration = 1000;
   ABPoint startPointFrom = ABPointMake(0,0);
   ABPoint endPointFrom = ABPointMake(0, (directionUp?-64:64));
-  
+
   ABPoint startPointTo = ABPointMake(0, (directionUp?64:-64));
   ABPoint endPointTo = ABPointMake(0,0);
-  
+
   while(true){
 
     if (!arduboy.nextFrame()) continue;
     arduboy.clear();
-    
+
     int deltaTime = MILLIS_SINCE(startTime);
 
     // finish translation
@@ -626,13 +626,11 @@ void BAGame::translateFromPlayerToPlayer(BAPlayer *fromPlayer, BAPlayer *toPlaye
     float progress = ((float)deltaTime/(float)animationDuration);
     ABPoint progressPointFrom = animatePointFromToPoint(startPointFrom, endPointFrom, progress);
     ABPoint progressPointTo = animatePointFromToPoint(startPointTo, endPointTo, progress);
-    
+
     // draw
     drawMapAtPosition(fromPlayer, progressPointFrom, (fromPlayer == player));
     drawMapAtPosition(toPlayer, progressPointTo, (toPlayer == player));
-    
+
     arduboy.display();
   }
 }
-
-
