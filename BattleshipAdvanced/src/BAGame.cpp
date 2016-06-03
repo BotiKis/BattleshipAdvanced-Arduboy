@@ -54,12 +54,12 @@ bool BAGame::start(){
         for(byte i = 0; i < player->getCharacterData().shots; i++)
           playerRound();
 
-        translateFromPlayerToPlayer(enemyPlayer, player, true);
+        animateFromPlayerToPlayer(enemyPlayer, player, true);
 
         for(byte i = 0; i < enemyPlayer->getCharacterData().shots; i++)
           enemyRound();
 
-        translateFromPlayerToPlayer(player, enemyPlayer, false);
+        animateFromPlayerToPlayer(player, enemyPlayer, false);
       }
     }
     else{
@@ -67,24 +67,24 @@ bool BAGame::start(){
         for(byte i = 0; i < enemyPlayer->getCharacterData().shots; i++)
           enemyRound();
 
-        translateFromPlayerToPlayer(player, enemyPlayer, true);
+        animateFromPlayerToPlayer(player, enemyPlayer, true);
 
         for(byte i = 0; i < player->getCharacterData().shots; i++)
           playerRound();
 
-        translateFromPlayerToPlayer(enemyPlayer, player, false);
+        animateFromPlayerToPlayer(enemyPlayer, player, false);
       }
     }*/
     while(1){
         for(byte i = 0; i < player->getCharacterData().numberOfShots; i++)
           playerRound();
 
-        translateFromPlayerToPlayer(enemyPlayer, player, true);
+        animateFromPlayerToPlayer(enemyPlayer, player, true);
 
         for(byte i = 0; i < enemyPlayer->getCharacterData().numberOfShots; i++)
           enemyRound();
 
-        translateFromPlayerToPlayer(player, enemyPlayer, false);
+        animateFromPlayerToPlayer(player, enemyPlayer, false);
       }
 
     // -----------------
@@ -603,7 +603,7 @@ BAGamesCommand BAGame::enemyRound(){
   }
 }
 
-void BAGame::translateFromPlayerToPlayer(BAPlayer *fromPlayer, BAPlayer *toPlayer,  bool directionUp){
+void BAGame::animateFromPlayerToPlayer(BAPlayer *fromPlayer, BAPlayer *toPlayer,  bool directionUp){
   unsigned long startTime = millis();
   int animationDuration = 1000;
   ABPoint startPointFrom = ABPointMake(0,0);

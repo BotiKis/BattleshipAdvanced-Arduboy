@@ -24,7 +24,7 @@ class BAGame{
     BAGamesCommand showPositionShips();
     void showFirstPlayer();
     BAGamesCommand playerRound();
-    void translateFromPlayerToPlayer(BAPlayer *fromPlayer, BAPlayer *toPlayer, bool directionUp);
+    void animateFromPlayerToPlayer(BAPlayer *fromPlayer, BAPlayer *toPlayer, bool directionUp);
     BAGamesCommand enemyRound();
 
     // Data
