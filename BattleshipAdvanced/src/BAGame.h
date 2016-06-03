@@ -20,12 +20,16 @@ class BAGame{
     // Methods
     bool start();
     void reset();
+
+    // game phases
     BAGamesCommand showCharSelect();
     BAGamesCommand showPositionShips();
     void showFirstPlayer();
     BAGamesCommand playerRound();
-    void animateFromPlayerToPlayer(BAPlayer *fromPlayer, BAPlayer *toPlayer, bool directionUp);
     BAGamesCommand enemyRound();
+
+    // animates maps
+    void animateFromPlayerToPlayer(BAPlayer *fromPlayer, BAPlayer *toPlayer, bool directionUp);
 
     // Data
     BAPlayer *player;
