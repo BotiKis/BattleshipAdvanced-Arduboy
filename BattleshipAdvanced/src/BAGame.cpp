@@ -278,7 +278,7 @@ BAGamesCommand BAGame::showPositionShips(){
           playSoundErr();
         }
         else{
-          // nope, place ship!
+          // Yesss, place ship!
           playSoundSuccess();
 
           // update  orientation
@@ -287,8 +287,8 @@ BAGamesCommand BAGame::showPositionShips(){
           player->updateShipAtIndex(numberOfPlacedShips, currentShip);
 
           // store on map
-          for (int len = 0; len < currentShip.fullLength; len++) {
-            int dX = 0, dY = 0;
+          for (int8_t len = 0; len < currentShip.fullLength; len++) {
+            int8_t dX = 0, dY = 0;
 
             if (orienteationHorizontal)
               dX = len;
@@ -460,7 +460,10 @@ BAGamesCommand BAGame::playerRound(){
       playerCursor.x--;
 
       // limit
-      playerCursor.x = ((playerCursor.x < 0)? -1 : playerCursor.x); // -1 is okay for menu
+      if (targetLocked)
+        playerCursor.x = ((playerCursor.x < 0)? -1 : playerCursor.x); // -1 is okay for menu
+      else
+        playerCursor.x = ((playerCursor.x < 0)? 0 : playerCursor.x);
     }
     if(globalInput.pressed(UP_BUTTON)){
       playerCursor.y--;
@@ -483,12 +486,11 @@ BAGamesCommand BAGame::playerRound(){
         menuIdx = (menuIdx+1)%2;
     }
     if(globalInput.pressed(A_BUTTON)){
-      playSoundSuccess();
-      targetLocked = false;
-      selectedTargetTile = ABPointMake(-1, -1);
-
-      if(playerCursor.x < 0){
-        playerCursor = ABPointMake(6, 4);
+      if (targetLocked) {
+        playSoundSuccess();
+        targetLocked = false;
+        playerCursor = selectedTargetTile;
+        selectedTargetTile = ABPointMake(-1, -1);
       }
     }
     if(globalInput.pressed(B_BUTTON)){
@@ -506,8 +508,13 @@ BAGamesCommand BAGame::playerRound(){
         }
         else if ( menuIdx == 1 && targetLocked){
           targetLocked = false;
+
+          if (ABPointEqualToPoint(selectedTargetTile, ABPointMake(-1, -1)))
+            playerCursor = ABPointMake(6, 4);
+          else
+            playerCursor = selectedTargetTile;
+
           selectedTargetTile = ABPointMake(-1, -1);
-          playerCursor = ABPointMake(6, 4);
         }
       }
     }
