@@ -208,6 +208,42 @@ BAGamesCommand BAGame::showPositionShips(){
 
   bool orienteationHorizontal = true;
 
+  // info panel loop
+  while(true){
+
+    if (!arduboy.nextFrame()) continue;
+
+    // handle input
+    globalInput.updateInput();
+
+    if(globalInput.pressed(B_BUTTON) || globalInput.pressed(A_BUTTON)){
+      break;
+    }
+
+    // clear screen
+    arduboy.clear();
+
+    drawText("Place your ships!", ABPointMake(26, 18), WHITE);
+    char numberOfShipsBuffer [3];
+/*
+    sprintf (numberOfShipsBuffer, "%d", player->getCharacterData().numberOfSmallShips);
+    drawText(numberOfShipsBuffer, ABPointMake(8, 28), WHITE);
+
+    sprintf (numberOfShipsBuffer, "%d", player->getCharacterData().numberOfMediumShips);
+    drawText(numberOfShipsBuffer, ABPointMake(8, 30), WHITE);
+
+    sprintf (numberOfShipsBuffer, "%d", player->getCharacterData().numberOfLargeShips);
+    drawText(numberOfShipsBuffer, ABPointMake(8, 42), WHITE);
+*/
+    // draw ships
+    drawHorizontalShip(ABPointMake(96, 28), 1, WHITE);
+    drawHorizontalShip(ABPointMake(96, 30), 1, WHITE);
+    drawHorizontalShip(ABPointMake(96, 42), 1, WHITE);
+
+    arduboy.display();
+  }
+
+  // place loop
   while(true){
     if (!arduboy.nextFrame()) continue;
     if (arduboy.everyXFrames(10)) cursorFlip = !cursorFlip;
