@@ -25,9 +25,9 @@ void BAGame::run(){
 
     // Handle state
     switch (currentState) {
-      default:
 
-      // Shows Menu
+    // Shows Menu
+      default:
       case BAGameStateMenu:{
         nextCommand = showMenu();
         updateCurrentStateWithCommand(nextCommand, BAGameStateCharacterSelection, BAGameStateMenu);
