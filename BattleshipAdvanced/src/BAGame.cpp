@@ -1,11 +1,5 @@
 #include "BAGame.h"
 
-#define  UDPATE_STATE(COMMAND, NEXTSTATE, PREVSTATE)\
-        if(COMMAND == BAGameCommandNext)            \
-          currentState = NEXTSTATE;                 \
-        else if(COMMAND == BAGameCommandBack)       \
-          currentState = PREVSTATE;
-
 BAGame::BAGame(){
   arduboy.begin();
   arduboy.setFrameRate(30);
@@ -36,20 +30,20 @@ void BAGame::run(){
       // Shows Menu
       case BAGameStateMenu:{
         nextCommand = showMenu();
-        UDPATE_STATE(nextCommand, BAGameStateCharacterSelection, BAGameStateMenu);
+        updateCurrentStateWithCommand(nextCommand, BAGameStateCharacterSelection, BAGameStateMenu);
         break;
       }
 
       // Do Char selection
       case BAGameStateCharacterSelection:{
         nextCommand = showCharSelection();
-        UDPATE_STATE(nextCommand, BAGameStatePlaceShips, BAGameStateMenu);
+        updateCurrentStateWithCommand(nextCommand, BAGameStatePlaceShips, BAGameStateMenu);
         break;
       }
 
       case BAGameStatePlaceShips:{
         nextCommand = showPlaceShips();
-        UDPATE_STATE(nextCommand, BAGameStatePlayerTurn, BAGameStateCharacterSelection);
+        updateCurrentStateWithCommand(nextCommand, BAGameStatePlayerTurn, BAGameStateCharacterSelection);
         break;
       }
 
@@ -67,7 +61,13 @@ void BAGame::run(){
 }
 
 // ======================
-
-
 void BAGame::resetCurrentGameData(){
+}
+
+
+void BAGame::updateCurrentStateWithCommand(BAGameCommand gameCommand, BAGameState nextState, BAGameState previousState){
+  if(gameCommand == BAGameCommandNext)
+    currentState = nextState;
+  else if(gameCommand == BAGameCommandBack)
+    currentState = previousState;
 }

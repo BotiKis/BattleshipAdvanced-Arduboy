@@ -7,7 +7,6 @@
 
 #define MENUITEMS 2
 
-
 BAGameCommand BAGame::showMenu(){
 
 // ---------------------
@@ -64,26 +63,24 @@ byte bgAnimator = 0;
     }
 
     // draw images
+    uint8_t waterOffset = ((bgAnimator == 3)?1:bgAnimator)*2; //animate water back and forth
     arduboy.drawBitmap(0, (((bgAnimator%2) == 0)?0:1), BAMenuAssetShip, 112, 64, WHITE);
-    arduboy.drawBitmap(-bgAnimator, 47, BAMenuAssetWaves, 132, 16, BLACK); // Contouring the ship
-    arduboy.drawBitmap(-bgAnimator, 48, BAMenuAssetWaves, 132, 16, WHITE);
+    arduboy.drawBitmap(-waterOffset, 47, BAMenuAssetWaves, 132, 16, BLACK); // Contouring the ship
+    arduboy.drawBitmap(-waterOffset, 48, BAMenuAssetWaves, 132, 16, WHITE);
     arduboy.drawBitmap(0, 0, BAMenuAssetTitle, 50, 10, WHITE);
 
      // Draw items
     for(byte i = 0; i < MENUITEMS; i++){
-      arduboy.setCursor(MENUPOS_X, MENUPOS_Y*i + MENUMARGIN_TOP);
-      arduboy.print(menuItems[i]);
+      drawText(menuItems[i], MENUPOS_X, MENUPOS_Y*i + MENUMARGIN_TOP, WHITE, arduboy);
 
       // If it's the sound button
       if(menuItems[i] == menuitem_sound){
-        arduboy.setCursor(MENUPOS_X+36, MENUPOS_Y*i + MENUMARGIN_TOP);
-        arduboy.print(arduboy.audio.enabled()?"ON":"OFF");
+        drawText((arduboy.audio.enabled()?"ON":"OFF"), MENUPOS_X+36, MENUPOS_Y*i + MENUMARGIN_TOP, WHITE, arduboy);
       }
     }
 
     // Draw cursor
-    arduboy.setCursor(MENUPOS_X-8, selectedItem*MENUPOS_Y + MENUMARGIN_TOP);
-    arduboy.print(">");
+    drawText(">", MENUPOS_X-8, selectedItem*MENUPOS_Y + MENUMARGIN_TOP, WHITE, arduboy);
 
     arduboy.display();
   }

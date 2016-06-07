@@ -2,6 +2,8 @@
 #define GAME_H
 #include <Arduboy.h>
 #include "BAInput.h"
+#include "BAUI.h"
+#include "ABGeometry.h"
 
 typedef enum BAGameState{
   BAGameStateMenu = 0,
@@ -39,6 +41,9 @@ private:
     BAGameCommand showPlaceShips();
 
     void resetCurrentGameData();
+
+    // Stte machine
+    void updateCurrentStateWithCommand(BAGameCommand gameCommand, BAGameState nextState, BAGameState previousState);
 
     // ======================
     // Data
