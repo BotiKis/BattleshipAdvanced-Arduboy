@@ -1,4 +1,13 @@
+#include "BAShip.h"
 #include "ABMapSprites.h"
+
+BAShip BAShipMake(byte shipLength){
+  return  {0, 0, shipLength, shipLength, true};
+}
+
+bool BAShipIsShipDestroyed(BAShip ship){
+  return ship.remainingLength <= 0;
+}
 
 void drawHorizontalShip(uint8_t x, uint8_t y, uint8_t shipLength, uint8_t color, Arduboy &arduboy){
 

@@ -1,5 +1,6 @@
 #ifndef CHAR_ASSETS
 #define CHAR_ASSETS
+#include <Arduboy.h>
 
 PROGMEM const unsigned char BACharAsset_characterID1[] = {
 0x00, 0x00, 0x00, 0x00, 0x80, 0x40, 0x20, 0x38,
@@ -152,29 +153,5 @@ PROGMEM const unsigned char BACharAsset_characterID4_Fill[] = {
 0xff, 0xff, 0xff, 0x0f, 0x0f, 0x07, 0x07, 0x03,
 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
 };
-
-
-inline const unsigned char* outlineAssetForCharacter(CharacterID characterID){
-  switch(characterID){
-    default:
-    case CharacterIDMatt:   return BACharAsset_characterID1;
-    case CharacterIDMimi:   return BACharAsset_characterID2;
-    case CharacterIDKenji:  return BACharAsset_characterID3;
-    case CharacterIDNaru:   return BACharAsset_characterID4;
-  }
-}
-
-inline const unsigned char* fillAssetForCharacter(CharacterID characterID){
-  switch(characterID){
-    default:
-    case CharacterIDMatt:   return BACharAsset_characterID1_Fill;
-    case CharacterIDMimi:   return BACharAsset_characterID2_Fill;
-    case CharacterIDKenji:  return BACharAsset_characterID3_Fill;
-    case CharacterIDNaru:   return BACharAsset_characterID4_Fill;
-  }
-}
-
-
-
 
 #endif

@@ -27,7 +27,6 @@ PROGMEM const unsigned char BAMap_Sprite_Ship_destroyed[] = {
 0x81, 0x10, 0x4a, 0x04, 0x88, 0x11, 0x00, 0x42
 };
 
-void drawHorizontalShip(uint8_t x, uint8_t y, uint8_t shipLength, uint8_t color, Arduboy &arduboy);
 
 // --------------------------------------------------------------
 // Ship Vertical
@@ -48,7 +47,6 @@ PROGMEM const unsigned char BAMap_Sprite_Ship_vertical_single[] = {
 0x00, 0x3c, 0x42, 0x91, 0x91, 0x42, 0x3c, 0x00
 };
 
-void drawVerticalShip(uint8_t x, uint8_t y, uint8_t shipLength, uint8_t color, Arduboy &arduboy);
 
 // --------------------------------------------------------------
 // Map
