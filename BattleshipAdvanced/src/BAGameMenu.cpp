@@ -21,13 +21,13 @@ byte bgAnimator = 0;
 
   while(true){
     // Wait for next frame
-    if (!arduboy.nextFrame()) continue;
+    if (!this->arduboy.nextFrame()) continue;
 
-    arduboy.clear();
+    this->arduboy.clear();
 
     // --------------------------------
     // udpate input
-    input->updateInput(arduboy);
+    this->input->updateInput(arduboy);
 
     // --------------------------------
     // Menu logic
@@ -57,32 +57,32 @@ byte bgAnimator = 0;
     }
 
     // animate BG
-    if (arduboy.everyXFrames(20)){
+    if (this->arduboy.everyXFrames(20)){
       bgAnimator++;
       bgAnimator = bgAnimator%4;
     }
 
     // draw images
     uint8_t waterOffset = ((bgAnimator == 3)?1:bgAnimator)*2; //animate water back and forth
-    arduboy.drawBitmap(0, (((bgAnimator%2) == 0)?0:1), BAMenuAssetShip, 112, 64, WHITE);
-    arduboy.drawBitmap(-waterOffset, 47, BAMenuAssetWaves, 132, 16, BLACK); // Contouring the ship
-    arduboy.drawBitmap(-waterOffset, 48, BAMenuAssetWaves, 132, 16, WHITE);
-    arduboy.drawBitmap(0, 0, BAMenuAssetTitle, 50, 10, WHITE);
+    this->arduboy.drawBitmap(0, (((bgAnimator%2) == 0)?0:1), BAMenuAssetShip, 112, 64, WHITE);
+    this->arduboy.drawBitmap(-waterOffset, 47, BAMenuAssetWaves, 132, 16, BLACK); // Contouring the ship
+    this->arduboy.drawBitmap(-waterOffset, 48, BAMenuAssetWaves, 132, 16, WHITE);
+    this->arduboy.drawBitmap(0, 0, BAMenuAssetTitle, 50, 10, WHITE);
 
      // Draw items
     for(byte i = 0; i < MENUITEMS; i++){
-      drawText(menuItems[i], MENUPOS_X, MENUPOS_Y*i + MENUMARGIN_TOP, WHITE, arduboy);
+      drawText(menuItems[i], MENUPOS_X, MENUPOS_Y*i + MENUMARGIN_TOP, WHITE, this->arduboy);
 
       // If it's the sound button
       if(menuItems[i] == menuitem_sound){
-        drawText((arduboy.audio.enabled()?"ON":"OFF"), MENUPOS_X+36, MENUPOS_Y*i + MENUMARGIN_TOP, WHITE, arduboy);
+        drawText((this->arduboy.audio.enabled()?"ON":"OFF"), MENUPOS_X+36, MENUPOS_Y*i + MENUMARGIN_TOP, WHITE, this->arduboy);
       }
     }
 
     // Draw cursor
-    drawText(">", MENUPOS_X-8, selectedItem*MENUPOS_Y + MENUMARGIN_TOP, WHITE, arduboy);
+    drawText(">", MENUPOS_X-8, selectedItem*MENUPOS_Y + MENUMARGIN_TOP, WHITE, this->arduboy);
 
-    arduboy.display();
+    this->arduboy.display();
   }
 
   return BAGameCommandNone;

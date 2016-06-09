@@ -4,6 +4,7 @@
 #include "BAInput.h"
 #include "BAUI.h"
 #include "ABGeometry.h"
+#include "BACharacter.h"
 
 typedef enum BAGameState{
   BAGameStateMenu = 0,
@@ -40,7 +41,7 @@ private:
     BAGameCommand showCharSelection();
     BAGameCommand showPlaceShips();
 
-    void resetCurrentGameData();
+    void startNewGame();
 
     // Stte machine
     void updateCurrentStateWithCommand(BAGameCommand gameCommand, BAGameState nextState, BAGameState previousState);
@@ -50,5 +51,8 @@ private:
     Arduboy arduboy;
     BAGameState currentState;
     BAInput *input;
+
+    BAPlayer *activePlayer;
+    BAPlayer *opponentPlayer;
 };
 #endif

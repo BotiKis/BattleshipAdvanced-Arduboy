@@ -12,7 +12,8 @@ BAGame::BAGame(){
   // init input
   input = new BAInput();
 
-  resetCurrentGameData();
+  activePlayer = NULL;
+  opponentPlayer = NULL;
 }
 
 void BAGame::run(){
@@ -61,13 +62,26 @@ void BAGame::run(){
 }
 
 // ======================
-void BAGame::resetCurrentGameData(){
+void BAGame::startNewGame(){
+
+  // chars
+  delete activePlayer;
+  activePlayer = NULL;
+  delete opponentPlayer;
+  opponentPlayer = NULL;
 }
 
 
 void BAGame::updateCurrentStateWithCommand(BAGameCommand gameCommand, BAGameState nextState, BAGameState previousState){
+
+  // reset game data for new game
+  if (this->currentState == BAGameStateMenu && gameCommand == BAGameCommandNext) {
+    this->startNewGame();
+  }
+
+  // Default routing
   if(gameCommand == BAGameCommandNext)
-    currentState = nextState;
+    this->currentState = nextState;
   else if(gameCommand == BAGameCommandBack)
-    currentState = previousState;
+    this->currentState = previousState;
 }
