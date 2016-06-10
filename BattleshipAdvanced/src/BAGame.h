@@ -21,6 +21,25 @@ typedef enum BAGameCommand{
   BAGameCommandBack
 }BAGameCommand;
 
+// Types are negative because they will be stored in the player map
+// and the ships of the player are also stored there with their indices
+typedef enum BAMapTileType{
+  BAMapTileTypeWater0 = -4, // Pure black
+  BAMapTileTypeWater1,      // set to this and it will animate the next 2
+  BAMapTileTypeWater2,
+  BAMapTileTypeWater3,
+
+  BAMapTileTypeMountain = -5,
+
+  BAMapTileTypeExplosion1 = -9,
+  BAMapTileTypeExplosion2,
+  BAMapTileTypeExplosion3,
+  BAMapTileTypeExplosion4,
+
+  BAMapTileTypeDestroyedShip = -10
+}
+BAMapTye;
+
 
 class BAGame{
   public:
@@ -32,18 +51,22 @@ class BAGame{
     /// starts the game and calls all methods in neccesary order
     void run();
 
-
 private:
     // ======================
     // Methods
 
+    void startNewGame();
+
+    // Game methods
     BAGameCommand showMenu();
     BAGameCommand showCharSelection();
     BAGameCommand showPlaceShips();
 
-    void startNewGame();
+    // Helper
+    void drawMap(BAPlayer *player, bool showShips);
+    void drawMapAtPosition(BAPlayer *player, uint8_t x, uint8_t y, bool showShips);
 
-    // Stte machine
+    // State machine
     void updateCurrentStateWithCommand(BAGameCommand gameCommand, BAGameState nextState, BAGameState previousState);
 
     // ======================

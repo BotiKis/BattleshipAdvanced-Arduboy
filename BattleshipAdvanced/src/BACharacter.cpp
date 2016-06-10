@@ -1,6 +1,6 @@
 #include "BACharacter.h"
-#include "BAMap.h"
 #include "BACharAssets.h"
+#include "BAGame.h"
 
 
 const unsigned char* outlineAssetForCharacter(CharacterID characterID){
