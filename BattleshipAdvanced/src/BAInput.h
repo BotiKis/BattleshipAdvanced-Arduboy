@@ -19,13 +19,13 @@ class BAButton{
 
 class BAInput{
   public:
-    BAInput();
+    BAInput(Arduboy &arduboy);
 
     // Should be called an each new screen.
     void reset();
 
     // Should be calle after every frame refresh
-    void updateInput(Arduboy &arduboy);
+    void updateInput();
 
     // Should the buttons refire each frame even when not released.
     // Default = false. If true it's the same effect when polling Arduboy::pressed();

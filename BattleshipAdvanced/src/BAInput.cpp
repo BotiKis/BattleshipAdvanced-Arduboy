@@ -17,9 +17,10 @@ void BAButton::reset(){
 // ------------------------------------------------
 // BAInput
 
-BAInput::BAInput(){
+BAInput::BAInput(Arduboy &arduboy){
   fireContinuous = false;
   refireAfterMillis = 500;
+  this->arduboy = arduboy;
   reset();
 }
 
@@ -32,11 +33,11 @@ void BAInput::reset(){
   }
 }
 
-void BAInput::updateInput(Arduboy &arduboy){
+void BAInput::updateInput(){
 
   // all buttons
   for (uint8_t i = 0; i < 6; i++) {
-    if (arduboy.pressed(buttons[i].arduboyButton)) {
+    if (this->arduboy.pressed(buttons[i].arduboyButton)) {
         if (buttons[i].pressed) {
           buttons[i].hold = true;
         }

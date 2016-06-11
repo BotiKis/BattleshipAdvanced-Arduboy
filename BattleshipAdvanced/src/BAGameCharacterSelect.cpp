@@ -27,7 +27,7 @@ BAGameCommand BAGame::showCharSelection(){
 
     // --------------------------------
     // udpate input
-    this->input->updateInput(arduboy);
+    this->input->updateInput();
 
     // check input
     if(input->pressed(RIGHT_BUTTON)){

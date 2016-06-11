@@ -10,7 +10,7 @@ BAGame::BAGame(){
   currentState = BAGameStateMenu;
 
   // init input
-  input = new BAInput();
+  input = new BAInput(arduboy);
 
   activePlayer = NULL;
   opponentPlayer = NULL;

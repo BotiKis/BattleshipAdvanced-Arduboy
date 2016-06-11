@@ -27,7 +27,7 @@ byte bgAnimator = 0;
 
     // --------------------------------
     // udpate input
-    this->input->updateInput(arduboy);
+    this->input->updateInput();
 
     // --------------------------------
     // Menu logic

@@ -18,7 +18,7 @@ BAGameCommand BAGame::showPlaceShips(){
     if (!this->arduboy.nextFrame()) continue;
 
     // handle input
-    this->input->updateInput(this->arduboy);
+    this->input->updateInput();
 
     if(this->input->pressed(B_BUTTON) || this->input->pressed(A_BUTTON)){
       break;
@@ -57,7 +57,7 @@ BAGameCommand BAGame::showPlaceShips(){
     BAShip currentShip = this->activePlayer->shipAtIndex(numberOfPlacedShips);
 
     // handle input
-    this->input->updateInput(this->arduboy);
+    this->input->updateInput();
 
     if(this->input->pressed(RIGHT_BUTTON)){
       playerCursor.x++;
