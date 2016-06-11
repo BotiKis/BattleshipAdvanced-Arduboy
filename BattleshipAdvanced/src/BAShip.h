@@ -2,13 +2,13 @@
 #define BASHIP_H
 #include <Arduboy.h>
 
-struct BAShip{
+typedef struct {
   uint8_t positionX;
   uint8_t positionY;
   uint8_t fullLength;
   uint8_t remainingLength;
   bool horizontal;
-};
+}BAShip;
 
 BAShip BAShipMake(byte shipLength);
 bool BAShipIsShipDestroyed(BAShip ship);

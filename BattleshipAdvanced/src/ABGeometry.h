@@ -5,10 +5,10 @@
 // --------------------------------------------------------------
 // Types
 
-struct ABPoint{
+typedef struct{
   int x;
   int y;
-};
+}ABPoint;
 
 const ABPoint CGPointZero = {0,0};
 
