@@ -186,10 +186,8 @@ BAGameCommand BAGame::showPlaceShips(){
         drawVerticalShip(shipPosX, shipPosY, currentShip.fullLength, WHITE, this->arduboy);
       }
 
-      uint8_t cursorsOriginX = shipPosX + (cursorFlip ? 1:0);
-      uint8_t cursorsOriginY = shipPosY + (cursorFlip ? 1:0);
-      uint8_t cursorsSize = cursorFlip ? 6 : 8;
-      this->arduboy.drawRect(cursorsOriginX, cursorsOriginY, cursorsSize, cursorsSize, WHITE);
+      // Do selection with sprites
+    //this->arduboy.drawRect(shipPosX + (cursorFlip ? 1:0), shipPosY + (cursorFlip ? 1:0), cursorFlip ? 6 : 8, cursorFlip ? 6 : 8, WHITE);
 
       // Draw cancle button
       this->arduboy.drawBitmap(0, 54, BAUI_cancel, 30, 9, WHITE);
