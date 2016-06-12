@@ -9,6 +9,7 @@ BAGameCommand BAGame::showCharSelection(){
   availableCharacters[1] = BACharacterDataMake("Mimi", CharacterIDMimi, 1, 5, 2, 1, CharDifficultyHard);
   availableCharacters[2] = BACharacterDataMake("Kenji", CharacterIDKenji, 1, 2, 2, 2, CharDifficultyHard);
   availableCharacters[3] = BACharacterDataMake("Naru", CharacterIDNaru, 2, 2, 2, 0, CharDifficultyHard);
+  availableCharacters[3] = BACharacterDataMake("Naru", CharacterIDNaru, 2, 2, 2, 0, CharDifficultyHard);
 
   // UI Stuff
   uint8_t selectedCharIndex = 0;
@@ -47,6 +48,14 @@ BAGameCommand BAGame::showCharSelection(){
       return BAGameCommandBack;
     }
     if(input->pressed(B_BUTTON)){
+      // clear current player data
+
+      // chars
+      delete activePlayer;
+      activePlayer = NULL;
+      delete opponentPlayer;
+      opponentPlayer = NULL;
+
       this->activePlayer = new BAPlayer(availableCharacters[selectedCharIndex]);
 
       // get random enemy but not itself
