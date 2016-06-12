@@ -18,47 +18,40 @@ BAGame::BAGame(){
 
 void BAGame::run(){
 
-    // Store command for next step
-    BAGameCommand nextCommand = BAGameCommandNone;
+  // Store command for next step
+  BAGameCommand nextCommand = BAGameCommandNone;
 
   // Game loop
   while(true){
 
-    // Handle state
-    switch (currentState) {
+    if (currentState == BAGameStateMenu) {
+      nextCommand = showMenu();
+      updateCurrentStateWithCommand(nextCommand, BAGameStateCharacterSelection, BAGameStateMenu);
+    }
 
-    // Shows Menu
-      default:
-      case BAGameStateMenu:{
-        nextCommand = showMenu();
-        updateCurrentStateWithCommand(nextCommand, BAGameStateCharacterSelection, BAGameStateMenu);
-        break;
-      }
+    if (currentState == BAGameStateCharacterSelection) {
+      nextCommand = showCharSelection();
+      updateCurrentStateWithCommand(nextCommand, BAGameStatePlaceShips, BAGameStateMenu);
+    }
 
-      // Do Char selection
-      case BAGameStateCharacterSelection:{
-        nextCommand = showCharSelection();
-        updateCurrentStateWithCommand(nextCommand, BAGameStatePlaceShips, BAGameStateMenu);
-        break;
-      }
+    if (currentState == BAGameStatePlaceShips) {
+      nextCommand = showPlaceShips();
+      updateCurrentStateWithCommand(nextCommand, BAGameStatePrepareForGame, BAGameStateCharacterSelection);
+    }
 
-      case BAGameStatePlaceShips:{
-        nextCommand = showPlaceShips();
-        updateCurrentStateWithCommand(nextCommand, BAGameStatePlayerTurn, BAGameStateCharacterSelection);
-        break;
-      }
+    if (currentState == BAGameStatePrepareForGame) {
+      // random first player
+      this->playerFirstRound = random()%2 == 0;
 
-      case BAGameStatePlayerTurn:{
+      // Do preperation logic
+      BAGameCommand showPrepareForGame();
+      updateCurrentStateWithCommand(BAGameCommandNext, BAGameStatePlaying, BAGameStatePlaceShips);
+    }
 
-        break;
-      }
-
-      case BAGameStateAITurn:{
-
-        break;
-      }
+    if (currentState == BAGameStatePlaying) {
     }
   }
+
 }
 
 // ======================

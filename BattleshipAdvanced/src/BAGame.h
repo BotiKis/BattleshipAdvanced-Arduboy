@@ -6,14 +6,19 @@
 #include "ABGeometry.h"
 #include "BACharacter.h"
 
+// helper to calcj deltatime
+#define MILLIS_SINCE(MILLIS) (millis() - MILLIS)
+
+// Tells the gamestate for the menu
 typedef enum BAGameState{
   BAGameStateMenu = 0,
   BAGameStateCharacterSelection,
   BAGameStatePlaceShips,
-  BAGameStatePlayerTurn,
-  BAGameStateAITurn
+  BAGameStatePrepareForGame,
+  BAGameStatePlaying
 }BAGameState;
 
+// Command returned from each gamestep
 typedef enum BAGameCommand{
   BAGameCommandError = -1,
   BAGameCommandNone = 0,
@@ -40,7 +45,6 @@ typedef enum BAMapTileType{
 }
 BAMapTye;
 
-
 class BAGame{
   public:
     BAGame();
@@ -62,6 +66,11 @@ private:
     BAGameCommand showCharSelection();
     BAGameCommand showPlaceShips();
 
+    void showPrepareForGame();
+
+    BAGameCommand showPlayerTurn();
+    BAGameCommand showOpponentTurn();
+
     // Helper
     void drawMap(BAPlayer *player, bool showShips);
     void drawMapAtPosition(BAPlayer *player, uint8_t x, uint8_t y, bool showShips);
@@ -77,5 +86,6 @@ private:
 
     BAPlayer *activePlayer;
     BAPlayer *opponentPlayer;
+    bool playerFirstRound;
 };
 #endif
