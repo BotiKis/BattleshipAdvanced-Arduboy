@@ -1,5 +1,5 @@
 #include "BAGame.h"
-#include "ABMapSprites.h"
+#include "BAMapData.h"
 #include "BAShip.h"
 
 void BAGame::drawMapAtPosition(BAPlayer *player, uint8_t x, uint8_t y, bool showShips){

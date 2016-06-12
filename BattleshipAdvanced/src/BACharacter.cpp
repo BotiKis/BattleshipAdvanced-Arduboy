@@ -1,7 +1,5 @@
 #include "BACharacter.h"
 #include "BACharAssets.h"
-#include "BAGame.h"
-
 
 const unsigned char* outlineAssetForCharacter(CharacterID characterID){
   switch(characterID){
@@ -10,6 +8,7 @@ const unsigned char* outlineAssetForCharacter(CharacterID characterID){
     case CharacterIDMimi:   return BACharAsset_characterID2;
     case CharacterIDKenji:  return BACharAsset_characterID3;
     case CharacterIDNaru:   return BACharAsset_characterID4;
+    case CharacterIDBoss:   return BACharAsset_characterID4;
   }
 }
 
@@ -20,6 +19,7 @@ const unsigned char* fillAssetForCharacter(CharacterID characterID){
     case CharacterIDMimi:   return BACharAsset_characterID2_Fill;
     case CharacterIDKenji:  return BACharAsset_characterID3_Fill;
     case CharacterIDNaru:   return BACharAsset_characterID4_Fill;
+    case CharacterIDBoss:   return BACharAsset_characterID4_Fill;;
   }
 }
 
@@ -38,77 +38,20 @@ BACharacterData BACharacterDataMake(const char *charName, CharacterID charID, by
   return character;
 }
 
-BAPlayer::BAPlayer(BACharacterData data){
-  charData = data;
 
-  // init ships
-  ships = NULL;
-  numberOfShips = charData.numberOfSmallShips + charData.numberOfMediumShips + charData.numberOfLargeShips;
-  ships = new BAShip[numberOfShips];
+uint8_t numberOfAvailableCaharacters(){
+  return 4;
+}
 
-  // small ships
-  for(int8_t i = 0; i < charData.numberOfSmallShips; i++)
-    ships[i] = BAShipMake(1);
-
-  // medium ships
-  for(int8_t i = 0; i < charData.numberOfMediumShips; i++)
-    ships[i + charData.numberOfSmallShips] = BAShipMake(2);
-
-  // big ships
-  for(int8_t i = 0; i < charData.numberOfLargeShips; i++)
-    ships[i + charData.numberOfSmallShips + charData.numberOfMediumShips] = BAShipMake(3);
-
-  // create water map
-  for(int8_t j = 0; j < GAME_BOARD_SIZE_HEIGHT; j++){
-    for(int8_t i = 0; i < GAME_BOARD_SIZE_WIDTH; i++){
-      //Water
-      playerBoard[j][i] = BAMapTileTypeWater0;
-    }
+BACharacterData characterForID(CharacterID characterID){
+  // char data
+  // name, spriteID, #OfShots per round, small ships, medium ships, large ships, difficulty
+  switch(characterID){
+    default:
+    case CharacterIDMatt:   return BACharacterDataMake("Matt",  CharacterIDMatt,  1, 3, 2, 1, CharDifficultyEasy);
+    case CharacterIDMimi:   return BACharacterDataMake("Mimi",  CharacterIDMimi,  1, 5, 2, 1, CharDifficultyHard);
+    case CharacterIDKenji:  return BACharacterDataMake("Kenji", CharacterIDKenji, 1, 2, 2, 2, CharDifficultyHard);
+    case CharacterIDNaru:   return BACharacterDataMake("Naru",  CharacterIDNaru,  2, 2, 2, 0, CharDifficultyHard);
+    case CharacterIDBoss:   return BACharacterDataMake("BOSS",  CharacterIDBoss,  1, 3, 3, 2, CharDifficultyEasy);
   }
-
-  // random mountains
-  byte mountainsCount = random(3,6);
-  ABPoint lastMountainPos = ABPointMake(-1, -1);
-
-  for(byte i = 0; i < mountainsCount ; i++){
-    ABPoint mountainPos;
-    do{
-      mountainPos.x = random(0, GAME_BOARD_SIZE_WIDTH);
-      mountainPos.y = random(0, GAME_BOARD_SIZE_HEIGHT);
-    }
-    while(ABPointEqualToPoint(mountainPos, lastMountainPos));
-
-    lastMountainPos = mountainPos;
-    playerBoard[mountainPos.y][mountainPos.x] = BAMapTileTypeMountain;
-  }
-}
-
-BAPlayer::~BAPlayer(){
-  delete ships;
-  ships = NULL;
-}
-
-BACharacterData BAPlayer::getCharacterData(){
-  return charData;
-}
-
-
-BAShip BAPlayer::shipAtIndex(byte idx){
-  return ships[idx];
-}
-
-void BAPlayer::updateShipAtIndex(byte idx, BAShip newShip){
-  ships[idx].remainingLength = newShip.remainingLength;
-  ships[idx].horizontal = newShip.horizontal;
-  ships[idx].positionX = newShip.positionX;
-  ships[idx].positionY = newShip.positionY;
-}
-
-byte BAPlayer:: numberOfRemainingShips(){
-  byte nr = 0;
-
-  for(int i = 0; i<numberOfShips ;i++)
-    if(!BAShipIsShipDestroyed(ships[i])) nr++;
-
-  return nr;
 }

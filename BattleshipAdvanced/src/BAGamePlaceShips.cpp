@@ -1,4 +1,5 @@
 #include "BAGame.h"
+#include "BAMapData.h"
 
 #define GAME_BOARD_SIZE_WIDTH 12
 #define GAME_BOARD_SIZE_HEIGHT 8

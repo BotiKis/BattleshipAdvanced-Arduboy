@@ -1,15 +1,14 @@
 #include "BAGame.h"
+#include "BACharacter.h"
 
 BAGameCommand BAGame::showCharSelection(){
 
   BACharacterData availableCharacters[4];
   // make char data
-  // name, spriteID, #OfShots per round, small ships, medium ships, large ships, difficulty
-  availableCharacters[0] = BACharacterDataMake("Matt", CharacterIDMatt, 1, 3, 2, 1, CharDifficultyEasy);
-  availableCharacters[1] = BACharacterDataMake("Mimi", CharacterIDMimi, 1, 5, 2, 1, CharDifficultyHard);
-  availableCharacters[2] = BACharacterDataMake("Kenji", CharacterIDKenji, 1, 2, 2, 2, CharDifficultyHard);
-  availableCharacters[3] = BACharacterDataMake("Naru", CharacterIDNaru, 2, 2, 2, 0, CharDifficultyHard);
-  availableCharacters[3] = BACharacterDataMake("Naru", CharacterIDNaru, 2, 2, 2, 0, CharDifficultyHard);
+  availableCharacters[0] = characterForID(CharacterIDMatt);
+  availableCharacters[1] = characterForID(CharacterIDMimi);
+  availableCharacters[2] = characterForID(CharacterIDKenji);
+  availableCharacters[3] = characterForID(CharacterIDNaru);
 
   // UI Stuff
   uint8_t selectedCharIndex = 0;
@@ -59,8 +58,11 @@ BAGameCommand BAGame::showCharSelection(){
       this->activePlayer = new BAPlayer(availableCharacters[selectedCharIndex]);
 
       // get random enemy but not itself
-      byte enemyCharIndex = random(4);
-      while(enemyCharIndex == selectedCharIndex) enemyCharIndex = random(4);
+      uint8_t enemyCharIndex;
+      do {
+        enemyCharIndex = random(4);
+      } while(enemyCharIndex == selectedCharIndex);
+      
       this->opponentPlayer = new BAPlayer(availableCharacters[enemyCharIndex]);
 
       return BAGameCommandNext;

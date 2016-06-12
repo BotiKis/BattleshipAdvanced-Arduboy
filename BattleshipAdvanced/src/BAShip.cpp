@@ -1,5 +1,5 @@
 #include "BAShip.h"
-#include "ABMapSprites.h"
+#include "BAMapData.h"
 
 BAShip BAShipMake(byte shipLength){
   return  {0, 0, shipLength, shipLength, true};

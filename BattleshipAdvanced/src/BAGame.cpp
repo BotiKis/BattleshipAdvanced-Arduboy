@@ -1,5 +1,8 @@
 #include "BAGame.h"
 
+// -------------------------------------------------------
+// Constructor sets up basic stuff for the game
+
 BAGame::BAGame(){
   arduboy.begin();
   arduboy.setFrameRate(30);
@@ -15,6 +18,12 @@ BAGame::BAGame(){
   activePlayer = NULL;
   opponentPlayer = NULL;
 }
+
+
+
+// -------------------------------------------------------
+// Main game method.
+// Handles gamestates and switches to the desired one
 
 void BAGame::run(){
 
@@ -64,6 +73,9 @@ void BAGame::startNewGame(){
   opponentPlayer = NULL;
 }
 
+
+// -------------------------------------------------------
+// Pseudo statemachine handling
 
 void BAGame::updateCurrentStateWithCommand(BAGameCommand gameCommand, BAGameState nextState, BAGameState previousState){
 
