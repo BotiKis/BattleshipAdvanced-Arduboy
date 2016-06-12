@@ -71,26 +71,4 @@ inline void drawText(char *text, ABPoint position, uint8_t color){
   }
 }
 
-inline void drawButton(char *title, ABRect frame, bool selected){
-
-  // limit button to fit text
-  uint8_t textLength = strlen(title)*6;
-
-  frame.size.width = (frame.size.width < (textLength+2))? (textLength+2) : frame.size.width;
-  frame.size.height = (frame.size.height < 10)? 10 : frame.size.height;
-
-  // calc text pos
-  ABPoint textPos = ABPointMake( frame.origin.x + (frame.size.width - textLength + 2)/2, frame.origin.y + (frame.size.height - 6)/2);
-
-  if(selected){
-    arduboy.fillRect(frame.origin.x, frame.origin.y, frame.size.width, frame.size.height, WHITE);
-    drawText(title, textPos, BLACK);
-  }
-  else{
-    arduboy.fillRect(frame.origin.x, frame.origin.y, frame.size.width, frame.size.height, BLACK);
-    arduboy.drawRect(frame.origin.x, frame.origin.y, frame.size.width, frame.size.height, WHITE);
-    drawText(title, textPos, WHITE);
-  }
-}
-
 #endif
