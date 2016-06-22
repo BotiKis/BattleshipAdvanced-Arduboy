@@ -31,16 +31,16 @@ BAGameCommand BAGame::showCharSelection(){
 
     // check input
     if(input->pressed(RIGHT_BUTTON)){
-      selectedCharIndex = (selectedCharIndex+1)%4;
+      selectedCharIndex = (uint8_t)(selectedCharIndex+1)%4;
     }
     if(input->pressed(LEFT_BUTTON)){
-      selectedCharIndex = (selectedCharIndex-1)%4;
+      selectedCharIndex = (uint8_t)(selectedCharIndex-1)%4;
     }
     if(input->pressed(UP_BUTTON)){
-      selectedCharIndex = (selectedCharIndex-2)%4;
+      selectedCharIndex = (uint8_t)(selectedCharIndex-2)%4;
     }
     if(input->pressed(DOWN_BUTTON)){
-      selectedCharIndex = (selectedCharIndex+2)%4;
+      selectedCharIndex = (uint8_t)(selectedCharIndex+2)%4;
     }
     if(input->pressed(A_BUTTON)){
       //playSoundBack();
@@ -50,10 +50,10 @@ BAGameCommand BAGame::showCharSelection(){
       // clear current player data
 
       // chars
-      delete activePlayer;
-      activePlayer = NULL;
-      delete opponentPlayer;
-      opponentPlayer = NULL;
+      delete this->activePlayer;
+      this->activePlayer = NULL;
+      delete this->opponentPlayer;
+      this->opponentPlayer = NULL;
 
       this->activePlayer = new BAPlayer(availableCharacters[selectedCharIndex]);
 
@@ -62,7 +62,7 @@ BAGameCommand BAGame::showCharSelection(){
       do {
         enemyCharIndex = random(4);
       } while(enemyCharIndex == selectedCharIndex);
-      
+
       this->opponentPlayer = new BAPlayer(availableCharacters[enemyCharIndex]);
 
       return BAGameCommandNext;
@@ -83,6 +83,10 @@ BAGameCommand BAGame::showCharSelection(){
 
       // Draw name
       drawText(availableCharacters[i].name, charOriginX + 34, charOriginY + 20, (selectedCharIndex == i && selectionAnimator)?BLACK:WHITE, this->arduboy);
+
+      char buff[2] ={'\0'};
+      sprintf(buff, "%d", selectedCharIndex);
+      drawText(buff, 0, 0, WHITE, this->arduboy);
     }
 
 

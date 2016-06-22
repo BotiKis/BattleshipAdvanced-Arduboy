@@ -67,7 +67,7 @@ byte bgAnimator = 0;
     this->arduboy.drawBitmap(0, (((bgAnimator%2) == 0)?0:1), BAMenuAssetShip, 112, 64, WHITE);
     this->arduboy.drawBitmap(-waterOffset, 47, BAMenuAssetWaves, 132, 16, BLACK); // Contouring the ship
     this->arduboy.drawBitmap(-waterOffset, 48, BAMenuAssetWaves, 132, 16, WHITE);
-    this->arduboy.drawBitmap(0, 0, BAMenuAssetTitle, 50, 10, WHITE);
+    this->arduboy.drawBitmap(56, 2, BAMenuAssetTitle, 72, 8, WHITE);
 
      // Draw items
     for(byte i = 0; i < MENUITEMS; i++){

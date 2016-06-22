@@ -50,6 +50,8 @@ private:
 
     void showPrepareForGame();
 
+    BAGameCommand playGame();
+
     BAGameCommand showPlayerTurn();
     BAGameCommand showOpponentTurn();
 

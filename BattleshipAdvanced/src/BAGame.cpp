@@ -53,11 +53,13 @@ void BAGame::run(){
       this->playerFirstRound = random()%2 == 0;
 
       // Do preperation logic
-      BAGameCommand showPrepareForGame();
+      void showPrepareForGame();
       updateCurrentStateWithCommand(BAGameCommandNext, BAGameStatePlaying, BAGameStatePlaceShips);
     }
 
     if (currentState == BAGameStatePlaying) {
+      BAGameCommand playGame();
+      updateCurrentStateWithCommand(BAGameCommandNext, BAGameStateMenu, BAGameStateMenu);
     }
   }
 
