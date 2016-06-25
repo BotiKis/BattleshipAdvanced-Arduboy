@@ -39,14 +39,14 @@ void BAGame::showPrepareForGame(){
     drawText("First player:", 25, 26, WHITE, this->arduboy);
 
     if(animationDone){
-      drawText(this->playerFirstRound ? this->activePlayer->getCharacterData().name: this->opponentPlayer->getCharacterData().name, 49,38, WHITE, this->arduboy);
+      //drawText(this->playerFirstRound ? this->activePlayer->getCharacterData().name: this->opponentPlayer->getCharacterData().name, 49,38, WHITE, this->arduboy);
 
       // blink continue button
       if(animationFlip)
         drawText("press any button...", 13, 48, WHITE, this->arduboy);
     }
     else
-      drawText( (animationFlip ? this->activePlayer->getCharacterData().name: this->opponentPlayer->getCharacterData().name), 49,38, WHITE, this->arduboy);
+      //drawText( (animationFlip ? this->activePlayer->getCharacterData().name: this->opponentPlayer->getCharacterData().name), 49,38, WHITE, this->arduboy);
     // show
     this->arduboy.display();
   }

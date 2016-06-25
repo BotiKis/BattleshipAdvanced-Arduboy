@@ -15,11 +15,11 @@
 
 class BAPlayer{
   public:
-    BAPlayer(BACharacterData data);
+    BAPlayer(CharacterID charID);
     ~BAPlayer();
 
     // Getter for char data
-    BACharacterData getCharacterData();
+    const BACharacterData* getCharacterData();
 
     // board
     int8_t playerBoard[GAME_BOARD_SIZE_HEIGHT][GAME_BOARD_SIZE_WIDTH];
@@ -32,7 +32,7 @@ class BAPlayer{
 
   private:
     // Chardata is not allowed to be modified
-    BACharacterData charData;
+    BACharacterData *charData;
     BAShip *ships;
 };
 

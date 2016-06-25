@@ -30,6 +30,7 @@ BAGameCommand BAGame::showPlaceShips(){
 
     drawText("Place your ships!", 26, 18, WHITE, this->arduboy);
     char numberOfShipsBuffer [3];
+    /*
 
     sprintf (numberOfShipsBuffer, "%d", this->activePlayer->getCharacterData().numberOfSmallShips);
     drawText(numberOfShipsBuffer, 8, 28, WHITE, this->arduboy);
@@ -39,6 +40,7 @@ BAGameCommand BAGame::showPlaceShips(){
 
     sprintf (numberOfShipsBuffer, "%d", this->activePlayer->getCharacterData().numberOfLargeShips);
     drawText(numberOfShipsBuffer, 8, 42, WHITE, this->arduboy);
+    */
 
     // draw ships
     drawHorizontalShip(96, 28, 1, WHITE, this->arduboy);
@@ -161,7 +163,7 @@ BAGameCommand BAGame::showPlaceShips(){
     //=======================================
     // draw menu
     char remainingShipsBuffer[3] = {0};
-    drawText(this->activePlayer->getCharacterData().name, 0, 0, WHITE, this->arduboy);
+    //drawText(this->activePlayer->getCharacterData().name, 0, 0, WHITE, this->arduboy);
     sprintf (remainingShipsBuffer, "%d", this->activePlayer->numberOfShips - numberOfPlacedShips);
     drawText(remainingShipsBuffer, 0, 8, WHITE, this->arduboy);
 

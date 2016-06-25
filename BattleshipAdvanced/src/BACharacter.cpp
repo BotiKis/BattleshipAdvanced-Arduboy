@@ -24,34 +24,32 @@ const unsigned char* fillAssetForCharacter(CharacterID characterID){
 }
 
 
-BACharacterData BACharacterDataMake(const char *charName, CharacterID charID, byte charShoots, byte charSShips, byte charMShips, byte charLShips, CharDifficulty charDifficulty){
-  BACharacterData character;
-
-  strcpy(character.name, charName);
-  character.characterID = charID;
-  character.numberOfShots = charShoots;
-  character.numberOfSmallShips = charSShips;
-  character.numberOfMediumShips = charMShips;
-  character.numberOfLargeShips = charLShips;
-  character.difficulty = charDifficulty;
-
-  return character;
+BACharacterData::BACharacterData(const char *charName, CharacterID charID, byte charShoots, byte charSShips, byte charMShips, byte charLShips, CharDifficulty charDifficulty){
+  strcpy(this->name, charName);
+  this->characterID = charID;
+  this->numberOfShots = charShoots;
+  this->numberOfSmallShips = charSShips;
+  this->numberOfMediumShips = charMShips;
+  this->numberOfLargeShips = charLShips;
+  this->difficulty = charDifficulty;
 }
 
-
-uint8_t numberOfAvailableCaharacters(){
-  return 4;
+BACharacterData::~BACharacterData(){
 }
 
-BACharacterData characterForID(CharacterID characterID){
+BACharacterData* BACharacterData::newCharacterForID(CharacterID charID){
   // char data
   // name, spriteID, #OfShots per round, small ships, medium ships, large ships, difficulty
-  switch(characterID){
+  switch(charID){
     default:
-    case CharacterIDMatt:   return BACharacterDataMake("Matt",  CharacterIDMatt,  1, 3, 2, 1, CharDifficultyEasy);
-    case CharacterIDMimi:   return BACharacterDataMake("Mimi",  CharacterIDMimi,  1, 5, 2, 1, CharDifficultyHard);
-    case CharacterIDKenji:  return BACharacterDataMake("Kenji", CharacterIDKenji, 1, 2, 2, 2, CharDifficultyHard);
-    case CharacterIDNaru:   return BACharacterDataMake("Naru",  CharacterIDNaru,  2, 2, 2, 0, CharDifficultyHard);
-    case CharacterIDBoss:   return BACharacterDataMake("BOSS",  CharacterIDBoss,  1, 3, 3, 2, CharDifficultyEasy);
+    case CharacterIDMatt:   return new BACharacterData("Matt",  CharacterIDMatt,  1, 3, 2, 1, CharDifficultyEasy);
+    case CharacterIDMimi:   return new BACharacterData("Mimi",  CharacterIDMimi,  1, 5, 2, 1, CharDifficultyHard);
+    case CharacterIDKenji:  return new BACharacterData("Kenji", CharacterIDKenji, 1, 2, 2, 2, CharDifficultyHard);
+    case CharacterIDNaru:   return new BACharacterData("Naru",  CharacterIDNaru,  2, 2, 2, 0, CharDifficultyHard);
+    case CharacterIDBoss:   return new BACharacterData("BOSS",  CharacterIDBoss,  1, 3, 3, 2, CharDifficultyEasy);
   }
+}
+
+uint8_t BACharacterData::numberOfAvailableCharacters(){
+  return 4;
 }

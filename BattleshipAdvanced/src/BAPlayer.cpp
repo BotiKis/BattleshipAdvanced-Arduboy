@@ -3,14 +3,17 @@
 #include "BAMapData.h"
 #include "ABGeometry.h"
 
-BAPlayer::BAPlayer(BACharacterData data){
-  charData = data;
+
+BAPlayer::BAPlayer(CharacterID charID){
+  charData = BACharacterData::newCharacterForID(charID);
 
   // init ships
+  /*
   ships = NULL;
   numberOfShips = charData.numberOfSmallShips + charData.numberOfMediumShips + charData.numberOfLargeShips;
-  ships = new BAShip[numberOfShips];
-
+  ships = (BAShip*)malloc(numberOfShips * sizeof(BAShip));//ew BAShip[numberOfShips];
+*/
+  /*
   // small ships
   for(int8_t i = 0; i < charData.numberOfSmallShips; i++)
     ships[i] = BAShipMake(1);
@@ -46,17 +49,19 @@ BAPlayer::BAPlayer(BACharacterData data){
     lastMountainPos = mountainPos;
     playerBoard[mountainPos.y][mountainPos.x] = BAMapTileTypeMountain;
   }
+  */
 }
 
 BAPlayer::~BAPlayer(){
-  delete ships;
+  delete this->charData;
+
+  free(ships);
   ships = NULL;
 }
 
-BACharacterData BAPlayer::getCharacterData(){
+const BACharacterData* BAPlayer::getCharacterData(){
   return charData;
 }
-
 
 BAShip BAPlayer::shipAtIndex(byte idx){
   return ships[idx];

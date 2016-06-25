@@ -1,4 +1,6 @@
 #include "BAGame.h"
+#include "BAPlayer.h"
+#include "BACharacter.h"
 
 // -------------------------------------------------------
 // Constructor sets up basic stuff for the game
@@ -40,8 +42,8 @@ void BAGame::run(){
 
     if (currentState == BAGameStateCharacterSelection) {
       nextCommand = showCharSelection();
-      updateCurrentStateWithCommand(nextCommand, BAGameStatePlaceShips, BAGameStateMenu);
-    }
+      updateCurrentStateWithCommand(nextCommand, BAGameStateMenu, BAGameStateMenu);
+    }/*
 
     if (currentState == BAGameStatePlaceShips) {
       nextCommand = showPlaceShips();
@@ -61,6 +63,7 @@ void BAGame::run(){
       BAGameCommand playGame();
       updateCurrentStateWithCommand(BAGameCommandNext, BAGameStateMenu, BAGameStateMenu);
     }
+    */
   }
 
 }

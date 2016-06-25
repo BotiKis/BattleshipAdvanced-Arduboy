@@ -8,7 +8,7 @@ typedef enum {
 }CharDifficulty;
 
 typedef enum {
-  CharacterIDMatt = 1,
+  CharacterIDMatt = 0,
   CharacterIDMimi,
   CharacterIDKenji,
   CharacterIDNaru,
@@ -23,7 +23,17 @@ const unsigned char* fillAssetForCharacter(CharacterID characterID);
 
 // ===========================================================
 // Char Data
-typedef struct{
+class BACharacterData{
+public:
+    // init
+    BACharacterData(const char *charName, CharacterID charID, byte charShoots, byte charSShips, byte charMShips, byte charLShips, CharDifficulty charDifficulty);
+    ~BACharacterData();
+
+    // Static Factory for char data
+    static BACharacterData* newCharacterForID(CharacterID charID); // needs to be deleted
+    static uint8_t numberOfAvailableCharacters();
+
+// Data stays public for simplicity - hell i don't want to make accessors
     // Char name
     char name[6];
 
@@ -31,20 +41,15 @@ typedef struct{
     CharacterID characterID;
 
     // number of shots
-    byte numberOfShots;
+    uint8_t numberOfShots;
 
     // number of ships in every size
-    byte numberOfSmallShips;
-    byte numberOfMediumShips;
-    byte numberOfLargeShips;
+    uint8_t numberOfSmallShips;
+    uint8_t numberOfMediumShips;
+    uint8_t numberOfLargeShips;
 
     // aim dificulty
     CharDifficulty difficulty;
-}BACharacterData;
-
-// Factory for char data
-BACharacterData BACharacterDataMake(const char *charName, CharacterID charID, byte charShoots, byte charSShips, byte charMShips, byte charLShips, CharDifficulty charDifficulty);
-BACharacterData characterForID(CharacterID characterID);
-uint8_t numberOfAvailableCaharacters();
+};
 
 #endif

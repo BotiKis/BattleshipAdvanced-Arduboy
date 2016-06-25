@@ -1,7 +1,16 @@
 #include "BAShip.h"
 #include "BAMapData.h"
 
-BAShip BAShipMake(byte shipLength){
+/*
+typedef struct {
+  uint8_t positionX;
+  uint8_t positionY;
+  uint8_t fullLength;
+  uint8_t remainingLength;
+  bool horizontal;
+}BAShip;
+*/
+BAShip BAShipMake(uint8_t shipLength){
   return  {0, 0, shipLength, shipLength, true};
 }
 
