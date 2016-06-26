@@ -25,15 +25,16 @@ class BAPlayer{
     int8_t playerBoard[GAME_BOARD_SIZE_HEIGHT][GAME_BOARD_SIZE_WIDTH];
 
     // ships
-    int8_t numberOfShips; // includes the destroyed ones
     BAShip shipAtIndex(uint8_t idx);
     void   updateShipAtIndex(uint8_t idx, BAShip newShip);
+    int8_t numberOfAllShips();
     int8_t numberOfRemainingShips();
 
   private:
     // Chardata is not allowed to be modified
     BACharacterData *charData;
     BAShip *ships; // array of ships
+    int8_t numberOfShips; // includes the destroyed ones
 };
 
 #endif
