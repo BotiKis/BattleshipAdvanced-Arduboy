@@ -16,8 +16,6 @@ BAGame::BAGame(){
 
   activePlayer = NULL;
   opponentPlayer = NULL;
-
-  this->printFreeMemoryIndependent();
 }
 
 void BAGame::printFreeMemory(){
@@ -59,15 +57,10 @@ void BAGame::run(){
       updateCurrentStateWithCommand(nextCommand, BAGameStateCharacterSelection, BAGameStateMenu);
     }
 
-    this->printFreeMemoryIndependent();
-
     if (currentState == BAGameStateCharacterSelection) {
       nextCommand = showCharSelection();
-      updateCurrentStateWithCommand(nextCommand, BAGameStateMenu, BAGameStateMenu);
+      updateCurrentStateWithCommand(nextCommand, BAGameStatePlaceShips, BAGameStateMenu);
     }
-
-    this->printFreeMemoryIndependent();
-/*
 
     if (currentState == BAGameStatePlaceShips) {
       nextCommand = showPlaceShips();
@@ -87,7 +80,9 @@ void BAGame::run(){
       BAGameCommand playGame();
       updateCurrentStateWithCommand(BAGameCommandNext, BAGameStateMenu, BAGameStateMenu);
     }
-    */
+    
+
+    this->printFreeMemoryIndependent();
   }
 
 }
