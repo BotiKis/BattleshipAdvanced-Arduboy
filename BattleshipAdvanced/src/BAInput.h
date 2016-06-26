@@ -19,7 +19,7 @@ class BAButton{
 
 class BAInput{
   public:
-    BAInput(Arduboy &arduboy);
+    BAInput(Arduboy *arduboy);
 
     // Should be called an each new screen.
     void reset();
@@ -46,7 +46,7 @@ class BAInput{
 
   private:
     BAButton buttons[6];
-    Arduboy arduboy;
+    Arduboy *arduboy;
 };
 
 #endif

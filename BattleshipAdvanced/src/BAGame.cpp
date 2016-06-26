@@ -1,6 +1,6 @@
 #include "BAGame.h"
-#include "BAPlayer.h"
-#include "BACharacter.h"
+#include "MemoryFree.h"
+#include "BAUI.h"
 
 // -------------------------------------------------------
 // Constructor sets up basic stuff for the game
@@ -12,12 +12,31 @@ BAGame::BAGame(){
   arduboy.audio.on();
 
   // init input
-  input = new BAInput(arduboy);
+  input = new BAInput(&arduboy);
 
   activePlayer = NULL;
   opponentPlayer = NULL;
+
+  this->printFreeMemoryIndependent();
 }
 
+void BAGame::printFreeMemory(){
+  char str[10];
+  sprintf(str, "%d", freeMemory());
+  drawText(str, 0, 0, WHITE, this->arduboy);
+}
+
+void BAGame::printFreeMemoryIndependent(){
+  // clear screen
+  this->arduboy.clear();
+  char str[10];
+  sprintf(str, "%d", freeMemory());
+  drawText(str, 0, 0, WHITE, this->arduboy);
+
+  // clear screen
+  this->arduboy.display();
+  delay(2000);
+}
 
 
 // -------------------------------------------------------
@@ -34,6 +53,7 @@ void BAGame::run(){
 
   // Game loop
   while(true){
+
     if (currentState == BAGameStateMenu) {
       nextCommand = showMenu();
       updateCurrentStateWithCommand(nextCommand, BAGameStateCharacterSelection, BAGameStateMenu);

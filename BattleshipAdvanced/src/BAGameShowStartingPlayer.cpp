@@ -1,5 +1,4 @@
 #include "BAGame.h"
-
 void BAGame::showPrepareForGame(){
 
   bool animationDone = false;

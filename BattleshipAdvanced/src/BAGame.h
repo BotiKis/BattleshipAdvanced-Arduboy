@@ -36,6 +36,8 @@ class BAGame{
 
     /// starts the game and calls all methods in neccesary order
     void run();
+    void printFreeMemory();
+    void printFreeMemoryIndependent();
 
 private:
     // ======================

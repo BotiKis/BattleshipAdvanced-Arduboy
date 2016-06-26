@@ -26,20 +26,14 @@ BAPlayer::BAPlayer(CharacterID charID){
 
   // create water map
 
+  // If i uncomment this two loops the game crashes. i dunno why.
 
-// If i uncomment this two loops the game crashes. i dunno why.
-
-/*
   for(int8_t y = 0; y < GAME_BOARD_SIZE_HEIGHT; y++){
     for(int8_t x = 0; x < GAME_BOARD_SIZE_WIDTH; x++){
       //Water
       playerBoard[y][x] = BAMapTileTypeWater0;
     }
   }
-*/
-
-
-/*
   // random mountains
   byte mountainsCount = random(3,6);
   ABPoint lastMountainPos = ABPointMake(-1, -1);
@@ -55,7 +49,6 @@ BAPlayer::BAPlayer(CharacterID charID){
     lastMountainPos = mountainPos;
     playerBoard[mountainPos.y][mountainPos.x] = BAMapTileTypeMountain;
   }
-  */
 }
 
 BAPlayer::~BAPlayer(){
