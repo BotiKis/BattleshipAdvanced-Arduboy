@@ -13,6 +13,7 @@
 typedef enum BAGameState{
   BAGameStateMenu = 0,
   BAGameStateCharacterSelection,
+  BAGameStateVersus,
   BAGameStatePlaceShips,
   BAGameStatePrepareForGame,
   BAGameStatePlaying
@@ -48,6 +49,7 @@ private:
     // Game methods
     BAGameCommand showMenu();
     BAGameCommand showCharSelection();
+    BAGameCommand showVersusScreen();
     BAGameCommand showPlaceShips();
 
     void showPrepareForGame();

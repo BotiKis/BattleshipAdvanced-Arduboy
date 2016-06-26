@@ -33,7 +33,7 @@ void BAGame::printFreeMemoryIndependent(){
 
   // clear screen
   this->arduboy.display();
-  delay(2000);
+  delay(1000);
 }
 
 
@@ -53,18 +53,23 @@ void BAGame::run(){
   while(true){
 
     if (currentState == BAGameStateMenu) {
-      nextCommand = showMenu();
-      updateCurrentStateWithCommand(nextCommand, BAGameStateCharacterSelection, BAGameStateMenu);
+      nextCommand = this->showMenu();
+      this->updateCurrentStateWithCommand(nextCommand, BAGameStateCharacterSelection, BAGameStateMenu);
     }
 
     if (currentState == BAGameStateCharacterSelection) {
-      nextCommand = showCharSelection();
-      updateCurrentStateWithCommand(nextCommand, BAGameStatePlaceShips, BAGameStateMenu);
+      nextCommand = this->showCharSelection();
+      this->updateCurrentStateWithCommand(nextCommand, BAGameStateVersus, BAGameStateMenu);
+    }
+
+    if (currentState == BAGameStateVersus) {
+      nextCommand = this->showVersusScreen();
+      this->updateCurrentStateWithCommand(nextCommand, BAGameStatePlaceShips, BAGameStateCharacterSelection);
     }
 
     if (currentState == BAGameStatePlaceShips) {
-      nextCommand = showPlaceShips();
-      updateCurrentStateWithCommand(nextCommand, BAGameStatePrepareForGame, BAGameStateCharacterSelection);
+      nextCommand = this->showPlaceShips();
+      this->updateCurrentStateWithCommand(nextCommand, BAGameStatePrepareForGame, BAGameStateCharacterSelection);
     }
 
     if (currentState == BAGameStatePrepareForGame) {
@@ -72,15 +77,14 @@ void BAGame::run(){
       this->playerFirstRound = random()%2 == 0;
 
       // Do preperation logic
-      void showPrepareForGame();
-      updateCurrentStateWithCommand(BAGameCommandNext, BAGameStatePlaying, BAGameStatePlaceShips);
+      this->showPrepareForGame();
+      this->updateCurrentStateWithCommand(BAGameCommandNext, BAGameStatePlaying, BAGameStatePlaceShips);
     }
 
     if (currentState == BAGameStatePlaying) {
-      BAGameCommand playGame();
-      updateCurrentStateWithCommand(BAGameCommandNext, BAGameStateMenu, BAGameStateMenu);
+      this->updateCurrentStateWithCommand(BAGameCommandNext, BAGameStateMenu, BAGameStateMenu);
     }
-    
+
 
     this->printFreeMemoryIndependent();
   }
