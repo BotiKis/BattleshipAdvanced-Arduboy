@@ -88,10 +88,6 @@ BAGameCommand BAGame::showCharSelection(){
 
       // Draw name
       drawText(availableCharacters[i], charOriginX + 34, charOriginY + 20, (selectedCharIndex == i && selectionAnimator)?BLACK:WHITE, this->arduboy);
-
-      char buff[2] ={'\0'};
-      sprintf(buff, "%d", selectedCharIndex);
-      drawText(buff, 0, 0, WHITE, this->arduboy);
     }
 
 
