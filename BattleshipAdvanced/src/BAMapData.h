@@ -25,6 +25,17 @@ BAMapTye;
 // All sprites are 8x8
 
 // --------------------------------------------------------------
+// Map cursor
+const PROGMEM unsigned char BAMap_Cursor_01[] = {
+  0x7e, 0x81, 0x81, 0x81, 0x81, 0x81, 0x81, 0x7e
+};
+
+const PROGMEM unsigned char BAMap_Cursor_02[] = {
+  0x00, 0x3c, 0x42, 0x42, 0x42, 0x42, 0x3c, 0x00
+};
+
+
+// --------------------------------------------------------------
 // Ship Horizontal
 
 const PROGMEM unsigned char BAMap_Sprite_Ship_horizontal_1[] = {
