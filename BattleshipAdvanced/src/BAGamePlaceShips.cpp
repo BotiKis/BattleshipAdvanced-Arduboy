@@ -6,17 +6,15 @@
 
 BAGameCommand BAGame::showPlaceShips(){
 
-  // store information
-  ABPoint playerCursor = ABPointMake(6, 4);
-  bool cursorFlip = true;
-  byte numberOfPlacedShips = 0;
-  bool orienteationHorizontal = true;
+  // for animating stuff
+  bool animationFlip = true;
+  uint16_t startTime = millis();
 
   // ===========================
   // info panel loop
   while(true){
-
     if (!this->arduboy.nextFrame()) continue;
+    if (this->arduboy.everyXFrames(10)) animationFlip = !animationFlip;
 
     // handle input
     this->input->updateInput();
@@ -28,30 +26,52 @@ BAGameCommand BAGame::showPlaceShips(){
     // clear screen
     this->arduboy.clear();
 
-    drawText("Place your ships!", 26, 18, WHITE, this->arduboy);
+    drawText("PLACE YOUR SHIPS!", 14, 2, WHITE, this->arduboy);
     char numberOfShipsBuffer [3];
-    /*
 
-    sprintf (numberOfShipsBuffer, "%d", this->activePlayer->getCharacterData().numberOfSmallShips);
-    drawText(numberOfShipsBuffer, 8, 28, WHITE, this->arduboy);
+    drawText("Small:", 8, 20, WHITE, this->arduboy);
+    sprintf (numberOfShipsBuffer, "%dx", this->activePlayer->getCharacterData()->numberOfSmallShips);
+    drawTextRightAligned(numberOfShipsBuffer, 84, 20, WHITE, this->arduboy);
 
-    sprintf (numberOfShipsBuffer, "%d", this->activePlayer->getCharacterData().numberOfMediumShips);
-    drawText(numberOfShipsBuffer, 8, 30, WHITE, this->arduboy);
+    drawText("Medium:", 8, 32, WHITE, this->arduboy);
+    sprintf (numberOfShipsBuffer, "%dx", this->activePlayer->getCharacterData()->numberOfMediumShips);
+    drawTextRightAligned(numberOfShipsBuffer, 84, 32, WHITE, this->arduboy);
 
-    sprintf (numberOfShipsBuffer, "%d", this->activePlayer->getCharacterData().numberOfLargeShips);
-    drawText(numberOfShipsBuffer, 8, 42, WHITE, this->arduboy);
-    */
+    drawText("Big:", 8, 44, WHITE, this->arduboy);
+    sprintf (numberOfShipsBuffer, "%dx", this->activePlayer->getCharacterData()->numberOfLargeShips);
+    drawTextRightAligned(numberOfShipsBuffer, 84, 44, WHITE, this->arduboy);
 
     // draw ships
-    drawHorizontalShip(96, 28, 1, WHITE, this->arduboy);
-    drawHorizontalShip(96, 30, 1, WHITE, this->arduboy);
-    drawHorizontalShip(96, 42, 1, WHITE, this->arduboy);
+    drawHorizontalShip(96, 20, 1, WHITE, this->arduboy);
+    drawHorizontalShip(96, 32, 2, WHITE, this->arduboy);
+    drawHorizontalShip(96, 44, 3, WHITE, this->arduboy);
+
+    // draw press button
+    if ( (MILLIS_SINCE(startTime) > 1000) && animationFlip) {
+      drawText("Press A or B", 28, 56, WHITE, this->arduboy);
+    }
 
     this->arduboy.display();
   }
 
-  // ===========================
+
+
+  // ======================================================
+  // ======================================================
   // place ships loop
+  // ======================================================
+  // ======================================================
+
+
+  // store information
+  ABPoint playerCursor = ABPointMake(6, 4);
+  bool cursorFlip = true;
+  byte numberOfPlacedShips = 0;
+  bool orienteationHorizontal = true;
+
+  // set refire rate
+  this->input->refireAfterMillis = 150;
+
   while(true){
     if (!this->arduboy.nextFrame()) continue;
     if (this->arduboy.everyXFrames(10)) cursorFlip = !cursorFlip;
@@ -96,6 +116,9 @@ BAGameCommand BAGame::showPlaceShips(){
 
       // Check if cancel was pressed
       if(playerCursor.x < 0){
+        // set refire rate
+        this->input->refireAfterMillis = BA_INPUT_REFIRERATE_DEFAULT;
+
         //playSoundBack();
         return BAGameCommandBack;
       }
@@ -146,7 +169,10 @@ BAGameCommand BAGame::showPlaceShips(){
           numberOfPlacedShips++;
 
           // check if done
-          if(numberOfPlacedShips == this->activePlayer->numberOfShips){
+          if(numberOfPlacedShips == this->activePlayer->numberOfAllShips()){
+            // set refire rate
+            this->input->refireAfterMillis = BA_INPUT_REFIRERATE_DEFAULT;
+
             return BAGameCommandNext;
           }
         }
@@ -162,15 +188,17 @@ BAGameCommand BAGame::showPlaceShips(){
 
     //=======================================
     // draw menu
-    char remainingShipsBuffer[3] = {0};
-    //drawText(this->activePlayer->getCharacterData().name, 0, 0, WHITE, this->arduboy);
-    sprintf (remainingShipsBuffer, "%d", this->activePlayer->numberOfShips - numberOfPlacedShips);
-    drawText(remainingShipsBuffer, 0, 8, WHITE, this->arduboy);
 
+    this->arduboy.drawBitmap(0, 8, BAUI_remaining_ships, 30, 8, WHITE);
+
+    char remainingShipsBuffer[3] = {0};
+    drawText(this->activePlayer->getCharacterData()->name, 0, 0, WHITE, this->arduboy);
+    sprintf (remainingShipsBuffer, "%d", this->activePlayer->numberOfAllShips() - numberOfPlacedShips);
+    drawText(remainingShipsBuffer, 0, 16, WHITE, this->arduboy);
 
     // Info fields
-    this->arduboy.drawBitmap(0, 28, BAUI_a_rotate, 30, 9, WHITE);
-    this->arduboy.drawBitmap(0, 40, BAUI_b_place, 30, 9, WHITE);
+    this->arduboy.drawBitmap(0, 28, BAUI_a_rotate, 30, 8, WHITE);
+    this->arduboy.drawBitmap(0, 40, BAUI_b_place, 30, 8, WHITE);
 
     //=======================================
     // Draw cursor
@@ -190,14 +218,14 @@ BAGameCommand BAGame::showPlaceShips(){
       }
 
       // Do selection with sprites
-    //this->arduboy.drawRect(shipPosX + (cursorFlip ? 1:0), shipPosY + (cursorFlip ? 1:0), cursorFlip ? 6 : 8, cursorFlip ? 6 : 8, WHITE);
+      this->arduboy.drawBitmap(shipPosX, shipPosY, cursorFlip?BAMap_Cursor_01:BAMap_Cursor_02, 8, 8, WHITE);
 
       // Draw cancle button
-      this->arduboy.drawBitmap(0, 54, BAUI_cancel, 30, 9, WHITE);
+      this->arduboy.drawBitmap(0, 54, BAUI_cancel, 30, 8, WHITE);
     }
     else{
       // Draw cancel button
-      this->arduboy.drawBitmap(0, 54, BAUI_cancel_selected, 30, 9, WHITE);
+      this->arduboy.drawBitmap(0, 54, BAUI_cancel_selected, 30, 8, WHITE);
     }
 
     this->arduboy.display();
