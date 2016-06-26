@@ -11,9 +11,6 @@ BAGame::BAGame(){
   arduboy.initRandomSeed();
   arduboy.audio.on();
 
-  // Start with menu
-  currentState = BAGameStateMenu;
-
   // init input
   input = new BAInput(arduboy);
 
@@ -29,21 +26,23 @@ BAGame::BAGame(){
 
 void BAGame::run(){
 
+  // Start with menu
+  currentState = BAGameStateMenu;
+
   // Store command for next step
   BAGameCommand nextCommand = BAGameCommandNone;
 
   // Game loop
   while(true){
-
     if (currentState == BAGameStateMenu) {
       nextCommand = showMenu();
       updateCurrentStateWithCommand(nextCommand, BAGameStateCharacterSelection, BAGameStateMenu);
     }
-
     if (currentState == BAGameStateCharacterSelection) {
       nextCommand = showCharSelection();
       updateCurrentStateWithCommand(nextCommand, BAGameStateMenu, BAGameStateMenu);
-    }/*
+    }
+/*
 
     if (currentState == BAGameStatePlaceShips) {
       nextCommand = showPlaceShips();

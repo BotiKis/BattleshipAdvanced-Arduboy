@@ -48,6 +48,8 @@ public:
     uint8_t numberOfMediumShips;
     uint8_t numberOfLargeShips;
 
+    uint8_t numberOfAllShips();
+
     // aim dificulty
     CharDifficulty difficulty;
 };

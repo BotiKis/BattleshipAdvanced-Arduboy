@@ -5,35 +5,34 @@
 
 
 BAPlayer::BAPlayer(CharacterID charID){
+
+
   charData = BACharacterData::newCharacterForID(charID);
 
   // init ships
-  /*
-  ships = NULL;
-  numberOfShips = charData.numberOfSmallShips + charData.numberOfMediumShips + charData.numberOfLargeShips;
-  ships = (BAShip*)malloc(numberOfShips * sizeof(BAShip));//ew BAShip[numberOfShips];
-*/
-  /*
+  this->ships = new BAShip[charData->numberOfAllShips()];
+
   // small ships
-  for(int8_t i = 0; i < charData.numberOfSmallShips; i++)
-    ships[i] = BAShipMake(1);
+  for(int8_t i = 0; i < charData->numberOfSmallShips; i++)
+    this->ships[i] = BAShipMake(1);
 
   // medium ships
-  for(int8_t i = 0; i < charData.numberOfMediumShips; i++)
-    ships[i + charData.numberOfSmallShips] = BAShipMake(2);
+  for(int8_t i = 0; i < charData->numberOfMediumShips; i++)
+    this->ships[i + charData->numberOfSmallShips] = BAShipMake(2);
 
   // big ships
-  for(int8_t i = 0; i < charData.numberOfLargeShips; i++)
-    ships[i + charData.numberOfSmallShips + charData.numberOfMediumShips] = BAShipMake(3);
+  for(int8_t i = 0; i < charData->numberOfLargeShips; i++)
+    this->ships[i + charData->numberOfSmallShips + charData->numberOfMediumShips] = BAShipMake(3);
 
   // create water map
-  for(int8_t j = 0; j < GAME_BOARD_SIZE_HEIGHT; j++){
-    for(int8_t i = 0; i < GAME_BOARD_SIZE_WIDTH; i++){
+
+  for(int8_t y = 0; y < GAME_BOARD_SIZE_HEIGHT; y++){
+    for(int8_t x = 0; x < GAME_BOARD_SIZE_WIDTH; x++){
       //Water
-      playerBoard[j][i] = BAMapTileTypeWater0;
+      playerBoard[y][x] = -4;
     }
   }
-
+/*
   // random mountains
   byte mountainsCount = random(3,6);
   ABPoint lastMountainPos = ABPointMake(-1, -1);
@@ -54,28 +53,29 @@ BAPlayer::BAPlayer(CharacterID charID){
 
 BAPlayer::~BAPlayer(){
   delete this->charData;
+  this->charData = NULL;
 
-  free(ships);
-  ships = NULL;
+  delete[] this->ships;
+  this->ships = NULL;
 }
 
 const BACharacterData* BAPlayer::getCharacterData(){
   return charData;
 }
 
-BAShip BAPlayer::shipAtIndex(byte idx){
+BAShip BAPlayer::shipAtIndex(uint8_t idx){
   return ships[idx];
 }
 
-void BAPlayer::updateShipAtIndex(byte idx, BAShip newShip){
+void BAPlayer::updateShipAtIndex(uint8_t idx, BAShip newShip){
   ships[idx].remainingLength = newShip.remainingLength;
   ships[idx].horizontal = newShip.horizontal;
   ships[idx].positionX = newShip.positionX;
   ships[idx].positionY = newShip.positionY;
 }
 
-int8_t BAPlayer:: numberOfRemainingShips(){
-  byte nr = 0;
+int8_t BAPlayer::numberOfRemainingShips(){
+  uint8_t nr = 0;
 
   for(int i = 0; i<numberOfShips ;i++)
     if(!BAShipIsShipDestroyed(ships[i])) nr++;

@@ -26,14 +26,14 @@ class BAPlayer{
 
     // ships
     int8_t numberOfShips; // includes the destroyed ones
-    BAShip shipAtIndex(byte idx);
-    void   updateShipAtIndex(byte idx, BAShip newShip);
+    BAShip shipAtIndex(uint8_t idx);
+    void   updateShipAtIndex(uint8_t idx, BAShip newShip);
     int8_t numberOfRemainingShips();
 
   private:
     // Chardata is not allowed to be modified
     BACharacterData *charData;
-    BAShip *ships;
+    BAShip *ships; // array of ships
 };
 
 #endif

@@ -58,7 +58,7 @@ BAGameCommand BAGame::showCharSelection(){
       delete this->opponentPlayer;
       this->opponentPlayer = NULL;
 
-      //this->activePlayer = new BAPlayer(availableCharacters[selectedCharIndex]);
+      this->activePlayer = new BAPlayer((CharacterID)selectedCharIndex);
 
 /*
       // get random enemy but not itself

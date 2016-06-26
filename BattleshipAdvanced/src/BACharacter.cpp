@@ -37,6 +37,13 @@ BACharacterData::BACharacterData(const char *charName, CharacterID charID, byte 
 BACharacterData::~BACharacterData(){
 }
 
+uint8_t BACharacterData::numberOfAllShips(){
+  return this->numberOfSmallShips + this->numberOfMediumShips + this->numberOfLargeShips;
+}
+
+// ----------------------------
+// Class methods
+
 BACharacterData* BACharacterData::newCharacterForID(CharacterID charID){
   // char data
   // name, spriteID, #OfShots per round, small ships, medium ships, large ships, difficulty
