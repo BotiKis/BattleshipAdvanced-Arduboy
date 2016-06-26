@@ -6,8 +6,8 @@
 
 BAPlayer::BAPlayer(CharacterID charID){
 
-
-  charData = BACharacterData::newCharacterForID(charID);
+  // init character Data
+  this->charData = BACharacterData::newCharacterForID(charID);
 
   // init ships
   this->ships = new BAShip[charData->numberOfAllShips()];
@@ -24,30 +24,32 @@ BAPlayer::BAPlayer(CharacterID charID){
   for(int8_t i = 0; i < charData->numberOfLargeShips; i++)
     this->ships[i + charData->numberOfSmallShips + charData->numberOfMediumShips] = BAShipMake(3);
 
-  // create water map
-
-  // If i uncomment this two loops the game crashes. i dunno why.
-
+  // create map
+  uint8_t mountainsCount = random(4,6);
   for(int8_t y = 0; y < GAME_BOARD_SIZE_HEIGHT; y++){
     for(int8_t x = 0; x < GAME_BOARD_SIZE_WIDTH; x++){
-      //Water
+      // Water
       playerBoard[y][x] = BAMapTileTypeWater0;
-    }
-  }
-  // random mountains
-  byte mountainsCount = random(3,6);
-  ABPoint lastMountainPos = ABPointMake(-1, -1);
 
-  for(byte i = 0; i < mountainsCount ; i++){
-    ABPoint mountainPos;
-    do{
-      mountainPos.x = random(0, GAME_BOARD_SIZE_WIDTH);
-      mountainPos.y = random(0, GAME_BOARD_SIZE_HEIGHT);
-    }
-    while(ABPointEqualToPoint(mountainPos, lastMountainPos));
+      // slight chance fo a mountain
+      if ( (random(0, 100) < 2) && (mountainsCount > 0) ) {
+        playerBoard[y][x] = BAMapTileTypeMountain;
+        mountainsCount--;
+      }
 
-    lastMountainPos = mountainPos;
-    playerBoard[mountainPos.y][mountainPos.x] = BAMapTileTypeMountain;
+    }
+
+    // distribute the remaining mountains
+    while(mountainsCount > 0) {
+      uint8_t x = random(0, GAME_BOARD_SIZE_WIDTH);
+      uint8_t y = random(0, GAME_BOARD_SIZE_HEIGHT);
+
+      if (playerBoard[y][x] != BAMapTileTypeMountain) {
+        playerBoard[y][x] = BAMapTileTypeMountain;
+        mountainsCount--;
+      }
+    }
+
   }
 }
 

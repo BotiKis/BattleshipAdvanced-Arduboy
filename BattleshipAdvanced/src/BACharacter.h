@@ -15,12 +15,6 @@ typedef enum {
   CharacterIDBoss = -1
 }CharacterID;
 
-
-// Returns the correct bitmap for the requested char
-const unsigned char* outlineAssetForCharacter(CharacterID characterID);
-const unsigned char* fillAssetForCharacter(CharacterID characterID);
-
-
 // ===========================================================
 // Char Data
 class BACharacterData{
@@ -31,7 +25,11 @@ public:
 
     // Static Factory for char data
     static BACharacterData* newCharacterForID(CharacterID charID); // needs to be deleted
-    static uint8_t numberOfAvailableCharacters();
+     uint8_t numberOfAvailableCharacters();
+
+    // Returns the correct bitmap for the requested char
+    static const unsigned char* outlineAssetForCharacter(CharacterID characterID);
+    static const unsigned char* fillAssetForCharacter(CharacterID characterID);
 
 // Data stays public for simplicity - hell i don't want to make accessors
     // Char name

@@ -1,7 +1,7 @@
 #include "BACharacter.h"
 #include "BACharAssets.h"
 
-const unsigned char* outlineAssetForCharacter(CharacterID characterID){
+const unsigned char* BACharacterData::outlineAssetForCharacter(CharacterID characterID){
   switch(characterID){
     default:
     case CharacterIDMatt:   return BACharAsset_characterID1;
@@ -12,7 +12,7 @@ const unsigned char* outlineAssetForCharacter(CharacterID characterID){
   }
 }
 
-const unsigned char* fillAssetForCharacter(CharacterID characterID){
+const unsigned char* BACharacterData::fillAssetForCharacter(CharacterID characterID){
   switch(characterID){
     default:
     case CharacterIDMatt:   return BACharAsset_characterID1_Fill;

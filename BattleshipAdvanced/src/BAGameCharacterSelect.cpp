@@ -60,15 +60,14 @@ BAGameCommand BAGame::showCharSelection(){
 
       this->activePlayer = new BAPlayer((CharacterID)selectedCharIndex);
 
-/*
       // get random enemy but not itself
       uint8_t enemyCharIndex;
       do {
         enemyCharIndex = random(4);
       } while(enemyCharIndex == selectedCharIndex);
 
-      this->opponentPlayer = new BAPlayer(availableCharacters[enemyCharIndex]);
-*/
+      this->opponentPlayer = new BAPlayer((CharacterID)enemyCharIndex);
+
       return BAGameCommandNext;
     }
 
@@ -83,8 +82,8 @@ BAGameCommand BAGame::showCharSelection(){
 
       // draw char bitmaps
       //
-      arduboy.drawBitmap(charOriginX, charOriginY, fillAssetForCharacter((CharacterID)i), 32, 32, BLACK);
-      arduboy.drawBitmap(charOriginX, charOriginY, outlineAssetForCharacter((CharacterID)i), 32, 32, WHITE);
+      arduboy.drawBitmap(charOriginX, charOriginY, BACharacterData::fillAssetForCharacter((CharacterID)i), 32, 32, BLACK);
+      arduboy.drawBitmap(charOriginX, charOriginY, BACharacterData::outlineAssetForCharacter((CharacterID)i), 32, 32, WHITE);
 
       // Draw name
       drawText(availableCharacters[i], charOriginX + 34, charOriginY + 20, (selectedCharIndex == i && selectionAnimator)?BLACK:WHITE, this->arduboy);

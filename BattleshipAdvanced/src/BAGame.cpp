@@ -58,10 +58,15 @@ void BAGame::run(){
       nextCommand = showMenu();
       updateCurrentStateWithCommand(nextCommand, BAGameStateCharacterSelection, BAGameStateMenu);
     }
+
+    this->printFreeMemoryIndependent();
+
     if (currentState == BAGameStateCharacterSelection) {
       nextCommand = showCharSelection();
       updateCurrentStateWithCommand(nextCommand, BAGameStateMenu, BAGameStateMenu);
     }
+
+    this->printFreeMemoryIndependent();
 /*
 
     if (currentState == BAGameStatePlaceShips) {
