@@ -9,6 +9,8 @@ BAPlayer::BAPlayer(CharacterID charID){
   // init character Data
   this->charData = BACharacterData::newCharacterForID(charID);
 
+  this->numberOfShips = charData->numberOfSmallShips + charData->numberOfMediumShips + charData->numberOfLargeShips;
+
   // init ships
   this->ships = new BAShip[charData->numberOfAllShips()];
 
@@ -32,24 +34,22 @@ BAPlayer::BAPlayer(CharacterID charID){
       playerBoard[y][x] = BAMapTileTypeWater0;
 
       // slight chance fo a mountain
-      if ( (random(0, 100) < 2) && (mountainsCount > 0) ) {
-        playerBoard[y][x] = BAMapTileTypeMountain;
-        mountainsCount--;
-      }
-
-    }
-
-    // distribute the remaining mountains
-    while(mountainsCount > 0) {
-      uint8_t x = random(0, GAME_BOARD_SIZE_WIDTH);
-      uint8_t y = random(0, GAME_BOARD_SIZE_HEIGHT);
-
-      if (playerBoard[y][x] != BAMapTileTypeMountain) {
+      if ( (random(0, 100) < 3) && (mountainsCount > 0) ) {
         playerBoard[y][x] = BAMapTileTypeMountain;
         mountainsCount--;
       }
     }
+  }
 
+  // distribute the remaining mountains
+  while(mountainsCount > 0) {
+    uint8_t x = random(0, GAME_BOARD_SIZE_WIDTH);
+    uint8_t y = random(0, GAME_BOARD_SIZE_HEIGHT);
+
+    if (playerBoard[y][x] != BAMapTileTypeMountain) {
+      playerBoard[y][x] = BAMapTileTypeMountain;
+      mountainsCount--;
+    }
   }
 }
 
@@ -76,10 +76,14 @@ void BAPlayer::updateShipAtIndex(uint8_t idx, BAShip newShip){
   ships[idx].positionY = newShip.positionY;
 }
 
+int8_t BAPlayer::numberOfAllShips(){
+  return this->numberOfShips;
+}
+
 int8_t BAPlayer::numberOfRemainingShips(){
   uint8_t nr = 0;
 
-  for(int i = 0; i<numberOfShips ;i++)
+  for(int i = 0; i<this->numberOfAllShips() ;i++)
     if(!BAShipIsShipDestroyed(ships[i])) nr++;
 
   return nr;
