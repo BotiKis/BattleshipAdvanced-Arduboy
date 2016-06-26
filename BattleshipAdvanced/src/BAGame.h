@@ -6,7 +6,7 @@
 #include "ABGeometry.h"
 #include "BAPlayer.h"
 
-// helper to calcj deltatime
+// helper to calc deltatime
 #define MILLIS_SINCE(MILLIS) (millis() - MILLIS)
 
 // Tells the gamestate for the menu

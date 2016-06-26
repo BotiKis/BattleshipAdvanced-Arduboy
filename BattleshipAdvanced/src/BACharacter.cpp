@@ -19,7 +19,7 @@ const unsigned char* fillAssetForCharacter(CharacterID characterID){
     case CharacterIDMimi:   return BACharAsset_characterID2_Fill;
     case CharacterIDKenji:  return BACharAsset_characterID3_Fill;
     case CharacterIDNaru:   return BACharAsset_characterID4_Fill;
-    case CharacterIDBoss:   return BACharAsset_characterID4_Fill;;
+    case CharacterIDBoss:   return BACharAsset_characterID4_Fill;
   }
 }
 
