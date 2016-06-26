@@ -3,6 +3,7 @@
 #include <Arduboy.h>
 
 #define BA_INPUT_NEVER_REFIRE ULONG_MAX
+#define BA_INPUT_REFIRERATE_DEFAULT 500
 
 // used only internally
 class BAButton{

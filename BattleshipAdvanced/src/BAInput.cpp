@@ -19,7 +19,7 @@ void BAButton::reset(){
 
 BAInput::BAInput(Arduboy *arduboy){
   fireContinuous = false;
-  refireAfterMillis = 500;
+  refireAfterMillis = BA_INPUT_REFIRERATE_DEFAULT;
   this->arduboy = arduboy;
   reset();
 }
