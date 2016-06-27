@@ -1,14 +1,11 @@
 #include "BAGame.h"
 #include "BAMapData.h"
 
-#define GAME_BOARD_SIZE_WIDTH 12
-#define GAME_BOARD_SIZE_HEIGHT 8
-
 BAGameCommand BAGame::showPlaceShips(){
 
   // for animating stuff
   bool animationFlip = true;
-  uint16_t startTime = millis();
+  uint32_t startTime = millis();
 
   // ===========================
   // info panel loop
