@@ -37,7 +37,12 @@ class BAGame{
 
     /// starts the game and calls all methods in neccesary order
     void run();
+
+    // Methods for debuging runtime memory
+    /// Prints the free memory in Bytes to the top left corner of the screen
+    /// Place between a Arduboy::clear() and a Arduboy::display() block.
     void printFreeMemory();
+    /// See printFreeMemory() but has its own Arduboy::clear() and Arduboy::display()
     void printFreeMemoryIndependent();
 
 private:
@@ -47,12 +52,11 @@ private:
     void startNewGame();
 
     // Game methods
-    BAGameCommand showMenu();
-    BAGameCommand showCharSelection();
-    BAGameCommand showVersusScreen();
-    BAGameCommand showPlaceShips();
-
-    void showPrepareForGame();
+    BAGameCommand showMenu();           // Implemented in BAGameMenu.cpp
+    BAGameCommand showCharSelection();  // Implemented in BAGameCharacterSelect.cpp
+    BAGameCommand showVersusScreen();   // Implemented in BAGameVersusScreen.cpp
+    BAGameCommand showPlaceShips();     // Implemented in BAGamePlaceShips.cpp
+    void showPrepareForGame();          // Implemented in BAGameShowStartingPlayer.cpp
 
     BAGameCommand playGame();
 
@@ -60,6 +64,8 @@ private:
     BAGameCommand showOpponentTurn();
 
     // Helper
+
+    /// Draws the Map of a player
     void drawMap(BAPlayer *player, bool showShips);
     void drawMapAtPosition(BAPlayer *player, uint8_t x, uint8_t y, bool showShips);
 

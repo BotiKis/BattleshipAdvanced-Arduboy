@@ -82,9 +82,10 @@ void BAGame::run(){
     }
 
     if (currentState == BAGameStatePlaying) {
-      this->updateCurrentStateWithCommand(BAGameCommandNext, BAGameStateMenu, BAGameStateMenu);
-    }
 
+      nextCommand = this->playGame();
+      this->updateCurrentStateWithCommand(nextCommand, BAGameStateMenu, BAGameStateMenu);
+    }
 
     this->printFreeMemoryIndependent();
   }
