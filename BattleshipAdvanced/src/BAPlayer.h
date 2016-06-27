@@ -1,12 +1,12 @@
 #ifndef BAPLAYER_H
 #define BAPLAYER_H
 #include <Arduboy.h>
+#include "ABGeometry.h"
 
 #include "BACharacter.h"
 #include "BAShip.h"
 
 
-// In 8x8 blocks
 #define GAME_BOARD_SIZE_WIDTH 12
 #define GAME_BOARD_SIZE_HEIGHT 8
 
@@ -17,6 +17,9 @@ class BAPlayer{
   public:
     BAPlayer(CharacterID charID);
     ~BAPlayer();
+
+    // Returns the Gameboard size
+    static ABSize gameBoardSize();
 
     // Getter for char data
     const BACharacterData* getCharacterData();

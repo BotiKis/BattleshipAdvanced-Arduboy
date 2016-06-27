@@ -61,6 +61,10 @@ BAPlayer::~BAPlayer(){
   this->ships = NULL;
 }
 
+ABSize BAPlayer::gameBoardSize(){
+  return ABSizeMake(GAME_BOARD_SIZE_WIDTH, GAME_BOARD_SIZE_HEIGHT);
+}
+
 const BACharacterData* BAPlayer::getCharacterData(){
   return charData;
 }
