@@ -57,8 +57,7 @@ private:
     BAGameCommand showVersusScreen();   // Implemented in BAGameVersusScreen.cpp
     BAGameCommand showPlaceShips();     // Implemented in BAGamePlaceShips.cpp
     void showPrepareForGame();          // Implemented in BAGameShowStartingPlayer.cpp
-
-    BAGameCommand playGame();
+    BAGameCommand playGame();           // Implemented in BACoreGame.cpp
 
     BAGameCommand showPlayerTurn();
     BAGameCommand showOpponentTurn();
@@ -66,6 +65,7 @@ private:
     // Helper
 
     /// Draws the Map of a player
+    // implemented in BAGameMap.cpp
     void drawMap(BAPlayer *player, bool showShips);
     void drawMapAtPosition(BAPlayer *player, uint8_t x, uint8_t y, bool showShips);
 
