@@ -1,9 +1,9 @@
 #include "BAGame.h"
 
-BAGameCommand playGame(){
+BAGameCommand BAGame::playGame(){
 
   uint32_t startTime = millis();
-  
+
   while (true) {
   }
 
