@@ -1,6 +1,14 @@
 #include "BAGame.h"
 #include "BACharAssets.h"
 
+//16x16
+PROGMEM const unsigned char BA_VERSUS_ANIM_TILE[] = {
+0x00, 0x00, 0xf0, 0xff, 0xff, 0xff, 0xff, 0xff,
+0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x0f,
+0xf0, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+0xff, 0xff, 0xff, 0xff, 0xff, 0x0f, 0x00, 0x00
+};
+
 BAGameCommand BAGame::showVersusScreen(){
   // for animating stuff
   unsigned long startTime =  millis();
@@ -9,14 +17,9 @@ BAGameCommand BAGame::showVersusScreen(){
   uint16_t player1AppearAfter = 100;
   uint16_t player2AppearAfter = 300;
 
-  // Show player rect
-  ABRect startRect = ABRectMake(-48,0,48,64);
-  ABRect endRect = ABRectMake(176,0,48,64);
-
-  //VS Rect
-  uint16_t vsAppearsAfter = 600;
-  ABRect vsRectStart = ABRectMake(0,-32,128,128);
-  ABRect vsRectEnd = ABRectMake(64,32, 1,1);
+  // Origins for swipe animation
+  ABPoint startOrigin = ABPointMake(-32,0);
+  ABPoint endOrigin = ABPointMake(192,0);
 
   // main loop
   while(true){
@@ -57,17 +60,22 @@ BAGameCommand BAGame::showVersusScreen(){
     uint16_t progress = ((uint16_t)deltatime)/5;
     progress = (progress > 100)?100:progress;
 
-    ABRect animationRect = animateRectToRect(startRect, endRect, progress);
-    this->arduboy.fillRect(animationRect.origin.x, animationRect.origin.y, animationRect.size.width, animationRect.size.height, WHITE);
+    // animate swipe. Bitmap uses less flash than calling Arduboy::fillRect()
+    ABPoint tileAnimationOrigin = animatePointFromToPoint(startOrigin, endOrigin, progress);
+    this->arduboy.drawBitmap(tileAnimationOrigin.x   ,  0, BA_VERSUS_ANIM_TILE, 16, 16, WHITE);
+    this->arduboy.drawBitmap(tileAnimationOrigin.x-4 , 16, BA_VERSUS_ANIM_TILE, 16, 16, WHITE);
+    this->arduboy.drawBitmap(tileAnimationOrigin.x-8 , 32, BA_VERSUS_ANIM_TILE, 16, 16, WHITE);
+    this->arduboy.drawBitmap(tileAnimationOrigin.x-12, 48, BA_VERSUS_ANIM_TILE, 16, 16, WHITE);
 
+    this->arduboy.drawBitmap(tileAnimationOrigin.x+12 ,  0, BA_VERSUS_ANIM_TILE, 16, 16, WHITE);
+    this->arduboy.drawBitmap(tileAnimationOrigin.x+10 , 16, BA_VERSUS_ANIM_TILE, 16, 16, WHITE);
+    this->arduboy.drawBitmap(tileAnimationOrigin.x+4  , 32, BA_VERSUS_ANIM_TILE, 16, 16, WHITE);
+    this->arduboy.drawBitmap(tileAnimationOrigin.x+0  , 48, BA_VERSUS_ANIM_TILE, 16, 16, WHITE);
 
     // draw VS
-    if ( ((uint16_t)deltatime) > vsAppearsAfter ){
-      progress = (float)(deltatime - vsAppearsAfter)/3;
+    if ( ((uint16_t)deltatime) > player2AppearAfter+50 ){
+      progress = (float)(deltatime - player2AppearAfter + 50)/3;
       progress = (progress > 100)?100:progress;
-
-      animationRect = animateRectToRect(vsRectStart, vsRectEnd, progress);
-      this->arduboy.fillRect(animationRect.origin.x, animationRect.origin.y, animationRect.size.width, animationRect.size.height, WHITE);
 
       this->arduboy.drawBitmap(50, 16, BACharAsset_VS, 32, 32, WHITE);
     }
