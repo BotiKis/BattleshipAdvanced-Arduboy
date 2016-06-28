@@ -7,8 +7,8 @@ void BAGame::drawMapAtPosition(BAPlayer *player, uint8_t x, uint8_t y, bool show
   // flip for watrer animation
   bool waterAnimationStepped = this->arduboy.everyXFrames(30);
 
-    for(int mapPosY = 0; mapPosY < GAME_BOARD_SIZE_HEIGHT; mapPosY++){
-      for(int mapPosX = 0; mapPosX < GAME_BOARD_SIZE_WIDTH; mapPosX++){
+    for(int mapPosY = 0; mapPosY < BAPlayer::gameBoardSize().height; mapPosY++){
+      for(int mapPosX = 0; mapPosX < BAPlayer::gameBoardSize().width; mapPosX++){
 
         int currentMapIndex = player->playerBoard[mapPosY][mapPosX];
 
@@ -29,13 +29,13 @@ void BAGame::drawMapAtPosition(BAPlayer *player, uint8_t x, uint8_t y, bool show
 
         //=======================================
         // If it's a Mountain
-        else if(currentMapIndex == BAMapTileTypeMountain){
+        if(currentMapIndex == BAMapTileTypeMountain){
           this->arduboy.drawBitmap(mapPosX*8 + x, mapPosY*8 + y, BAMap_Sprite_Mountain, 8, 8, WHITE);
         }
 
         //=======================================
         // If it's a water sprite
-        else if(currentMapIndex == BAMapTileTypeWater1){
+        if(currentMapIndex == BAMapTileTypeWater1){
            this->arduboy.drawBitmap(mapPosX*8 + x, mapPosY*8 + y, BAMap_Sprite_Water1, 8, 8, WHITE);
 
            if(waterAnimationStepped) // set to next frame
@@ -58,7 +58,7 @@ void BAGame::drawMapAtPosition(BAPlayer *player, uint8_t x, uint8_t y, bool show
         // animate water
         if(currentMapIndex == BAMapTileTypeWater0 && waterAnimationStepped){
           // check probability for new water
-          if(random(100) < 1)
+          if(random(100) < 10)
             player->playerBoard[mapPosY][mapPosX] = BAMapTileTypeWater1;
         }
 
