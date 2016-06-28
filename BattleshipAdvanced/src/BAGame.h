@@ -55,10 +55,15 @@ private:
     BAGameCommand showMenu();           // Implemented in BAGameMenu.cpp
     BAGameCommand showCharSelection();  // Implemented in BAGameCharacterSelect.cpp
     BAGameCommand showVersusScreen();   // Implemented in BAGameVersusScreen.cpp
+
     BAGameCommand showPlaceShips();     // Implemented in BAGamePlaceShips.cpp
+    void showPlaceShipsInfo(); // Implemented in BAGamePlaceShips.cpp
+    BAGameCommand showPlaceShipsMap();  // Implemented in BAGamePlaceShips.cpp
+
     void showPrepareForGame();          // Implemented in BAGameShowStartingPlayer.cpp
 
     BAGameCommand playGame();           // Implemented in BACoreGame.cpp
+    BAGameCommand animateFromPlayerToPlayer();
     BAGameCommand showPlayerTurn();
     BAGameCommand showOpponentTurn();
 

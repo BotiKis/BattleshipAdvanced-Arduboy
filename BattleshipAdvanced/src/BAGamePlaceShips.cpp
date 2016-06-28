@@ -2,7 +2,11 @@
 #include "BAMapData.h"
 
 BAGameCommand BAGame::showPlaceShips(){
+  showPlaceShipsInfo();
+  return showPlaceShipsMap();
+}
 
+void BAGame::showPlaceShipsInfo(){
   // for animating stuff
   bool animationFlip = true;
   uint32_t startTime = millis();
@@ -17,7 +21,7 @@ BAGameCommand BAGame::showPlaceShips(){
     this->input->updateInput();
 
     if(this->input->pressed(B_BUTTON) || this->input->pressed(A_BUTTON)){
-      break;
+      return;
     }
 
     // clear screen
@@ -50,15 +54,9 @@ BAGameCommand BAGame::showPlaceShips(){
 
     this->arduboy.display();
   }
+}
 
-
-
-  // ======================================================
-  // ======================================================
-  // place ships loop
-  // ======================================================
-  // ======================================================
-
+BAGameCommand BAGame::showPlaceShipsMap(){
 
   // store information
   ABPoint playerCursor = ABPointMake(6, 4);
@@ -103,8 +101,8 @@ BAGameCommand BAGame::showPlaceShips(){
     }
 
     // move cursor inside bounds if ship gets longer
-    int maxX = GAME_BOARD_SIZE_WIDTH - ( orienteationHorizontal ? currentShip.fullLength : 1);
-    int maxY = GAME_BOARD_SIZE_HEIGHT - ( !orienteationHorizontal ? currentShip.fullLength : 1);
+    int maxX = BAPlayer::gameBoardSize().width - ( orienteationHorizontal ? currentShip.fullLength : 1);
+    int maxY = BAPlayer::gameBoardSize().height - ( !orienteationHorizontal ? currentShip.fullLength : 1);
     playerCursor.y = ((playerCursor.y > maxY)? maxY : playerCursor.y);
     playerCursor.x = ((playerCursor.x > maxX)? maxX : playerCursor.x);
 
@@ -177,6 +175,10 @@ BAGameCommand BAGame::showPlaceShips(){
       }
     }
 
+
+    // =============================
+    // Draw stuff to screen
+
     // clear screen
     this->arduboy.clear();
 
@@ -202,7 +204,6 @@ BAGameCommand BAGame::showPlaceShips(){
     // only draw cursor if index is inside map
     if(playerCursor.x >= 0){
 
-      ABPoint shipPos;
       uint8_t shipPosX = 32 + playerCursor.x*8;
       uint8_t shipPosY = playerCursor.y*8;
 
