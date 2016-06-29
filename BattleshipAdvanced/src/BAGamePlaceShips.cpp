@@ -188,10 +188,9 @@ BAGameCommand BAGame::showPlaceShipsMap(){
     //=======================================
     // draw menu
 
-    this->arduboy.drawBitmap(0, 8, BAUI_remaining_ships, 30, 8, WHITE);
-
-    char remainingShipsBuffer[3] = {0};
     drawText(this->activePlayer->getCharacterData()->name, 0, 0, WHITE, this->arduboy);
+    this->arduboy.drawBitmap(0, 8, BAUI_remaining_ships, 30, 8, WHITE);
+    char remainingShipsBuffer[3] = {0};
     sprintf (remainingShipsBuffer, "%d", this->activePlayer->numberOfAllShips() - numberOfPlacedShips);
     drawText(remainingShipsBuffer, 0, 16, WHITE, this->arduboy);
 
