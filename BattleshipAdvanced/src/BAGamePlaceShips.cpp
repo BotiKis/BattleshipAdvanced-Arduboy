@@ -120,22 +120,9 @@ BAGameCommand BAGame::showPlaceShipsMap(){
       else{
 
         // check if ship collides with other ship or mountain
-        bool safe = true;
-        for (int len = 0; len < currentShip.fullLength; len++) {
-          int dX = 0, dY = 0;
+        bool collides = this->activePlayer->shipCollidesOnMap(currentShip);
 
-          if (orienteationHorizontal)
-            dX = len;
-          else
-            dY = len;
-
-          if (this->activePlayer->playerBoard[playerCursor.y+dY][playerCursor.x+dX] >= 0 || this->activePlayer->playerBoard[playerCursor.y+dY][playerCursor.x+dX] == BAMapTileTypeMountain) {
-            safe = false;
-            break;
-          }
-        }
-
-        if (!safe) {
+        if (collides) {
           // play error sound and ignore
           //playSoundErr();
         }

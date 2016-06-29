@@ -92,3 +92,22 @@ int8_t BAPlayer::numberOfRemainingShips(){
 
   return nr;
 }
+
+bool BAPlayer::shipCollidesOnMap(BAShip &ship){
+  bool colides = false;
+  for (int len = 0; len < ship.fullLength; len++) {
+    int dX = 0, dY = 0;
+
+    if (ship.orientation == BAShipOrientationHorizontal)
+      dX = len;
+    else
+      dY = len;
+
+    if (this->playerBoard[ship.positionY+dY][ship.positionX+dX] >= 0 || this->playerBoard[ship.positionY+dY][ship.positionX+dX] == BAMapTileTypeMountain) {
+      colides = true;
+      break;
+    }
+  }
+
+  return colides;
+}

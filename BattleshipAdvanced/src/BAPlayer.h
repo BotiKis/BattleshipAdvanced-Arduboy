@@ -33,6 +33,8 @@ class BAPlayer{
     int8_t numberOfAllShips();
     int8_t numberOfRemainingShips();
 
+    bool shipCollidesOnMap(BAShip &ship);
+
   private:
     // Chardata is not allowed to be modified
     BACharacterData *charData;
