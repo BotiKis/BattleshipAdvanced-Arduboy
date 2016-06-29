@@ -16,13 +16,16 @@ bool horizontal = (orientation == BAShipOrientationHorizontal);
     arduboy.drawBitmap(x, y, horizontal?BAMap_Sprite_Ship_horizontal_single:BAMap_Sprite_Ship_vertical_single, 8, 8, color);
   }
   else if (shipLength >= 2){
-    int8_t lastPartPos = ((shipLength-1)*8);
+    // ship head
     arduboy.drawBitmap(x,  y, horizontal?BAMap_Sprite_Ship_horizontal_1:BAMap_Sprite_Ship_vertical_1, 8, 8, color);
-    arduboy.drawBitmap(x + horizontal?lastPartPos:0, y + horizontal?0:lastPartPos, horizontal?BAMap_Sprite_Ship_horizontal_3:BAMap_Sprite_Ship_vertical_3, 8, 8, color);
+
+    // ship tail
+    int8_t shipTailPos = ((shipLength-1)*8);
+    arduboy.drawBitmap(x + (horizontal?shipTailPos:0), y + (horizontal?0:shipTailPos), horizontal?BAMap_Sprite_Ship_horizontal_3:BAMap_Sprite_Ship_vertical_3, 8, 8, color);
 
     for(int8_t i = 1; i < (shipLength-1); i++){
       int8_t middlePartPos = (i*8);
-      arduboy.drawBitmap(x + horizontal?middlePartPos:0, y + horizontal?0:middlePartPos, horizontal?BAMap_Sprite_Ship_horizontal_2:BAMap_Sprite_Ship_vertical_2, 8, 8, color);
+      arduboy.drawBitmap(x + (horizontal?middlePartPos:0), y + (horizontal?0:middlePartPos), horizontal?BAMap_Sprite_Ship_horizontal_2:BAMap_Sprite_Ship_vertical_2, 8, 8, color);
     }
   }
 }
