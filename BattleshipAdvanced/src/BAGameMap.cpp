@@ -21,10 +21,7 @@ void BAGame::drawMapAtPosition(BAPlayer *player, uint8_t x, uint8_t y, bool show
            uint8_t shipPosX = currentShip.positionX*8  + x;
            uint8_t shipPosY = currentShip.positionY*8 + y;
 
-           if(currentShip.horizontal)
-            drawHorizontalShip(shipPosX, shipPosY, currentShip.fullLength, WHITE, this->arduboy);
-           else
-            drawVerticalShip(shipPosX, shipPosY, currentShip.fullLength, WHITE, this->arduboy);
+           drawShip(shipPosX, shipPosY, currentShip.orientation, currentShip.fullLength, WHITE, this->arduboy);
         }
 
         //=======================================

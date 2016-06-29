@@ -43,9 +43,9 @@ void BAGame::showPlaceShipsInfo(){
     drawTextRightAligned(numberOfShipsBuffer, 84, 44, WHITE, this->arduboy);
 
     // draw ships
-    drawHorizontalShip(96, 20, 1, WHITE, this->arduboy);
-    drawHorizontalShip(96, 32, 2, WHITE, this->arduboy);
-    drawHorizontalShip(96, 44, 3, WHITE, this->arduboy);
+    drawShip(96, 20, BAShipOrientationHorizontal, 1, WHITE, this->arduboy);
+    drawShip(96, 32, BAShipOrientationHorizontal, 2, WHITE, this->arduboy);
+    drawShip(96, 44, BAShipOrientationHorizontal, 3, WHITE, this->arduboy);
 
     // draw press button
     if ( (MILLIS_SINCE(startTime) > 1000) && animationFlip) {
@@ -144,7 +144,7 @@ BAGameCommand BAGame::showPlaceShipsMap(){
           //playSoundSuccess();
 
           // update  orientation
-          currentShip.horizontal = orienteationHorizontal;
+          currentShip.orientation = orienteationHorizontal?BAShipOrientationHorizontal:BAShipOrientationVertical;
           currentShip.positionX = playerCursor.x;
           currentShip.positionY = playerCursor.y;
           this->activePlayer->updateShipAtIndex(numberOfPlacedShips, currentShip);
@@ -208,10 +208,10 @@ BAGameCommand BAGame::showPlaceShipsMap(){
 
       // draw current ship
       if(orienteationHorizontal){
-        drawHorizontalShip(shipPosX, shipPosY, currentShip.fullLength, WHITE, this->arduboy);
+        drawShip(shipPosX, shipPosY, BAShipOrientationHorizontal, currentShip.fullLength, WHITE, this->arduboy);
       }
       else{
-        drawVerticalShip(shipPosX, shipPosY, currentShip.fullLength, WHITE, this->arduboy);
+        drawShip(shipPosX, shipPosY, BAShipOrientationVertical, currentShip.fullLength, WHITE, this->arduboy);
       }
 
       // Do selection with sprites

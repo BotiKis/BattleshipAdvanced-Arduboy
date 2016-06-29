@@ -75,7 +75,7 @@ BAShip BAPlayer::shipAtIndex(uint8_t idx){
 
 void BAPlayer::updateShipAtIndex(uint8_t idx, BAShip newShip){
   ships[idx].remainingLength = newShip.remainingLength;
-  ships[idx].horizontal = newShip.horizontal;
+  ships[idx].orientation = newShip.orientation;
   ships[idx].positionX = newShip.positionX;
   ships[idx].positionY = newShip.positionY;
 }
