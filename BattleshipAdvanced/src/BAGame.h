@@ -16,7 +16,8 @@ typedef enum BAGameState{
   BAGameStateVersus,
   BAGameStatePlaceShips,
   BAGameStatePrepareForGame,
-  BAGameStatePlaying
+  BAGameStatePlaying,
+  BAGameStateEnding
 }BAGameState;
 
 // Command returned from each gamestep
@@ -67,8 +68,8 @@ private:
     // Implemented in BACoreGame.cpp
     BAGameCommand playGame();
     void animateFromPlayerToPlayer(BAPlayer*, BAPlayer*, bool);
-    BAGameCommand showPlayerTurn();
-    BAGameCommand showOpponentTurn();
+    void runPlayerTurn();
+    void runAITurn();
 
     // Helper
 

@@ -84,6 +84,12 @@ void BAGame::run(){
     if (currentState == BAGameStatePlaying) {
 
       nextCommand = this->playGame();
+      this->updateCurrentStateWithCommand(nextCommand, BAGameStateEnding, BAGameStateEnding);
+    }
+
+    if (currentState == BAGameStateEnding) {
+
+      nextCommand = BAGameCommandNext;
       this->updateCurrentStateWithCommand(nextCommand, BAGameStateMenu, BAGameStateMenu);
     }
 
