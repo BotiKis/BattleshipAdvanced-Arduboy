@@ -4,17 +4,22 @@
 
 void BAGame::drawMapAtPosition(BAPlayer *player, uint8_t x, uint8_t y, bool showShips){
 
-  // flip for watrer animation
+  // flip for water animation
   bool waterAnimationStepped = this->arduboy.everyXFrames(30);
+  int8_t currentMapIndex;
 
     for(int mapPosY = 0; mapPosY < BAPlayer::gameBoardSize().height; mapPosY++){
       for(int mapPosX = 0; mapPosX < BAPlayer::gameBoardSize().width; mapPosX++){
 
-        int currentMapIndex = player->playerBoard[mapPosY][mapPosX];
+        // get current tile index
+        currentMapIndex = player->playerBoard[mapPosY][mapPosX];
 
-          //=======================================
+        //=======================================
         // If it's a ship
         if(currentMapIndex >= 0 && showShips){
+
+          // check if ship has already been drawn
+
            // get actual ship from player
            BAShip currentShip = player->shipAtIndex(currentMapIndex);
 
@@ -55,7 +60,7 @@ void BAGame::drawMapAtPosition(BAPlayer *player, uint8_t x, uint8_t y, bool show
         // animate water
         if(currentMapIndex == BAMapTileTypeWater0 && waterAnimationStepped){
           // check probability for new water
-          if(random(100) < 10)
+          if(random(100) < 1)
             player->playerBoard[mapPosY][mapPosX] = BAMapTileTypeWater1;
         }
 
