@@ -1,5 +1,7 @@
 #include "BAGame.h"
 #include "BACharacter.h"
+#include "BAMapData.h"
+#include "BAShip.h"
 
 BAGameCommand BAGame::showCharSelection(){
 
@@ -67,6 +69,36 @@ BAGameCommand BAGame::showCharSelection(){
       } while(enemyCharIndex == selectedCharIndex);
 
       this->opponentPlayer = new BAPlayer((CharacterID)enemyCharIndex);
+
+      // place enemy ships
+      for(int8_t i = 0; i < this->opponentPlayer->numberOfAllShips(); i++){
+        BAShip currentShip = this->opponentPlayer->shipAtIndex(i);
+
+        // randomize ship and collision detect
+        bool collides = true;
+        do {
+          currentShip.positionX = random(0, BAPlayer::gameBoardSize().width);
+          currentShip.positionY = random(0, BAPlayer::gameBoardSize().height);
+          currentShip.orientation = ((random()%2) == 0)?BAShipOrientationHorizontal:BAShipOrientationVertical;
+          collides = this->opponentPlayer->shipCollidesOnMap(currentShip);
+        } while(collides);
+
+        // update ship
+        this->opponentPlayer->updateShipAtIndex(i, currentShip);
+
+        // store on map
+        for (int8_t len = 0; len < currentShip.fullLength; len++) {
+          int8_t dX = 0, dY = 0;
+
+          if (currentShip.orientation == BAShipOrientationHorizontal)
+            dX = len;
+          else
+            dY = len;
+
+          this->opponentPlayer->playerBoard[currentShip.positionY+dY][currentShip.positionX+dX] =  i; // write index of ship on the map
+        }
+      }
+
 
       return BAGameCommandNext;
     }
