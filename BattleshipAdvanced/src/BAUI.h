@@ -1,11 +1,11 @@
 #ifndef BAUI_H
 #define BAUI_H
-#include <Arduboy.h>
+#include <Arduboy2.h>
 #include "ABGeometry.h"
 
 // drawstext
-void drawText(const char *text, uint8_t x, uint8_t y, uint8_t color, Arduboy &arduboy);
-void drawTextRightAligned(const char *text, uint8_t x, uint8_t y, uint8_t color, Arduboy &arduboy);
+void drawText(const char *text, uint8_t x, uint8_t y, uint8_t color, Arduboy2 &arduboy);
+void drawTextRightAligned(const char *text, uint8_t x, uint8_t y, uint8_t color, Arduboy2 &arduboy);
 
 // all 30x8 size
 

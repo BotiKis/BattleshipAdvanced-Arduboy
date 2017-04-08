@@ -17,7 +17,7 @@ void BAButton::reset(){
 // ------------------------------------------------
 // BAInput
 
-BAInput::BAInput(Arduboy *arduboy){
+BAInput::BAInput(Arduboy2 *arduboy){
   fireContinuous = false;
   refireAfterMillis = BA_INPUT_REFIRERATE_DEFAULT;
   this->arduboy = arduboy;

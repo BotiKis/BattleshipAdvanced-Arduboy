@@ -1,6 +1,6 @@
 #ifndef MAPSPRITES_H
 #define MAPSPRITES_H
-#include <Arduboy.h>
+#include <Arduboy2.h>
 
 // Types are negative because they will be stored in the player map
 // and the ships of the player are also stored there with their indices

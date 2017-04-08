@@ -1,6 +1,6 @@
 #ifndef ABGEOMETRY_H
 #define ABGEOMETRY_H
-#include <Arduboy.h>
+#include <Arduboy2.h>
 
 // --------------------------------------------------------------
 // Types

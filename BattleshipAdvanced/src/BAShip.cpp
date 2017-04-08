@@ -9,7 +9,7 @@ bool BAShipIsShipDestroyed(BAShip ship){
   return ship.remainingLength <= 0;
 }
 
-void drawShip(uint8_t x, uint8_t y, BAShipOrientation orientation, uint8_t shipLength, uint8_t color, Arduboy &arduboy){
+void drawShip(uint8_t x, uint8_t y, BAShipOrientation orientation, uint8_t shipLength, uint8_t color, Arduboy2 &arduboy){
 bool horizontal = (orientation == BAShipOrientationHorizontal);
 
   if(shipLength == 1){

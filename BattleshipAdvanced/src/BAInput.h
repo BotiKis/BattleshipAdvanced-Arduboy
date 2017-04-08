@@ -1,6 +1,6 @@
 #ifndef BAINPUT_H
 #define BAINPUT_H
-#include <Arduboy.h>
+#include <Arduboy2.h>
 
 #define BA_INPUT_NEVER_REFIRE ULONG_MAX
 #define BA_INPUT_REFIRERATE_DEFAULT 500
@@ -20,7 +20,7 @@ class BAButton{
 
 class BAInput{
   public:
-    BAInput(Arduboy *arduboy);
+    BAInput(Arduboy2 *arduboy);
 
     // Should be called an each new screen.
     void reset();
@@ -47,7 +47,7 @@ class BAInput{
 
   private:
     BAButton buttons[6];
-    Arduboy *arduboy;
+    Arduboy2 *arduboy;
 };
 
 #endif

@@ -1,6 +1,6 @@
 #ifndef BASHIP_H
 #define BASHIP_H
-#include <Arduboy.h>
+#include <Arduboy2.h>
 
 typedef enum BAShipOrientation{
   BAShipOrientationHorizontal = 0,
@@ -18,6 +18,6 @@ typedef struct {
 BAShip BAShipMake(uint8_t shipLength);
 bool BAShipIsShipDestroyed(BAShip ship);
 
-void drawShip(uint8_t x, uint8_t y, BAShipOrientation orientation, uint8_t shipLength, uint8_t color, Arduboy &arduboy);
+void drawShip(uint8_t x, uint8_t y, BAShipOrientation orientation, uint8_t shipLength, uint8_t color, Arduboy2 &arduboy);
 
 #endif

@@ -1,6 +1,6 @@
 #ifndef CHAR_ASSETS
 #define CHAR_ASSETS
-#include <Arduboy.h>
+#include <Arduboy2.h>
 
 PROGMEM const unsigned char BACharAsset_characterID1[] = {
 0x00, 0x00, 0x00, 0x00, 0x80, 0x40, 0x20, 0x38,

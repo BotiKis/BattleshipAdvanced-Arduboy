@@ -1,6 +1,6 @@
 #ifndef GAME_H
 #define GAME_H
-#include <Arduboy.h>
+#include <Arduboy2.h>
 #include "BAInput.h"
 #include "BAUI.h"
 #include "ABGeometry.h"
@@ -83,7 +83,7 @@ private:
 
     // ======================
     // Data
-    Arduboy arduboy;
+    Arduboy2 arduboy;
     BAGameState currentState;
     BAInput *input;
 

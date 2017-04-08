@@ -1,6 +1,6 @@
 #ifndef BACHARACTER_H
 #define BACHARACTER_H
-#include <Arduboy.h>
+#include <Arduboy2.h>
 
 typedef enum {
   CharDifficultyEasy = 0,

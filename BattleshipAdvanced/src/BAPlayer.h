@@ -1,6 +1,6 @@
 #ifndef BAPLAYER_H
 #define BAPLAYER_H
-#include <Arduboy.h>
+#include <Arduboy2.h>
 #include "ABGeometry.h"
 
 #include "BACharacter.h"
